@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <el-row>
 		  <el-button type="primary" @click="goTo('/login')">去登录</el-button>
-		  <el-button type="success">去注册</el-button>
+		  <el-button type="success" @click="goTo('/register')">去注册</el-button>
 		</el-row>
   </div>
 </template>

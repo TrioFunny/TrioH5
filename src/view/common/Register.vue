@@ -1,20 +1,40 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+  	<div>
+  			<h1>注册</h1>
+  	</div>
+  	<div style="width: 80%;margin: 10% 10%; border: solid cornflowerblue 2px;border-radius: 15px;">
+  		<div style="padding: 10%;">
+		 		 <el-input v-model="userName" placeholder="请输入账号"></el-input>
+		 		 <el-input v-model="password" placeholder="请输入密码"></el-input>
+		 		 <el-input v-model="password1" placeholder="请再次输入密码"></el-input>
+		 		 <el-input v-model="code" placeholder="请输入验证码"></el-input><img src="" style="width:100px;height:50px;"/>
+		 		 <br />
+		 		 <br />
+		 		 <el-button type="primary">注册</el-button>
+		 		 <el-button type="success">返回登陆</el-button>
+	 		 </div>
+  	</div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Register',
   data () {
     return {
-      msg: ''
+    	userName:'',
+      password: '',
+      password1: '',
+      code: '',
     }
+  },
+  methods: {
+
   }
 }
 </script>
 
 <style scoped>
-}
 </style>
