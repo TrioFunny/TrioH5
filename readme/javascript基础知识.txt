@@ -1,0 +1,129 @@
+一、未分类知识
+ 	1.类型检查：typeof 
+ 		作用：验证数据类型
+ 		使用：
+		 	var num = 123;
+			console.log(typeof num);
+	2. in 运算符
+	 	作用：判断指定属性是否存在于指定的对象中。
+	 	语法："属性" in "对象"
+		返回值：true 或者 false
+		 	var obj = {
+			    age: 18
+			};
+			var hasAge = "age" in obj;
+			console.log(hasAge);
+	3.var、let、const区别
+		(1)var 
+			①作用域是函数体的全部(也就是全局变量)
+				声明一次就可以在这个函数体，各个位置中获取；
+				  	function test1(){
+				  		for(var i=0;i<10;i++){
+				          var a = 'a';
+				    	}
+				  		console.log(a);
+				  		console.log(i);
+				  	}
+				明明已经跳出 for 循环了，却还可以访问到 for 循环内定义的变量 a
+				甚至连 i 都可以被放访问到
+				
+					
+			②循环内变量过度共享
+				被循环给共享
+				  	function test2(){
+						for (var i = 0; i < 3; i++) {
+							setTimeout(function () {
+					        	console.log(i)
+						    }, 1000);
+						}
+				  	}
+				控制台输出了3个3，而不是预想的 0、1、2。
+				循环本身及三次 timeout 回调均共享唯一的变量 i 。当循环结束执行时，i 的值为3。
+				所以当第一个 timeout 执行时，调用的 i 当让也为 3 了
+		(2)let
+			①声明的变量拥有块级作用域
+				let声明的变量的作用域只是外层块，而不是整个外层函数。let 声明仍然保留了提升特性（变量提升）
+				（变量提升）
+						var a = 'I\'m a in all'
+						function test3 () {
+						    console.log(a)
+						    var a = 'I\'m a in test1'
+						    console.log(a)
+						}
+						
+						想象中执行结构：
+						I'm a in all
+						I'm a in test1
+						
+						实际：
+						undefined
+						I'm a in test1
+						
+					是否在函数内部定义Jack，对整个程序发生了质的变化。
+					变量声明总是会被解释器悄悄地被“提升”到方法体的最顶部。@@@	
+					
+					上面代码 等价于下面代码：
+					
+					var a = 'I\'m a in all'
+					function test3 () {
+						var a;
+					    console.log(a)
+					    var a = 'I\'m a in test1'
+					    console.log(a)
+					}
+			(变量提升)
+					
+			②声明的全局变量不是全局对象的属性
+				你不可以通过window.变量名的方式访问这些变量。
+				它们只存在于一个不可见的块的作用域中，这个块理论上是Web页面中运行的所有JS代码的外层块。
+			③形如for (let x...)的循环在每次迭代时都为x创建新的绑定。
+				如果一个for (let...)循环执行多次并且循环保持了一个闭包，
+				那么每个闭包将捕捉一个循环变量的不同值作为副本，而不是所有闭包都捕捉循环变量的同一个值。
+			④用let重定义变量会抛出一个语法错误
+				let a = 'a';
+				let a = 'b';
+				会报错
+			
+		(2)const
+			ES6引入的第三个声明类关键词：const
+			const 就是用来定义常量
+		
+
+
+三、
+	js实现继承的方法
+	
+		const test=function(view){
+			console.log("开始");
+			view.post();
+		}
+		let operation={}
+		operation.post=function(data,view){
+			console.log("测试");
+			this.callback();
+		}
+		operation.callback=function(res,view){
+			console.log("成功");
+		}
+		operation.test=test(operation);
+		
+		利用	prototype  给原来的方法里添加属性
+		
+			function employee(name,job,born)
+			{
+			this.name=name;
+			this.job=job;
+			this.born=born;
+			}
+			
+			var bill=new employee("Bill Gates","Engineer",1985);
+			
+			employee.prototype.salary=null;
+			bill.salary=20000;
+			
+			document.write(bill.salary);
+
+
+
+
+

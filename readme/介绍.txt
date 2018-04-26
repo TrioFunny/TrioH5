@@ -1,0 +1,6 @@
+
+一、修改启动时监听端口
+ 修改目录 /config/index.js 中 port：8080 属性 修改成你想要的端口
+ 
+二、需要局域网ip访问
+ 修改目录 /config/index.js 中host：localhost 的 修改成   0.0.0.0

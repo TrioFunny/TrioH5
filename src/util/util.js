@@ -165,7 +165,6 @@ Tool.upImg = function (pathname, data,view, success, error) {
 
 
 
-///////////////////////////////////////////////////////////////////////
 /**
  * 储存Cookie的方法			名称(可读)<默认值>
  * @param {Object} name		cookie名称(可读取)
