@@ -9,8 +9,9 @@
 		 		 <el-input v-model="password" placeholder="请输入密码"></el-input>
 		 		 <br />
 		 		 <br />
-		 		 <el-button type="primary">登录</el-button>
+		 		 <el-button type="primary" @click="login">登录</el-button>
 		 		 <el-button type="success">注册</el-button>
+		 		 <el-button type="success" @click="test">测试</el-button>
 	 		 </div>
   	</div>
 
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+	import Common from '../../interface/common'
+	
 export default {
   name: 'HelloWorld',
   data () {
@@ -27,6 +30,24 @@ export default {
     }
   },
     methods:{
+    	test(){
+    		Common.test1();
+    	},
+    	login(){
+    		let param={
+    			userName:this.userName,
+    			password:this.password,
+    		}
+    		Common.login.post(param,this);
+    	},
+    	loginCallback(res){
+    		if(res.code=="200"){
+    			this.$message.error('成功');
+    		}else{
+    			this.$message.error(res.error_msg);
+    		}
+    		
+    	},
     	
     },
 }
