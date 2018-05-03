@@ -3,59 +3,66 @@
 import util from '../util/util';
 import tool from '../util/tool';
 
-const Common={}
+const Common = {}
 Common.url = window.url;
-
 
 /**
  * 示例
  * 接口实现
  */
-const test=function(view){
+const test = function(view) {
 	console.log("开始");
 	view.post();
 }
 
-
-
-let operation={}
-operation.url="123";
-operation.post=function(data,view){
+let operation = {}
+operation.url = "123";
+operation.post = function(data, view) {
 	console.log("测试");
 	this.callback();
 }
-operation.callback=function(res,view){
+operation.callback = function(res, view) {
 	console.log("成功");
 }
 
-operation.test=test(operation);
-Common.operation=operation;
-
+operation.test = test(operation);
+Common.operation = operation;
 
 /**
  * 
  * 登录
  */
-const login={}
-login.url="http://127.0.0.1:8080/TrioMvc/login/login";
-login.post=function(data,view){
-	let _this=this;
+const login = {}
+login.url = "http://127.0.0.1:8080/TrioMvc/login/login";
+login.post = function(data, view) {
+	let _this = this;
 	console.log(data);
 	console.log(_this.url);
-//	return util.post(_this.url,data,view,_this.callback); 
-	return util.post(_this.url,data,view,_this.callback); 
-	
+	//	return util.post(_this.url,data,view,_this.callback); 
+	return util.post(_this.url, data, view, _this.callback);
+
 }
-login.callback=function(res,view){
+login.callback = function(res, view) {
 	console.log(res);
 	view.loginCallback(res);
 }
-Common.login=login;
+Common.login = login;
 
-
-Common.test1=function(){
+Common.test1 = function() {
 	console.log("测试成功！");
 }
-
+/**
+ * 注册
+ */
+const regist = {}
+regist.url = "http://127.0.0.1:8080/TrioMvc/login/regist";
+regist.post = function(data, view) {
+	let _this = this;
+	return util.post(_this.url, data, view, _this.callback);
+}
+regist.callback = function(res, view) {
+	view.registCallback(res);
+}
+Common.regist = regist;
 
 export default Common;
