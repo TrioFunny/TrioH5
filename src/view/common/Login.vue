@@ -42,7 +42,7 @@
 			},
 			loginCallback(res) {
 				if(res.code == "200") {
-					this.$message.error('成功');
+					this.$message.success('成功');
 				} else {
 					this.$message.error(res.error_msg);
 				}

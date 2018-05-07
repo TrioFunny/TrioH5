@@ -43,7 +43,7 @@ login.post = function(data, view) {
 
 }
 login.callback = function(res, view) {
-	console.log(res);
+	//	console.log(res);
 	view.loginCallback(res);
 }
 Common.login = login;
@@ -52,9 +52,18 @@ Common.test1 = function() {
 	console.log("测试成功！");
 }
 /**
- * 注册
+ * 注册(校验用户名是否重被使用)
  */
-const regist = {}
+const registCheckUserName = {};
+registCheckUserName.url = "http://127.0.0.1:8080/TrioMvc/login/checkUserName";
+registCheckUserName.post = function(data, view) {
+	let _this = this;
+	return util.post(_this.url, data, view, _this.callback);
+}
+registCheckUserName.callback = function(res, view) {
+	view.checkUserNameCallback(res);
+}
+const regist = {};
 regist.url = "http://127.0.0.1:8080/TrioMvc/login/regist";
 regist.post = function(data, view) {
 	let _this = this;
@@ -63,6 +72,7 @@ regist.post = function(data, view) {
 regist.callback = function(res, view) {
 	view.registCallback(res);
 }
+Common.registCheckUserName = registCheckUserName;
 Common.regist = regist;
 
 export default Common;
