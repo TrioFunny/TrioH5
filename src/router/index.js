@@ -6,7 +6,13 @@ import Login from '@/view/common/Login'
 import Register from '@/view/common/Register'
 
 
+import PersonalSpace from '@/view/user/personalSpace'
 
+
+
+
+//组件
+import header from '@/components/header'
 
 //测试中
 import test from '@/view/test'
@@ -30,6 +36,25 @@ export default new Router({
       name: 'Register',
       component: Register
     },
+    
+    
+    
+    
+   {
+      path: '/personalSpace',
+      name: 'PersonalSpace',
+      component: PersonalSpace
+    },
+    
+    
+    
+  	{
+		 path: '/header',
+		 name: 'header',
+		 component: header
+		},
+    
+    
     {
       path: '/test',
       name: 'test',
