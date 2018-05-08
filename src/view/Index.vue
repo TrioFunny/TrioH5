@@ -1,19 +1,10 @@
 <template>
-<<<<<<< HEAD
   <div class="hello">
     <h1>{{ msg }}</h1>
     <el-row>
 		  <el-button type="primary" @click="goTo('/login')">去登录</el-button>
 		  <el-button type="success" @click="goTo('/register')">去注册</el-button>
 		  <el-button type="success" @click="goTo('/personalSpace')">主页</el-button>
-=======
-	<div class="hello">
-		<h1>{{ msg }}</h1>
-		<el-row>
-			<el-button type="primary" @click="goTo('/login')">去登录</el-button>
-			<el-button type="success" @click="goTo('/register')">去注册</el-button>
-			<el-button type="success" @click="goTo('/test')">测试</el-button>
->>>>>>> c2853e63a37132e8f9eb533543efeaba20781f36
 		</el-row>
 	</div>
 </template>
