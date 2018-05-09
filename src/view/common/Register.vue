@@ -1,6 +1,6 @@
 <template>
 	<div class="hello" style="position: absolute;width: 100%;height: 100%;">
-		<img src="../../assets/background/28.jpg" width="100%" height="100%" style="z-index: -10; position: absolute;top: 0px;left: 0px;"/>
+		<img :src="imgSrc" width="100%" height="100%" style="z-index: -10; position: absolute;top: 0px;left: 0px;"/>
 		<div style="width: 60%;margin: 10% 20%; border: solid cornflowerblue 2px;border-radius: 15px;background: rgb(255,255,255,0.5);position: relative;">
 			<!--<img src="../../assets/background/30.jpg" width="100%" height="100%" style="position: absolute;top: 0px;left: 0px; z-index: -9;border-radius: 15px;" />-->
 			<div style="padding: 8% 20%;">
@@ -38,9 +38,15 @@
 				},
 				isdis: false,
 				allowUserName: false,
-				i:60,
+				 img: require('../../assets/background/1.jpg'),
+				 i:1,
 			}
 		},
+		computed: {
+		 	imgSrc: function () {
+		 		return require('../../assets/background/'+this.i+'.jpg');
+		 	},
+		 },
 		methods: {
 			checkUserName() {
 				let param = {
@@ -123,11 +129,20 @@
 			},
 			login() {
 				this.$router.push('/Login');
-			}
-
+			},
+			changeBG(){
+			 setInterval(function(){ 
+			 	this.i++;
+		        },2000);
+			},
 		},
-		mounted:{
-		},
+	    mounted(){
+	    	let _this=this;
+	   		setInterval(function(){ 
+			 	_this.i=parseInt((Math.random()*29+1),10);
+			 	console.log(_this.i);
+		       },5000);
+	    },
 	}
 </script>
 
