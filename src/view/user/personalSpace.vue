@@ -5,7 +5,7 @@
 				<el-container style="padding: 0 10%;">
 					
 					<!--脸部 -->
-					 <el-header style="height: 240px;">
+					 <el-header style="height: 200px;">
 					 		<img  src="../../assets/bg/header.jpg" height="100%" width="100%"/>
 					 </el-header>
 					 
