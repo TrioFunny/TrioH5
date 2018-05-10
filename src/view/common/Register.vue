@@ -40,6 +40,7 @@
 				allowUserName: false,
 				 img: require('../../assets/background/1.jpg'),
 				 i:1,
+				
 			}
 		},
 		computed: {
@@ -130,18 +131,25 @@
 			login() {
 				this.$router.push('/Login');
 			},
-			changeBG(){
-			 setInterval(function(){ 
-			 	this.i++;
-		        },2000);
+			//背景图片随机跳转
+			changeBackground(){
+		    	let _this=this;
+		   		this.Random=setInterval(function(){ 
+				 	_this.i=parseInt((Math.random()*29+1),10);
+				 	console.log(_this.i);
+			       },2000);
 			},
 		},
+		
+		
 	    mounted(){
-	    	let _this=this;
-	   		setInterval(function(){ 
-			 	_this.i=parseInt((Math.random()*29+1),10);
-			 	console.log(_this.i);
-		       },5000);
+			
+	    },
+        beforeDestroy: function () {
+        	clearInterval(this.Random);
+        },
+	    created(){
+			this.changeBackground()
 	    },
 	}
 </script>
