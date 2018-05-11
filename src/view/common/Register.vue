@@ -62,17 +62,21 @@
 			},
 			regist() {
 				this.isdis = true;
-				let cp = this.checkPassword();
-				let cps = this.checkPasswordSame();
 				this.checkUserName();
+				if(!this.allowUserName) return;
+				let cp = this.checkPassword();
+				if(!cp) return;
+				let cps = this.checkPasswordSame();
+				if(!cps) return;
+
 				//console.log('cp:' + cp + '---' + 'cps:' + cps + '---')
-				if(cp && cps && this.allowUserName) {
-					let param = {
-						userName: this.userName,
-						password: this.password
-					}
-					Common.regist.post(param, this);
+				//				if(this.allowUserName) {
+				let param = {
+					userName: this.userName,
+					password: this.password
 				}
+				Common.regist.post(param, this);
+				//				}
 				this.isdis = false;
 			},
 			registCallback(res) {
