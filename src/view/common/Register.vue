@@ -25,7 +25,7 @@
 		name: 'Register',
 		data() {
 			return {
-				userName: '',
+				userName: '' ,
 				password: '',
 				password1: '',
 				code: '',
