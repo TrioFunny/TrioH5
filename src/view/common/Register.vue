@@ -1,13 +1,13 @@
 <template>
 	<div class="hello" style="position: absolute;width: 100%;height: 100%;">
 		<img :src="imgSrc" width="100%" height="100%" style="z-index: -10; position: absolute;top: 0px;left: 0px;"/>
-		<div style="width: 60%;margin: 10% 20%; border: solid cornflowerblue 2px;border-radius: 15px;background: rgb(255,255,255,0.5);position: relative;">
-			<!--<img src="../../assets/background/30.jpg" width="100%" height="100%" style="position: absolute;top: 0px;left: 0px; z-index: -9;border-radius: 15px;" />-->
+		<div style="width: 30%;margin: 10% 35%; border: solid cornflowerblue 2px;border-radius: 15px;background: rgb(255,255,255,0.5);position: relative;">
+			<div><h1>注册</h1></div>
+			<img src="../../assets/Resources/registerico.png"  width="50%" style="border: solid cornflowerblue 2px; border-radius:50% ;margin:5% 0%;"/>
 			<div style="padding: 8% 20%;">
 				<el-input v-model="userName" v-bind:style="borderStyle1" placeholder="请输入账号" @blur="checkUserName" @focus="Onfocus('name')"  style="margin: 5px 0px;"  clearable ></el-input>
 				<el-input v-model="password" v-bind:style="borderStyle2" class='test' ref="password" id='password' placeholder="请输入密码" @blur="checkPassword" @focus="Onfocus('pwd1')" type="password" style="margin: 5px 0px;" clearable></el-input>
 				<el-input v-model="password1" v-bind:style="borderStyle3" placeholder="请再次输入密码" @blur="checkPasswordSame" type="password" @focus="Onfocus('pwd2')" style="margin: 5px 0px;" clearable></el-input>
-				<!--				<el-input v-model="code" placeholder="请输入验证码"></el-input><img src="" style="width:100px;height:50px;" />-->
 				<br />
 				<br />
 				<el-button type="primary" :disabled="isdis" @click="regist">注册</el-button>
@@ -136,7 +136,6 @@
 		    	let _this=this;
 		   		this.Random=setInterval(function(){ 
 				 	_this.i=parseInt((Math.random()*29+1),10);
-				 	console.log(_this.i);
 			       },2000);
 			},
 		},

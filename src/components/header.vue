@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="hello" style="text-align: center;">
   	<!--
       	作者：598339963@qq.com
       	时间：2018-05-04
