@@ -1,64 +1,46 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/view/Index'
-
-import Login from '@/view/common/Login'
-import Register from '@/view/common/Register'
 
 
-import PersonalSpace from '@/view/user/personalSpace'
-
-
-
-
-//组件
-import header from '@/components/header'
-
-//测试中
+import Error from '@/view/other/error'
+import NotFound from '@/view/404'
 import test from '@/view/test'
+
+
+
+import User from './user'
+import Common from './common'
+import Components from './components'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'Index',
-      component: Index
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    
-    
-    
-    
-   {
-      path: '/personalSpace',
-      name: 'PersonalSpace',
-      component: PersonalSpace
-    },
-    
-    
-    
-  	{
-		 path: '/header',
-		 name: 'header',
-		 component: header
-		},
-    
-    
+	...User,
+	...Common,
+	...Components,
     {
       path: '/test',
-      name: 'test',
+      name: '测试',
       component: test
-    }
+    },
+    {
+      path: '/error',
+      name: '错误',
+      component: Error
+    },
+		{
+			path: '/404',
+			component: NotFound,
+			name: '',
+			hidden: true
+		},
+		{
+			path: '*',
+			hidden: true,
+			redirect: {
+				path: '/404'
+			}
+		}
   ]
 })

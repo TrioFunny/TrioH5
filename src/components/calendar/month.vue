@@ -19,7 +19,7 @@
 		 <li>四</li>
 		 <li>五</li>
 		 <li style="color:red">六</li>
-		 <li style="color:red">日</li>
+		 <li style="color:red">日</li> 	
 	 </ul>
  <!-- 日期 -->
  <ul class="days">

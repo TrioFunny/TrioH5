@@ -1,12 +1,14 @@
 <template>
   <div id="personalSpace" >
   	<!--头部 -->
-  		<headerDiv sign='1' title='个人主页'></headerDiv>
+  		<headerDiv sign='1' title='个人空间'></headerDiv>
 				<el-container style="padding: 0 10%;">
 					
 					<!--脸部 -->
-					 <el-header style="height: 240px;">
-					 		<img  src="../../assets/bg/header.jpg" height="100%" width="100%"/>
+					 <el-header style="height: 200px;width: 100%;position: relative;">
+					 		<img  src="../../assets/bg/header.jpg" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;"/>
+					 		<div>
+					 		</div>
 					 </el-header>
 					 
 					 <!--导航栏-->
@@ -39,9 +41,9 @@
 												    </el-carousel-item>
 												  </el-carousel>
 							 			</div>
-							 			<div v-if="activeName=='second'">
+							 			<div v-if="activeName=='second'" >
 							 				项目
-							 			</div>
+							 			</div >
 							 			<div v-if="activeName=='third'">
 							 				简历
 							 			</div>
@@ -60,10 +62,10 @@
 							 		</el-main>
 							 		
 							 		<!--其他信息 -->
-							 	 	<el-aside width="400px" style="height: 500px;background-color: royalblue;">Aside</el-aside>
+							 	 	<el-aside width="350px" style="height: 500px;background-color: royalblue;">
+							 	 		 <CalendarMonth > </CalendarMonth>
+							 	 	</el-aside>
 					  </el-container>
-					  
-					  
 					  
 				</el-container>
 	</div>
@@ -71,6 +73,7 @@
 
 <script>
 import headerDiv from '../../components/header';
+import CalendarMonth from '../../components/calendar/month';
 
 export default {
   data () {
@@ -89,13 +92,15 @@ export default {
     }
   },
 	components: {
-			headerDiv,
+			headerDiv,CalendarMonth,
 	},
   methods: {
       handleClick(tab, event) {
 //      console.log(tab, event);
-
-      }
+      },
+      goTo(url){
+      	$router.push(url);
+      },
    }
 }
 </script>

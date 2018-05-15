@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="hello" style="text-align: center;">
   	<!--
       	作者：598339963@qq.com
       	时间：2018-05-04
@@ -10,11 +10,13 @@
 		  		<span >返回</span>
 		  			<span style="line-height: 60px;font-size: 30px;">{{title}}</span>
 		  			
+		  			<span @click="goTo('/user/personalCenter')" style="border: solid 1px #D9ECFF;padding: 5px;border-radius: 10px; background-color:#00B8EC ;float: right;margin:10px 0 0 0 ;">个人中心</span>
 		  	</div>
 		  </el-header>
 		  
 		  <el-header  v-if="sign == '2'">
-		  	<div style="background-color: royalblue;width: 100%;height: 100%;color: white;">	
+		  	<div style="background-color: #DD6161;width: 100%;height: 100%;color: white;">	
+		  		<span style="line-height: 60px;font-size: 30px;">{{title}}</span>
 		  	</div>
 		  </el-header>
 		  
