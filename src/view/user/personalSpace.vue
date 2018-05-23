@@ -5,10 +5,28 @@
 				<el-container style="padding: 0 10%;">
 					
 					<!--脸部 -->
-					 <el-header style="height: 200px;width: 100%;position: relative;">
+					 <el-header style="height: 240px;width: 100%;position: relative;" >
 					 		<img  src="../../assets/bg/header.jpg" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;"/>
-					 		<div>
-					 		</div>
+					 			<el-row  style="height: 100%;padding: 20px;">
+								  <el-col :span="12" style="background-color: cornsilk;">
+								  	<div class="grid-content bg-purple">
+							 				<span style="float:left;margin-left: 50px;">
+								 				<img src="../../assets/portrait.jpg"  style="background-color: cornsilk;border-radius: 50%; height:200px;"/>
+							 				</span>
+									 			<span >
+									 				<div>无事，无趣，无聊，无谋</div>
+									 				<div>简介：</div>
+									 			</span>
+								  	 </div>
+								  </el-col>
+								  <el-col :span="12">
+								  	<div class="grid-content bg-purple">
+								  		
+								  	</div>
+								  </el-col>
+								</el-row>
+						 			
+
 					 </el-header>
 					 
 					 <!--导航栏-->
