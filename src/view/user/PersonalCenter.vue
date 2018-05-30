@@ -7,7 +7,7 @@
 			  <el-header>Header</el-header>
 			  <el-container>
 			  	
-			    <el-aside width="220px"style="height: 800px;background-color: #8CC5FF;">
+			    <el-aside width="220px"style="height: 800px;"><!--background-color: #8CC5FF;-->
 
 						<el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
 						  <el-radio-button :label="false">展开</el-radio-button>
@@ -15,10 +15,6 @@
 						</el-radio-group>
 						<el-menu default-active="1-4-1" class="el-menu-vertical-demo" 
      					 background-color="#545c64"	text-color="#fff"	active-text-color="#ffd04b"	@open="handleOpen" @close="handleClose" :collapse="isCollapse">
-
-						  <el-menu-item index="0" disabled>
-						    <span slot="title">个人中心</span>
-						  </el-menu-item>
 
 						  <el-menu-item index="1" @click="mainShow()">
 						    <i class="el-icon-menu" ></i>
@@ -76,8 +72,7 @@
 		data() {
 			return {
 				//页面控制
-				isCollapse: true,
-				
+				isCollapse: false,
 				
 			}
 		},
@@ -88,6 +83,13 @@
 			mainShow(){
 				this.$router.replace({path: '/Info'});
 			},
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      }
+			
 		},
 	}
 </script>
