@@ -2,27 +2,24 @@
   <div id="personalSpace" >
   	<!--头部 -->
   		<headerDiv sign='1' title='个人空间'></headerDiv>
-				<el-container style="padding: 0 10%;">
+				<el-container style="padding: 0 15%;">
 					
 					<!--脸部 -->
-					 <el-header style="height: 240px;width: 100%;position: relative;" >
+					 <el-header style="height: 200px;width: 100%;position: relative;min-width: 1100px;" >
 					 		<img  src="../../assets/bg/header.jpg" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;"/>
-					 			<el-row  style="height: 100%;padding: 20px;">
-								  <el-col :span="12" style="background-color: cornsilk;">
-								  	<div class="grid-content bg-purple">
-							 				<span style="float:left;margin-left: 50px;">
-								 				<img src="../../assets/portrait.jpg"  style="background-color: cornsilk;border-radius: 50%; height:200px;"/>
+					 			<el-row  style="height: 100%;">
+								  <el-col :span="12" style="position: absolute;bottom: 0px;">
+							 				<span style="float:left;margin:20px 10px 20px 20px;">
+								 				<img src="../../assets/portrait.jpg" height="110" style="border-radius: 50%;border: solid skyblue 2px;"/>
 							 				</span>
-									 			<span >
-									 				<div>无事，无趣，无聊，无谋</div>
-									 				<div>简介：</div>
+									 			<span style="float:left;text-align: left;margin: 20px 5px;">
+									 				<span class="trio-user-name">无事，无趣，无聊，无谋</span>
+									 				<br />
+									 				<span style="color: white;background-color:darkgrey;">我不是针对莫个人，在场的各位都是辣鸡，而我确实黄焖鸡。</span>
+									 				<br />
+									 				<br />
+									 				<span style="color:white ;font-weight: 600;background-color:orange;border-radius:5px;padding: 2px;">Level 12</span>
 									 			</span>
-								  	 </div>
-								  </el-col>
-								  <el-col :span="12">
-								  	<div class="grid-content bg-purple">
-								  		
-								  	</div>
 								  </el-col>
 								</el-row>
 						 			
@@ -30,7 +27,7 @@
 					 </el-header>
 					 
 					 <!--导航栏-->
-					 <div>
+					 <div style="min-width: 1100px;">
 						<el-tabs v-model="activeName" @tab-click="handleClick">
 							<el-tab-pane label="主页" name="first">
 							</el-tab-pane>
@@ -48,12 +45,13 @@
 							 </el-tab-pane>
 					  </el-tabs>
 					 </div>
-					 <el-container>
+					 
+					 <el-container style="min-width: 1100px;">
 									<!--内容-->
 							 		<el-main style="height: 500px;background-color: aquamarine;">
 							 			<div v-if="activeName=='first'">
 							 				主页
-												  <el-carousel :interval="4000" type="card" height="200px" autoplay='false'>
+												  <el-carousel :interval="4000" type="card" height="200px" :autoplay='false'>
 												    <el-carousel-item v-for="item in imgList" :key="item">
 												      <img :src="item"  width="100%"/>
 												    </el-carousel-item>
@@ -124,5 +122,10 @@ export default {
 </script>
 
 <style >
-
+.trio-user-name{
+	  font-family: Microsoft YaHei;
+	  color: white;
+	  font-size: 18px;
+	  font-weight: 600;
+}
 </style>
