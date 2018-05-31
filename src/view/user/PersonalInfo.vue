@@ -24,8 +24,19 @@
 				  v-model="introduce" >
 				</el-input>
 		 </el-form-item>
-
-
+		  <el-form-item label="电话号码：">
+		    <el-input v-model="user.phone"></el-input>
+		  </el-form-item>
+		  <el-form-item label="qq：">
+		    <el-input v-model="user.qq"></el-input>
+		  </el-form-item>
+		  <el-form-item label="email：">
+		    <el-input v-model="user.email"></el-input>
+		  </el-form-item>
+		  <el-form-item label="github：">
+		    <el-input v-model="user.github"></el-input>
+		  </el-form-item>
+	
 		</el-form>
 		
 	</div>
@@ -65,7 +76,7 @@
 				},
         
         //页面控制
-
+			pickerOptions:'',
 			}
 		},
 		methods: {
