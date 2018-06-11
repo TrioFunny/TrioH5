@@ -48,6 +48,7 @@
 				{name:'个人空间',src:'/user/personalSpace',title:"PersonalSpace",msg:'个人空间'},
 				{name:'个人中心',src:'/user/personalCenter',title:"PersonalCenter",msg:'个人中心'},
 				{name:'个人信息',src:'/user/personalInfo',title:"PersonalInfo",msg:'个人信息'},
+				{name:'修改头像',src:'/user/ChangeHeadPhoto',title:"ChangeHeadPhoto",msg:'修改头像'}
 				],
 				
 			}

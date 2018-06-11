@@ -75,4 +75,31 @@ regist.callback = function(res, view) {
 Common.registCheckUserName = registCheckUserName;
 Common.regist = regist;
 
+/**
+ * 修改密码
+ */
+const changePassword = {};
+changePassword.url = "http://127.0.0.1:8080/TrioMvc/login/changePassword";
+changePassword.post = function(data, view) {
+	let _this = this;
+	return util.post(_this.url, data, view, _this.callback);
+}
+changePassword.callback = function(res, view) {
+	view.changePasswordCallback(res);
+}
+Common.changePassword = changePassword;
+
+/**
+ * 获取头像
+ */
+const getStartImage = {};
+getStartImage.url = "http://127.0.0.1:8080/TrioMvc/user/getImage";
+getStartImage.get = function(data, view) {
+	let _this = this;
+	return util.get(_this.url, data, view, _this.callback);
+}
+getStartImage.callback = function(res, view) {
+	view.getStartImageCallback(res);
+}
+Common.getStartImage = getStartImage;
 export default Common;
