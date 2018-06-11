@@ -119,9 +119,10 @@ export default {
       },
       getUserInfo(){
       	let param={
-      		userId:'1',
+      		userId:'2a9650307d2f44398a3474a3245fd861',
       	};
       	User.getUserInfo.Post(param,this);
+      	
       },
       userInfoCallback(){
       	

@@ -34,13 +34,16 @@ Common.operation = operation;
  */
 const login = {}
 login.url = "http://127.0.0.1:8080/TrioMvc/login/login";
-login.post = function(data, view) {
+login.post = function(data, view,) {
 	let _this = this;
 	console.log(data);
 	console.log(_this.url);
 	//	return util.post(_this.url,data,view,_this.callback); 
 	return util.post(_this.url, data, view, _this.callback);
 
+	return tool.get(_this.url,data,function(){
+		
+	});
 }
 login.callback = function(res, view) {
 	//	console.log(res);

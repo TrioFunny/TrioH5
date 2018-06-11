@@ -18,7 +18,7 @@ getUserInfo.Post=function(data,view){
 	let _this = this;
 	base.request_init(data);
 	base.request_log(data,_this.url,_this.title);
-	return tool.post(_this.url, data, view, _this.callback);
+	return tool.post(_this.url,data,view, _this.callback);
 }
 getUserInfo.callback=function(res, view) {
 	let _this = this;
@@ -27,6 +27,27 @@ getUserInfo.callback=function(res, view) {
 	view.userInfoCallback(res);
 }
 User.getUserInfo=getUserInfo;
+
+
+/**
+ * 修改用户信息
+ */
+const alterUserInfo={};
+alterUserInfo.title='获取用户信息';
+alterUserInfo.url=url+'TrioMvc/user/alterUserInfo'
+alterUserInfo.Post=function(data,view){
+	let _this = this;
+	base.request_init(data);
+	base.request_log(data,_this.url,_this.title);
+	return tool.post(_this.url, data, view, _this.callback);
+}
+alterUserInfo.callback=function(res, view) {
+	let _this = this;
+	base.response_log(res,_this.title);
+	base.response_init(res);
+	view.callback(res);
+}
+User.alterUserInfo=alterUserInfo;
 
 
 export default User;
