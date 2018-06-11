@@ -1,7 +1,7 @@
 <template>
 	<div class="hello">
 
-		<div style="width: 30%;margin: 5% 35%; border: solid cornflowerblue 2px;border-radius: 15px;">
+		<div style="width: 30%;margin: 5% 35%; border: solid cornflowerblue 2px;border-radius: 15px;text-align: center;">
 			<div><h1>登录</h1></div>
 			<img src="../../assets/Resources/loginico.png"  width="50%" style="border: solid cornflowerblue 2px; border-radius:50% ;margin:5% 0%;"/>
 			<div style="padding: 5% 20%;">
