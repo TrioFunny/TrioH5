@@ -13,14 +13,13 @@
 								 				<img src="../../assets/portrait.jpg" height="110" style="border-radius: 50%;border: solid skyblue 2px;"/>
 							 				</span>
 									 			<span style="float:left;text-align: left;margin: 30px 5px;">
-									 				<span class="trio-user-name">无事，无趣，无聊，无谋</span>
+									 				<span class="trio-user-name">{{user.nickname}}<!--无事，无趣，无聊，无谋--></span>
 									 				<br />
-									 				<span style="color: white;background-color:darkgrey;">我不是针对莫个人，在场的各位都是辣鸡，而我确实黄焖鸡。</span>
+									 				<span style="color: white;background-color:darkgrey;">{{user.introduce}}<!--我不是针对莫个人，在场的各位都是辣鸡，而我确实黄焖鸡。--></span>
 									 				<br />
 									 				<span  class="trio-level-span">Level 12</span>
 									 				<br />
 									 			</span>
-									 			<el-button type="primary" plain @click="getUserInfo()">获取用户信息</el-button>
 								  </el-col>
 								</el-row>
 					 </el-header>
@@ -104,7 +103,9 @@ export default {
     	 '/static/dota/timg6.jpg',
      	 '/static/dota/timg7.jpg',
     	 '/static/dota/timg8.jpg',
-    	 ]
+    	 ],
+    	 
+    	 user:'',
     }
   },
 	components: {
@@ -122,12 +123,18 @@ export default {
       		userId:'2a9650307d2f44398a3474a3245fd861',
       	};
       	User.getUserInfo.Post(param,this);
-      	
       },
-      userInfoCallback(){
-      	
+      userInfoCallback(res){
+      	if(res.code='200'){
+      		this.user=res.data;
+      	}else{
+      		
+      	}
       },
-   }
+  },
+  mounted(){
+  	this.getUserInfo();
+  }
 }
 </script>
 
