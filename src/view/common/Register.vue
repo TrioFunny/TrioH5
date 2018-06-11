@@ -1,5 +1,5 @@
 <template>
-	<div class="hello" style="position: absolute;width: 100%;height: 100%;">
+	<div class="hello" style="position: absolute;width: 100%;height: 100%;text-align: center;">
 		<img :src="imgSrc" width="100%" height="100%" style="z-index: -10; position: absolute;top: 0px;left: 0px;" />
 		<div style="width: 30%;margin: 10% 35%; border: solid cornflowerblue 2px;border-radius: 15px;background: rgb(255,255,255,0.5);position: relative;">
 			<div>
