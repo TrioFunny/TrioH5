@@ -6,7 +6,7 @@
 
 			<!--脸部 -->
 			<el-header style="height: 200px;width: 100%;position: relative;">
-				<el-upload class="avatar-uploader" style="float: left;background: white; margin-top: 1rem; margin-left: -1.3rem;" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+				<el-upload class="avatar-uploader" style="float: left;background: white; margin-top: 1rem; margin-left: -1.3rem;" action="http://127.0.0.1:8080/TrioMvc/static" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 					<img v-if="imageUrl" :src="imageUrl" class="avatar">
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
