@@ -1,40 +1,79 @@
-import util from '../util/util';
-import tool from '../util/tool';
+const Base= {};
 
-const Base = {};
-
-
-/**
- * 示例
- * 接口实现
- */
-const Post = function(view) {
-	//打印日志
-	//登录验证
-	//加载等待图标防止多次点击
-	console.log("预先操作");
-	view.realPost();
+Base.log=function(data,title){
+	console.log('--------------------'+title+'--------------------');
+	let msg=JSON.stringify(data);
+	console.log('data:'+msg);
+	console.log('--------------------'+title+'--------------------');
 }
 
-const Callback = function(view) {
-	//打印日志
-	//加载等待图标取消
-	console.log("开始完毕");
-	view.realCallback();
+Base.request_log=function(data,url,title){
+	console.log('--------------------'+title+'--------------------');
+	let msg=JSON.stringify(data);
+	console.log('data:'+msg);
+	console.log('url:'+url);
+	console.log('--------------------'+title+'--------------------');
 }
 
-let operation = {}
-operation.url = "123";
-operation.realPost = function(data, view) {
-	console.log("开始操作");
-	let _this=this;
-	return util.post(_this.url, data, view, _this.callback);
+Base.response_log=function(data,title){
+	console.log('--------------------'+title+'--------------------');
+	let msg=JSON.stringify(data);
+	console.log('data:'+msg);
+	console.log('--------------------'+title+'--------------------');
 }
-operation.realCallback = function(res, view) {
-	console.log("结束");
-}
-operation.post = Post(operation);
-operation.callback = Callback(operation);
 
-Base.operation = operation;
+Base.request_init=function(data){
+	//数据加密
+	
+	//打开遮挡板
+	
+}
+
+Base.response_init=function(data){
+	//判断成功代码
+	
+	//关闭遮挡板
+	
+}
+
+Base.encrypt=function(){
+	function Zero(){
+		
+	}
+	function Solo(){
+		
+	}
+	function Duet(){
+		
+	}
+	function Trio(){
+		
+	}
+	function Quartet(){
+		
+	}
+	this.encrypt=function(){
+		let arg=arguments;
+		let len=arg.length;
+		switch(len){
+			case 0:
+				return Zero();
+			case 1:
+				return Solo();
+			case 2:
+				return Duet();
+			case 3:
+				return Trio();
+			case 4:
+				return Quartet();
+			default:
+				return '参数太多';
+		}
+		
+	}
+}
+
+export default Base;
+
+
 
