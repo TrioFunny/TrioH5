@@ -3,51 +3,49 @@
 import tool from '../util/tool';
 import base from './base';
 
-const User= {}
-//var url = window.url;
-var url='http://127.0.0.1:8080/';
+const User = {}
 
 
 /**
  * 获取用户信息
  */
-const getUserInfo={};
-getUserInfo.title='获取用户信息';
-getUserInfo.url=url+'TrioMvc/user/getUserInfo'
-getUserInfo.Post=function(data,view){
-	let _this = this;
-	base.request_init(data);
-	base.request_log(data,_this.url,_this.title);
-	return tool.post(_this.url,data,view, _this.callback);
+const getUserInfo = {};
+getUserInfo.title = '获取用户信息';
+getUserInfo.url = window.url + 'user/getUserInfo'
+getUserInfo.Post = function (data, view) {
+  let _this = this;
+  base.request_init(data);
+  base.request_log(data, _this.url, _this.title);
+  return tool.post(_this.url, data, view, _this.callback);
 }
-getUserInfo.callback=function(res, view) {
-	let _this = this;
-	base.response_log(res,_this.title);
-	base.response_init(res);
-	view.userInfoCallback(res);
+getUserInfo.callback = function (res, view) {
+  let _this = this;
+  base.response_log(res, _this.title);
+  base.response_init(res);
+  view.userInfoCallback(res);
 }
-User.getUserInfo=getUserInfo;
+User.getUserInfo = getUserInfo;
 
 
 /**
  * 修改用户信息
  */
-const alterUserInfo={};
-alterUserInfo.title='获取用户信息';
-alterUserInfo.url=url+'TrioMvc/user/alterUserInfo'
-alterUserInfo.Post=function(data,view){
-	let _this = this;
-	base.request_init(data);
-	base.request_log(data,_this.url,_this.title);
-	return tool.post(_this.url, data, view, _this.callback);
+const alterUserInfo = {};
+alterUserInfo.title = '获取用户信息';
+alterUserInfo.url = window.url + 'user/alterUserInfo'
+alterUserInfo.Post = function (data, view) {
+  let _this = this;
+  base.request_init(data);
+  base.request_log(data, _this.url, _this.title);
+  return tool.post(_this.url, data, view, _this.callback);
 }
-alterUserInfo.callback=function(res, view) {
-	let _this = this;
-	base.response_log(res,_this.title);
-	base.response_init(res);
-	view.callback(res);
+alterUserInfo.callback = function (res, view) {
+  let _this = this;
+  base.response_log(res, _this.title);
+  base.response_init(res);
+  view.callback(res);
 }
-User.alterUserInfo=alterUserInfo;
+User.alterUserInfo = alterUserInfo;
 
 
 export default User;

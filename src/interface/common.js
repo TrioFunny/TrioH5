@@ -33,7 +33,7 @@ Common.operation = operation;
  * 登录
  */
 const login = {}
-login.url = "http://127.0.0.1:8080/TrioMvc/login/login";
+login.url = window.url + "login/login";
 login.post = function(data, view,) {
 	let _this = this;
 	console.log(data);
@@ -58,7 +58,7 @@ Common.test1 = function() {
  * 注册(校验用户名是否重被使用)
  */
 const registCheckUserName = {};
-registCheckUserName.url = "http://127.0.0.1:8080/TrioMvc/login/checkUserName";
+registCheckUserName.url = window.url + "login/checkUserName";
 registCheckUserName.post = function(data, view) {
 	let _this = this;
 	return util.post(_this.url, data, view, _this.callback);
@@ -67,7 +67,7 @@ registCheckUserName.callback = function(res, view) {
 	view.checkUserNameCallback(res);
 }
 const regist = {};
-regist.url = "http://127.0.0.1:8080/TrioMvc/login/regist";
+regist.url = window.url + "login/regist";
 regist.post = function(data, view) {
 	let _this = this;
 	return util.post(_this.url, data, view, _this.callback);
@@ -82,7 +82,7 @@ Common.regist = regist;
  * 修改密码
  */
 const changePassword = {};
-changePassword.url = "http://127.0.0.1:8080/TrioMvc/login/changePassword";
+changePassword.url = window.url + "login/changePassword";
 changePassword.post = function(data, view) {
 	let _this = this;
 	return util.post(_this.url, data, view, _this.callback);
@@ -96,7 +96,7 @@ Common.changePassword = changePassword;
  * 获取头像
  */
 const getStartImage = {};
-getStartImage.url = "http://127.0.0.1:8080/TrioMvc/user/getImage";
+getStartImage.url = window.url + "user/getImage";
 getStartImage.get = function(data, view) {
 	let _this = this;
 	return util.get(_this.url, data, view, _this.callback);
