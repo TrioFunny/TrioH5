@@ -6,9 +6,9 @@
       	描述：
       -->
 		  <el-header  v-if="sign == '1'" style="padding:0px;">
-		  	<div style="background-color: cornflowerblue;width: 100%;height: 100%;color: white;padding: 0 15%;">	
-		  		<div style="min-width: 1100px; position: relative;">
-		  			<span >
+		  	<div style="background-color: cornflowerblue;height: 100%;color: white;padding: 0 15%;">	
+		  		<div style="min-width: 1100px; position: relative;text-align: center;">
+		  			<span style="height: 60px;float: left;padding: 15px;">
 							<i @click="back()" class="el-icon-back" 
 				  				style="font-size: 20px;border: solid 1px white;padding: 5px;border-radius: 5px;">
 							</i>

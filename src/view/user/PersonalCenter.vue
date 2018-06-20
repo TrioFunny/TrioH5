@@ -3,7 +3,7 @@
   		<headerDiv sign='1' title='个人中心'></headerDiv>
   		
   		<!--主体-->
-			<el-container style="padding: 0 20%;">
+			<el-container style="padding: 0 15%;width: 100%;">
 			  <el-header>Header</el-header>
 			  <el-container>
 			  	
@@ -94,6 +94,6 @@
 	}
 </script>
 
-<style scoped>
+<style >
 
 </style>

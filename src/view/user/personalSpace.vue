@@ -1,9 +1,8 @@
 <template>
   <div id="personalSpace" >
-  	<!--头部 -->
   		<headerDiv sign='1' title='个人空间'></headerDiv>
+  		
 				<el-container style="padding: 0 15%;">
-					
 					<!--脸部 -->
 					 <el-header style="height: 180px;width: 100%;position: relative;min-width: 1100px;" >
 					 		<img  src="../../assets/bg/header.png" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;"/>
