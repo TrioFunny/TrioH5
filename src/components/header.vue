@@ -19,62 +19,6 @@
 			  			<i @click="goTo('/user/personalCenter')" class="el-icon-document trio-i"></i>
 			  			<i  class="el-icon-message trio-i" @click="showChat()"></i>
 		  			</span>
-		  			
-						<div v-if="isShowChat" class="trio-chat-div">
-							<header >聊天</header>
-							<content>
-								<div class="msg-item">
-									<span class='user' >
-										<img  src="../assets/portrait.jpg"  />
-									</span>
-									<span class='msg-span'>
-										<span class='user-name'>无事，无趣，无聊</span>
-										<span class="msg">
-												<span class='msg-content'>
-													hello word
-													<br />
-													hello c
-												</span>
-										</span>
-									</span>
-								</div>
-								<div class="msg-item">
-									<span class='user' >
-										<img  src="../assets/portrait.jpg"  />
-									</span>
-									<span class='msg-span'>
-										<span class='user-name'>无事，无趣，无聊</span>
-										<span class="msg">
-												<span class='msg-content'>
-													不是我说你们都是
-													<br />
-													垃圾
-												</span>
-										</span>
-									</span>
-								</div>
-								<div class="msg-item">
-									<span class='user' >
-										<img  src="../assets/portrait.jpg"  />
-									</span>
-									<span class='msg-span'>
-										<span class='user-name'>无事，无趣，无聊</span>
-										<span class="msg">
-												<span class='msg-content'>
-													我却是
-													<br />
-													黄焖鸡
-												</span>
-										</span>
-									</span>
-								</div>
-								
-								
-							</content>
-							<footer >
-								<el-input v-model="input" placeholder="" style="width: 78%;float: left;" ></el-input> <el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain>发送</el-button>
-							</footer>
-						</div>
 		  		</div>
 		  	</div>
 		  </el-header>
@@ -89,7 +33,8 @@
 		  	</div>
 		  </el-header>
 		  
-		  
+
+		  	<chatDiv  ref="chat" :parent="this"></chatDiv>
   </div>
 </template>
 
@@ -118,13 +63,9 @@ export default {
 			this.$router.go(-1);
 		},
 		showChat(){
-			if(this.isShowChat){
-				this.isShowChat=false;
-			}else{
-				this.isShowChat=true;
-			}
-			
-		}
+			this.$refs.chat.showChat();
+		},
+		
 	}
 }
 </script>

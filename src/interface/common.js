@@ -40,13 +40,8 @@ login.post = function(data, view,) {
 	console.log(_this.url);
 	//	return util.post(_this.url,data,view,_this.callback); 
 	return util.post(_this.url, data, view, _this.callback);
-
-	return tool.get(_this.url,data,function(){
-		
-	});
 }
 login.callback = function(res, view) {
-	//	console.log(res);
 	view.loginCallback(res);
 }
 Common.login = login;
