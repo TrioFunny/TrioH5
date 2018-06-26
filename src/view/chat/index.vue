@@ -67,8 +67,10 @@
 				this.websock.onclose = this.websocketclose;
 			},
 			websocketonmessage(e) { //数据接收
-				//				const redata = JSON.parse(e.data);
 				console.log(e.data);
+				if(e.common=='Login'){
+					this.chatLogin(e.data.uuid);
+				}
 			},
 			websocketsend(agentData) { //数据发送
 				this.websock.send(this.msg);
@@ -85,10 +87,25 @@
 					this.isShowChat=true;
 				}
 			},
+			//聊天确认登陆
+			chatLogin(uuid){
+				let data={
+					uid:'',//用户id
+					uuid:uuid,//服务器返回ID
+				};
+				let info={
+					common:'Login',
+					data:data,
+				};
+				let infoStr=JSON.stringify(info);
+				//最后发送
+				this.websock.send(infoStr);
+			},
+			//发送消息
 			sendMsg(){
 				let data={
 					ssid:'',//唯一标识
-					type:'',
+					type:'',//
 					message:this.msg,//信息
 					sendTime:'',
 					sendId:'',//发送用户ID
