@@ -1,13 +1,6 @@
 <template>
-	<div class="hello">
-		<el-container>
-			<el-main>Main</el-main>
-			<div>
-
-			</div>
-			<input v-model="msg" placeholder="输入信息" />
-			<button @click="websocketsend()">发送消息</button>
-		</el-container>
+	<div class="hello" >
+		<div style="height: 60px;width: 100%;background-color:#00B8EC;"></div>
 	</div>
 </template>
 
@@ -20,7 +13,6 @@
 				msg: '',
 				socket: '',
 			}
-
 		},
 		methods: {
 			threadPoxi() { // 实际调用的方法

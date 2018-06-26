@@ -5,7 +5,7 @@ import Router from 'vue-router'
 import Error from '@/view/other/error'
 import NotFound from '@/view/404'
 import test from '@/view/test'
-import chat from '@/view/chat/chat'
+
 
 
 import User from './user'
@@ -28,11 +28,6 @@ export default new Router({
       path: '/error',
       name: '错误',
       component: Error
-    },
-    {
-      path: '/chat',
-      name: '聊天',
-      component: chat
     },
 		{
 			path: '/404',

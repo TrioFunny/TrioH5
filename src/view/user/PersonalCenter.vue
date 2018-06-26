@@ -1,7 +1,6 @@
 <template>
   <div id='PersonalCenter'>
   		<headerDiv sign='1' title='个人中心'></headerDiv>
-  		
   		<!--主体-->
 			<el-container style="padding: 0 15%;width: 100%;">
 			  <el-header>Header</el-header>

@@ -16,12 +16,65 @@
 			  		<span style="line-height: 60px;font-size: 30px;">{{title}}</span>
 		  			</span>
 		  			<span style="height: 60px;float: right;padding: 15px;">
-			  			<i @click="goTo('/user/personalCenter')" class="el-icon-edit" 
-			  				style="font-size: 20px;border: solid 1px white;padding: 5px;border-radius: 5px;"></i>
-			  			<i  class="el-icon-message" 
-			  				style="font-size: 20px;border: solid 1px white;padding: 5px;border-radius: 5px;"></i>
+			  			<i @click="goTo('/user/personalCenter')" class="el-icon-document trio-i"></i>
+			  			<i  class="el-icon-message trio-i" @click="showChat()"></i>
 		  			</span>
-
+		  			
+						<div v-if="isShowChat" class="trio-chat-div">
+							<header >聊天</header>
+							<content>
+								<div class="msg-item">
+									<span class='user' >
+										<img  src="../assets/portrait.jpg"  />
+									</span>
+									<span class='msg-span'>
+										<span class='user-name'>无事，无趣，无聊</span>
+										<span class="msg">
+												<span class='msg-content'>
+													hello word
+													<br />
+													hello c
+												</span>
+										</span>
+									</span>
+								</div>
+								<div class="msg-item">
+									<span class='user' >
+										<img  src="../assets/portrait.jpg"  />
+									</span>
+									<span class='msg-span'>
+										<span class='user-name'>无事，无趣，无聊</span>
+										<span class="msg">
+												<span class='msg-content'>
+													不是我说你们都是
+													<br />
+													垃圾
+												</span>
+										</span>
+									</span>
+								</div>
+								<div class="msg-item">
+									<span class='user' >
+										<img  src="../assets/portrait.jpg"  />
+									</span>
+									<span class='msg-span'>
+										<span class='user-name'>无事，无趣，无聊</span>
+										<span class="msg">
+												<span class='msg-content'>
+													我却是
+													<br />
+													黄焖鸡
+												</span>
+										</span>
+									</span>
+								</div>
+								
+								
+							</content>
+							<footer >
+								<el-input v-model="input" placeholder="" style="width: 78%;float: left;" ></el-input> <el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain>发送</el-button>
+							</footer>
+						</div>
 		  		</div>
 		  	</div>
 		  </el-header>
@@ -41,14 +94,19 @@
 </template>
 
 <script>
+import chatDiv from '@/view/chat/index';
+
 export default {
   data () {
     return {
-      msg: ''
+      msg: '',
+      isShowChat:false,
     }
   },
   props: ['sign', 'title'],
-  
+	components: {
+			chatDiv,
+	},
   methods: {
 		goTo(url) {
 				this.$router.push({
@@ -59,10 +117,75 @@ export default {
 		back(){
 			this.$router.go(-1);
 		},
+		showChat(){
+			if(this.isShowChat){
+				this.isShowChat=false;
+			}else{
+				this.isShowChat=true;
+			}
+			
+		}
 	}
 }
 </script>
 
 <style>
+.trio-i{
+		font-size: 20px;border: solid 1px white;padding: 5px;border-radius: 5px;
+	}
+.trio-chat-div{
+	position: absolute;background-color:white;
+	width: 300px;height: 500px;z-index: 999;
+	top:80px; right: 10px;
+	border: solid 2px white;
+	border-radius:8px;
+}
+.trio-chat-div header{
+	float: right;width: 100%;height: 30px;background-color:#409EFF;line-height: 30px;border-radius:10px;
+}
+.trio-chat-div content{
+	float: right;width: 100%;height:420px;background-color:white;
+}
+.trio-chat-div footer{
+	float: right;height: 50px;width: 100%;border-top:solid darkgray 1px;padding-top:1px ;
+}
+.trio-chat-div .msg-item{
+	width: 100%;float: left; /*background: #088cb7;*/
+}
+.msg-item .user {
+	float: left;width: 60px;padding: 3px;
+}
+.msg-item .user img{
+	/**/
+	 border-radius:50% ; border:solid gold 1px;float: left;width: 50px;height: 50px;
+}
+.msg-item .msg-span{
+	width: 200px;display:inline-block;float: left;text-align: left;margin-top: 8px;margin-left: -2px;font-size: 13px;color: gray;
+}
+.msg-item .user-name{
+	
+}
+.msg-item .msg{
+	position: relative;padding-left: 10px;color: white;
+}
+.msg-item .msg-content{
+	display:inline-block;
+  width: 200px;
+  padding: 10px;
+ 	font-size: 15px;
+	background-color:lightskyblue;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+}
+.msg-item .msg-content:before{
+	position: absolute;
+	left: 0px;
+  content: "";
+  border-top: 8px solid transparent;
+  border-right: 15px solid lightskyblue;
+  border-bottom: 15px solid transparent;
+}
+
 </style>
 
