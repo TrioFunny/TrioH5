@@ -30,6 +30,8 @@ Base.request_init=function(data){
 }
 
 Base.response_init=function(data){
+	//
+	Base.response_log();
 	//判断成功代码
 	
 	//关闭遮挡板
