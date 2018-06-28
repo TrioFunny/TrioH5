@@ -69,8 +69,9 @@
 			},
 			websocketonmessage(e) { //数据接收
 				console.log(e.data);
-				if(e.common=='Login'){
-					this.chatLogin(e.data.uuid);
+				var date = JSON.parse(e.data);
+				if(date.common=='Login'){
+					this.chatLogin(date.data.ssid);
 				}
 			},
 			websocketsend(agentData) { //数据发送
@@ -99,6 +100,7 @@
 					data:data,
 				};
 				let infoStr=JSON.stringify(info);
+				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
 			},
