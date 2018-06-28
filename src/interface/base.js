@@ -22,21 +22,28 @@ Base.response_log=function(data,title){
 	console.log('--------------------'+title+'--------------------');
 }
 
-Base.request_init=function(data){
-	//数据加密
+
+
+
+
+Base.init=function(data,url,title,view){
+	//加密
 	
-	//打开遮挡板
-	
+	//调试日志
+	Base.request_log(data,url,title,);
 }
 
-Base.response_init=function(data){
-	//
-	Base.response_log();
-	//判断成功代码
-	
-	//关闭遮挡板
-	
+
+Base.Success==function(data,url,title,view){
+	//调试日志
+	Base.request_log(data,url,title,);
 }
+Base.Error==function(data,url,title,view){
+	//调试日志
+	Base.request_log(data,url,title,);
+}
+
+
 
 Base.encrypt=function(){
 	function Zero(){

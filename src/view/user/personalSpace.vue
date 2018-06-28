@@ -96,10 +96,12 @@
 </template>
 
 <script>
-	import headerDiv from '../../components/header';
-	import CalendarMonth from '../../components/calendar/month';
-	import Common from '../../interface/common'
+	import headerDiv from '@/components/header';
+	import CalendarMonth from '@/components/calendar/month';
+	import Common from '@/interface/common'
 	import User from '@/interface/user';
+	import Tool from '@/util/tool';
+	
 	export default {
 		data() {
 			return {
@@ -117,6 +119,8 @@
 					'/static/img/dota/timg8.jpg',
 				],
 				 user:'',
+				 
+				 userId:'',
 			}
 		},
 		components: {
@@ -132,7 +136,7 @@
 			},
       getUserInfo(){
       	let param={
-      		userId:'2a9650307d2f44398a3474a3245fd861',
+      		userId:this.userId,
       	};
       	User.getUserInfo.Post(param,this);
       },
@@ -163,6 +167,10 @@
 			getStartImageCallback(res) {
 				this.imageUrl = res.data;
 			}
+		},
+		created(){
+			//获取登录状态
+			this.userId=Tool.getCookie("userId");
 		},
 		mounted() {
 			this.getStartImage();

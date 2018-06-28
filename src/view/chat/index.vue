@@ -21,6 +21,7 @@
 		<footer >
 			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
 			<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
+			<button @click="test()">测试</button>
 		</footer>
 	</div>
 </template>
@@ -121,7 +122,6 @@
 				//最后发送
 				this.websock.send(infoStr);
 			},
-			
 		},
 		created() {
 			this.initWebSocket()

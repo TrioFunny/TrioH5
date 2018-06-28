@@ -37,14 +37,6 @@ Tool.ajax = function (mySetting) {
             xhr.open(setting.type, sData + '&' + new Date().getTime(), setting.async);
             xhr.send();
         } else if(setting.type=='POST'){ //post方式请求
-        	if(setting.dataType=='img'){
-        		console.log('上传图片');
-        		var formData = new FormData();
-      			formData.append('123', null);
-        		xhr.open(setting.type, setting.url, setting.async);
-	            xhr.setRequestHeader("Content-type", "multipart/form-data");
-	            xhr.send(formData);
-        	}else{
 			    for (var attr in setting.data) {
 			        aData.push(attr + '=' + filter(setting.data[attr]));
 			    }
@@ -52,7 +44,6 @@ Tool.ajax = function (mySetting) {
 	            xhr.open(setting.type, setting.url, setting.async);
 	            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	            xhr.send(sData);
-        	}
             
         }
     } catch (e) {
@@ -107,7 +98,7 @@ Tool.ajax = function (mySetting) {
  * @param {function} success  请求成功执行方法
  * @param {function} error    请求失败执行方法
  */
-Tool.post = function (pathname, data,view, success, error) {
+Tool.post = function (pathname, data,view,success, error) {
     var setting = {
         url: pathname, //默认ajax请求地址
         type: 'POST', //请求的方式
@@ -125,36 +116,10 @@ Tool.post = function (pathname, data,view, success, error) {
  * @param {function} success  请求成功执行方法
  * @param {function} error    请求失败执行方法
  */
-Tool.get = function (pathname, data, success, error) {
+Tool.get = function (pathname, data,view,success, error) {
     var setting = {
         url:  pathname, //默认ajax请求地址
         type: 'GET', //请求的方式
-        data: data, //发给服务器的数据
-        success: success || function () { }, //请求成功执行方法
-        error: error || function () { } //请求失败执行方法
-    };
-    return Tool.ajax(setting);
-};
-
-Tool.jsonpGet = function(pathname, data, success, error) {
-//	alert("go Jsonp Get");
-	$.ajax({
-		type:"get",
-		url:pathname,
-		async:true,
-		data:data,
-		dataType:"jsonp",
-		jsonp:'jsonpCallback',
-		success: success||function(){},
-		error: error||function(){}
-	});
-}
-
-Tool.upImg = function (pathname, data,view, success, error) {
-    var setting = {
-        url: pathname, //默认ajax请求地址
-        type: 'POST', //请求的方式
-        dataType:'img',
         data: data, //发给服务器的数据
         view:view,
         success: success || function () { }, //请求成功执行方法
@@ -186,7 +151,6 @@ Tool.setCookie= function(name,value,hours,path,domain,secure){
     cdata +=domain ? ("; domain=" + domain) : "" ;
     cdata +=secure ? ("; secure=" + secure) : "" ;
     document.cookie = cdata;
-    console.log("储存cookies");
 };
 Tool.getCookie=function(name){
     var reg = eval("/(?:^|;\\s*)" + name + "=([^=]+)(?:;|$)/"); 
