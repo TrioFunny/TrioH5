@@ -1,6 +1,6 @@
 <template>
 	<div v-if="isShowChat" class="trio-chat-div" id='main' v-drag="greet">
-		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
+		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
 		<content>
 			<div class="msg-item">
 				<!--头像-->
@@ -93,8 +93,8 @@
 					</span>
 				</span>
 			</div>
-
-
+			<p></p>
+			<hr />
 		</content>
 		<footer >
 			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
@@ -111,10 +111,11 @@
 			return {
 				msg: '',
 				socket: '',
-				isShowChat: true,
+				isShowChat: false,
 			}
 		},
 		  props: ['parent'],
+		//自定义标价
 		directives: {
 			drag: {
 				bind: function(el, binding) {
@@ -193,16 +194,14 @@
 				console.log("connection closed (" + e.code + ")");
 			},
 			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
-			
-			showChat(){
+			showChat(){//关闭显示
 				if(this.isShowChat){
 					this.isShowChat=false;
 				}else{
 					this.isShowChat=true;
 				}
 			},
-			//聊天确认登陆
-			chatLogin(uuid){
+			chatLogin(uuid){//聊天确认登陆
 				let data={
 					uid:'',//用户id
 					uuid:uuid,//服务器返回ID
@@ -216,8 +215,7 @@
 				//最后发送
 				this.websock.send(infoStr);
 			},
-			//发送消息
-			sendMsg(){
+			sendMsg(){//发送消息
 				let data={
 					ssid:'',//唯一标识
 					type:'',//
@@ -236,6 +234,14 @@
 				//最后发送
 				this.websock.send(infoStr);
 			},
+			close(){//关闭聊天显示
+				if(this.isShowChat){
+					this.isShowChat=false;
+				}else{
+					this.isShowChat=true;
+				}
+			},
+		
 		},
 		created() {
 			this.initWebSocket()
@@ -259,7 +265,7 @@
 		height: 500px;
 		z-index: 999;
 		top: 80px;
-		right: 10px;
+		right: 100px;
 		border: solid 2px white;
 		border-radius: 8px;
 		box-shadow: 0px 0px 20px gold;

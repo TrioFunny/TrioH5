@@ -26,7 +26,7 @@ Base.response_log=function(data,title){
 
 
 
-Base.init=function(data,url,title,view){
+Base.Init=function(data,url,title,view){
 	//加密
 	
 	//调试日志
