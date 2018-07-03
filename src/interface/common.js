@@ -94,7 +94,7 @@ const getStartImage = {};
 getStartImage.url = window.url + "user/getImage";
 getStartImage.get = function(data, view) {
 	let _this = this;
-	return util.get(_this.url, data, view, _this.callback);
+	return util.post(_this.url, data, view, _this.callback);
 }
 getStartImage.callback = function(res, view) {
 	view.getStartImageCallback(res);
