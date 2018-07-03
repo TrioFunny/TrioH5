@@ -1,17 +1,4 @@
 <template>
-<<<<<<< HEAD
-	<div id="personalSpace">
-		<!--头部 -->
-		<headerDiv sign='1' title='个人空间'></headerDiv>
-		<el-container style="padding: 0 15%;">
-
-			<!--脸部 -->
-			<el-header style="height: 180px;width: 100%;position: relative;min-width: 1100px;">
-				<img src="../../assets/bg/header.png" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;" />
-				<el-row style="height: 100%;">
-					<el-col :span="12" style="position: absolute;bottom: 0px;">
-						<span style="float:left;margin:20px 10px 20px 20px;">
-=======
   <div id="personalSpace" >
   		<headerDiv sign='1' title='个人空间'></headerDiv>
   		
@@ -22,7 +9,6 @@
 					 			<el-row  style="height: 100%;">
 								  <el-col :span="12" style="position: absolute;bottom: 0px;">
 							 				<span style="float:left;margin:20px 10px 20px 20px;">
->>>>>>> e9cbfc2929f2cccdf73c61c9528d7c7d65ad8e90
 								 				<img src="../../assets/portrait.jpg" height="110" style="border-radius: 50%;border: solid skyblue 2px;"/>
 							 				</span>
 						<span style="float:left;text-align: left;margin: 30px 5px;">
