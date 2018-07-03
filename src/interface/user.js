@@ -11,7 +11,7 @@ const User = {}
  */
 const getUserInfo = {};
 getUserInfo.title = '获取用户信息';
-getUserInfo.url = window.url + 'user/getUserInfo'
+getUserInfo.url = window.url + '/user/getUserInfo'
 getUserInfo.Post = function (data, view) {
   let _this = this;
   return tool.post(_this.url, data, view, _this.callback);
@@ -27,7 +27,7 @@ User.getUserInfo = getUserInfo;
  */
 const alterUserInfo = {};
 alterUserInfo.title = '获取用户信息';
-alterUserInfo.url = window.url + 'user/alterUserInfo'
+alterUserInfo.url = window.url + '/user/alterUserInfo'
 alterUserInfo.Post = function (data, view) {
   let _this = this;
   return tool.post(_this.url, data, view, _this.callback);
