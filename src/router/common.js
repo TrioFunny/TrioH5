@@ -11,10 +11,16 @@ import Chat from '@/view/chat/index'
 //测试中
 import test from '@/view/test'
 
-export default [{
-		path: '/',
+export default [
+	{
+		path: '/Index',
 		name: '主页',
 		component: Index
+	},
+	{
+		path: '/',
+		name: '登录',
+		component: Login
 	},
 	{
 		path: '/login',

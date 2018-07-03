@@ -11,6 +11,7 @@ import test from '@/view/test'
 import User from './user'
 import Common from './common'
 import Components from './components'
+import Demo from './demo'
 
 Vue.use(Router)
 
@@ -19,6 +20,7 @@ export default new Router({
 	...User,
 	...Common,
 	...Components,
+	...Demo,
     {
       path: '/test',
       name: '测试',

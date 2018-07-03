@@ -1,22 +1,100 @@
 <template>
-	<div v-if="isShowChat" class="trio-chat-div">
-		<header>聊天</header>
+	<div v-if="isShowChat" class="trio-chat-div" id='main' v-drag="greet">
+		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
 		<content>
 			<div class="msg-item">
 				<!--头像-->
-				<span class='user'>
+				<span class='user left'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
 				<!--名字/信息-->
-				<span class='msg-span'>
-					<span class='user-name'>无事，无趣，无聊</span>
-					<span class="msg">
-						<span class='msg-content'>
-							hello word<br />hello c
+				<span class='msg-span left'>
+					<span class='user-name left'>无事，无趣，无聊</span>
+					<span class="msg left">
+						<span class='msg-content left'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
 				</span>
 			</div>
+
+			<div class="msg-item">
+				<!--头像-->
+				<span class='user right'>
+					<img  src="../../assets/portrait.jpg"  />
+				</span>
+				<!--名字/信息-->
+				<span class='msg-span right'>
+					<span class='user-name right'>无事，无趣，无聊</span>
+					<span class="msg right">
+						<span class='msg-content right'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+						</span>
+					</span>
+				</span>
+			</div>
+			<div class="msg-item">
+				<!--头像-->
+				<span class='user right'>
+					<img  src="../../assets/portrait.jpg"  />
+				</span>
+				<!--名字/信息-->
+				<span class='msg-span right'>
+					<span class='user-name right'>无事，无趣，无聊</span>
+					<span class="msg right">
+						<span class='msg-content right'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+						</span>
+					</span>
+				</span>
+			</div>
+			<div class="msg-item">
+				<!--头像-->
+				<span class='user right'>
+					<img  src="../../assets/portrait.jpg"  />
+				</span>
+				<!--名字/信息-->
+				<span class='msg-span right'>
+					<span class='user-name right'>无事，无趣，无聊</span>
+					<span class="msg right">
+						<span class='msg-content right'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+						</span>
+					</span>
+				</span>
+			</div>
+			<div class="msg-item">
+				<!--头像-->
+				<span class='user right'>
+					<img  src="../../assets/portrait.jpg"  />
+				</span>
+				<!--名字/信息-->
+				<span class='msg-span right'>
+					<span class='user-name right'>无事，无趣，无聊</span>
+					<span class="msg right">
+						<span class='msg-content right'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+						</span>
+					</span>
+				</span>
+			</div>
+			<div class="msg-item">
+				<!--头像-->
+				<span class='user right'>
+					<img  src="../../assets/portrait.jpg"  />
+				</span>
+				<!--名字/信息-->
+				<span class='msg-span right'>
+					<span class='user-name right'>无事，无趣，无聊</span>
+					<span class="msg right">
+						<span class='msg-content right'>
+							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+						</span>
+					</span>
+				</span>
+			</div>
+			<p></p>
+			<hr />
 		</content>
 		<footer >
 			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
@@ -33,11 +111,47 @@
 			return {
 				msg: '',
 				socket: '',
-				isShowChat: true,
+				isShowChat: false,
 			}
 		},
 		  props: ['parent'],
+		//自定义标价
+		directives: {
+			drag: {
+				bind: function(el, binding) {
+					let oDiv = el; //当前元素
+					let self = this; //上下文
+					oDiv.onmousedown = function(e) {
+						//鼠标按下，计算当前元素距离可视区的距离
+						let disX = e.clientX - oDiv.offsetLeft;
+						let disY = e.clientY - oDiv.offsetTop;
+
+						document.onmousemove = function(e) {
+							//通过事件委托，计算移动的距离 
+							let l = e.clientX - disX;
+							let t = e.clientY - disY;
+							//移动当前元素  
+							oDiv.style.left = l + 'px';
+							oDiv.style.top = t + 'px';
+							//将此时的位置传出去
+							binding.value({
+								x: e.pageX,
+								y: e.pageY
+							})
+						};
+						document.onmouseup = function(e) {
+
+							document.onmousemove = null;
+							document.onmouseup = null;
+						};
+					};
+				}
+			}
+		},
 		methods: {
+			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
+				this.val = val;
+			},
 			threadPoxi() { // 实际调用的方法
 				//参数
 				const agentData = "mymessage";
@@ -80,16 +194,14 @@
 				console.log("connection closed (" + e.code + ")");
 			},
 			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
-			
-			showChat(){
+			showChat(){//关闭显示
 				if(this.isShowChat){
 					this.isShowChat=false;
 				}else{
 					this.isShowChat=true;
 				}
 			},
-			//聊天确认登陆
-			chatLogin(uuid){
+			chatLogin(uuid){//聊天确认登陆
 				let data={
 					uid:'',//用户id
 					uuid:uuid,//服务器返回ID
@@ -103,8 +215,7 @@
 				//最后发送
 				this.websock.send(infoStr);
 			},
-			//发送消息
-			sendMsg(){
+			sendMsg(){//发送消息
 				let data={
 					ssid:'',//唯一标识
 					type:'',//
@@ -123,7 +234,14 @@
 				//最后发送
 				this.websock.send(infoStr);
 			},
-			
+			close(){//关闭聊天显示
+				if(this.isShowChat){
+					this.isShowChat=false;
+				}else{
+					this.isShowChat=true;
+				}
+			},
+		
 		},
 		created() {
 			this.initWebSocket()
@@ -139,6 +257,7 @@
 		border-radius: 5px;
 	}
 	
+	/*聊天框*/
 	.trio-chat-div {
 		position: absolute;
 		background-color: white;
@@ -146,28 +265,50 @@
 		height: 500px;
 		z-index: 999;
 		top: 80px;
-		right: 10px;
+		right: 100px;
 		border: solid 2px white;
 		border-radius: 8px;
+		box-shadow: 0px 0px 20px gold;
 	}
 	
+	/*聊天框-头部信息*/
 	.trio-chat-div header {
 		float: right;
 		width: 100%;
 		height: 30px;
+		text-align:center;
 		background-color: #409EFF;
 		line-height: 30px;
-		border-radius: 10px;
+		border-radius: 5px;
+		color: whitesmoke;
 	}
-	
+	.trio-chat-div header span{
+		line-height: 30px;font-size: 20px;
+		padding:0px 5px;
+	}
+
+	/*聊天框-主体显示*/
 	.trio-chat-div content {
 		float: right;
 		width: 100%;
 		height: 420px;
 		background-color: white;
-		padding-top:10px ;
+		overflow-y: scroll;
+		/*margin-right: -15px;*/
 	}
-	
+	/*滚动条*/
+	content::-webkit-scrollbar {
+	    width: 0px;
+	}
+	content::-webkit-scrollbar-thumb{
+	    border-radius: 5px;
+	    background: cornflowerblue;
+	}
+	content::-webkit-scrollbar-track {
+	    border-radius: 5px;
+	    background-color: #eee;
+	}
+	/*聊天框-脚部发送*/
 	.trio-chat-div footer {
 		float: right;
 		height: 50px;
@@ -176,63 +317,139 @@
 		padding-top: 1px;
 	}
 	
+	
+	/*聊天框-信息条目*/
 	.trio-chat-div .msg-item {
 		width: 100%;
 		float: left;
+		padding-top: 10px;
 		/*background: #088cb7;*/
 	}
 	
+	/*聊天框-信息条目  头像框*/
 	.msg-item .user {
-		float: left;
-		width: 60px;
+		float: inherit;
+		width: 50px;
 		padding: 3px;
 	}
+	.msg-item .user.left{
+		float: left;
+	}
+	.msg-item .user.right{
+		float: right;
+	}
 	
+	/*聊天框-信息条目  头像 图片*/
 	.msg-item .user img {
 		/**/
 		border-radius: 50%;
 		border: solid gold 1px;
+		width: 45px;
+		height: 45px;
+	}
+	.msg-item .user.left img {
 		float: left;
-		width: 50px;
-		height: 50px;
+	}
+	.msg-item .user.right img {
+		float: right;
 	}
 	
+	/*聊天框-信息条目  信息框*/
 	.msg-item .msg-span {
-		width: 200px;
+		width: 240px;
 		display: inline-block;
-		float: left;
 		text-align: left;
 		margin-top: 8px;
 		margin-left: -2px;
 		font-size: 13px;
 		color: gray;
 	}
+	.msg-item .msg-span.left{
+		float: left;
+	}
+	.msg-item .msg-span.right{
+		float: right;
+	}	
 	
-	.msg-item .user-name {}
+	/*聊天框-信息条目  用户名*/
+	.msg-item .msg-span .user-name {
+		padding:0px 12px;
+	}
+	.msg-item .msg-span .user-name.left{
+		float: left;
+	}
+	.msg-item .msg-span .user-name.right{
+		float: right;
+	}	
+
 	
-	.msg-item .msg {
+	/*聊天框-信息条目  内容气泡*/
+	.msg-item .msg-span .msg {
 		position: relative;
-		padding-left: 10px;
+		display: block;
 		color: white;
+		padding-left: 10px;
+	}
+	.msg-item .msg-span .msg.left{
+		width: 100%;height: 100%;
+	}
+	.msg-item .msg-span .msg.right{
+		width: 100%;height: 100%;
 	}
 	
-	.msg-item .msg-content {
+	.msg-item .msg-span .msg-content {
 		display: inline-block;
-		width: 200px;
-		padding: 10px;
+		width: 220px;
+		margin:3px 0px;
+		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
 		-moz-border-radius: 12px;
 		-webkit-border-radius: 12px;
 		border-radius: 12px;
 	}
-	
-	.msg-item .msg-content:before {
+
+	.msg-item .msg-span .msg-content.left {
+		display: inline-block;
+		width: 220px;
+		margin:3px 0px;
+		padding: 8px;
+		font-size: 15px;
+		background-color: lightskyblue;
+		-moz-border-radius: 12px;
+		-webkit-border-radius: 12px;
+		border-radius: 12px;		
+	}
+	.msg-item .msg-span .msg-content.right {
+		display: inline-block;
+		width: 220px;
+		margin:3px 0px;
+		padding: 8px;
+		font-size: 15px;
+		background-color: lightskyblue;
+		-moz-border-radius: 12px;
+		-webkit-border-radius: 12px;
+		border-radius: 12px;
+	}
+	.msg-item .msg-span .msg-content.left:before {
 		position: absolute;
 		left: 0px;
 		content: "";
+		left: 0px;
 		border-top: 8px solid transparent;
-		border-right: 15px solid lightskyblue;
 		border-bottom: 15px solid transparent;
+		border-right: 15px solid lightskyblue;
 	}
+	
+	.msg-item .msg-span .msg-content.right:after {
+		position: absolute;
+		content: "";
+		right: 0px;
+		top: 29px;
+		border-top: 8px solid transparent;
+		border-bottom: 15px solid transparent;
+		border-left: 15px solid lightskyblue;
+	}
+
+
 </style>

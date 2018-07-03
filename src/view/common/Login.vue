@@ -19,8 +19,9 @@
 </template>
 
 <script>
-	import Common from '../../interface/common'
-
+	import Common from '@/interface/common'
+	import Tool from '@/util/tool';
+	
 	export default {
 		name: 'HelloWorld',
 		data() {
@@ -30,9 +31,6 @@
 			}
 		},
 		methods: {
-			test() {
-				Common.test1();
-			},
 			login() {
 				let param = {
 					userName: this.userName,
@@ -42,7 +40,8 @@
 			},
 			loginCallback(res) {
 				if(res.code == "200") {
-					this.$message.success('成功');
+					//储存在Cookie
+					Tool.setCookie("userId",res.data.userId);
 					this.$router.push('/user/personalSpace');
 				} else {
 					this.$message.error(res.error_msg);
