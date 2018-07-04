@@ -63,18 +63,5 @@ changePassword.callback = function(res, view) {
 }
 Common.changePassword = changePassword;
 
-/**
- * 获取头像
- */
-const getStartImage = {};
-getStartImage.url = window.url + "/user/getImage";
-getStartImage.get = function(data, view) {
-	let _this = this;
-	return util.post(_this.url, data, view, _this.callback);
 
-}
-getStartImage.callback = function(res, view) {
-	view.getStartImageCallback(res);
-}
-Common.getStartImage = getStartImage;
 export default Common;

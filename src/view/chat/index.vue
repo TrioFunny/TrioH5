@@ -105,8 +105,10 @@
 
 <script>
 	import io from 'socket.io-client';
+	import { mapState,mapActions} from 'vuex'
+	
 	export default {
-		name: 'HelloWorld',
+		name: 'chat',
 		data() {
 			return {
 				msg: '',
@@ -115,7 +117,10 @@
 			}
 		},
 		  props: ['parent'],
-		//自定义标价
+		computed:{
+			...mapState(['websock']),
+		},
+		//自定义 事件标签
 		directives: {
 			drag: {
 				bind: function(el, binding) {
@@ -149,6 +154,7 @@
 			}
 		},
 		methods: {
+			...mapActions(['initChatSocket']),
 			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
 				this.val = val;
 			},
@@ -176,7 +182,15 @@
 				}
 			},
 			initWebSocket() { //初始化weosocket
-				this.websock = new WebSocket('ws://127.0.0.1:8080/chatwebsocket');
+				if(this.websock==null||this.websock==''){
+					console.log("初始化WebSocket");
+					this.initChatSocket(this.websocketonmessage,this.websocketclose);
+				}else{
+					console.log(this.websock);
+				}
+			},
+			test(){
+				
 				this.websock.onmessage = this.websocketonmessage;
 				this.websock.onclose = this.websocketclose;
 			},
@@ -203,7 +217,7 @@
 			},
 			chatLogin(uuid){//聊天确认登陆
 				let data={
-					uid:'',//用户id
+					uid:this.userId,//用户id
 					uuid:uuid,//服务器返回ID
 				};
 				let info={
@@ -221,8 +235,8 @@
 					type:'',//
 					message:this.msg,//信息
 					sendTime:'',
-					sendId:'',//发送用户ID
-					toId:'',//接受用户ID
+					sendId:this.userId,//发送用户ID
+					toId:this.userId,//接受用户ID
 				};
 				let info={
 					common:'Message',
@@ -244,6 +258,7 @@
 		
 		},
 		created() {
+			
 			this.initWebSocket()
 		}
 	}

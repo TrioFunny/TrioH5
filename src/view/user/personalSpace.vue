@@ -1,18 +1,5 @@
 <template>
-<<<<<<< HEAD
-  <div id="personalSpace" >
-  		<headerDiv sign='1' title='个人空间'></headerDiv>
-  		
-				<el-container style="padding: 0 15%;">
-					<!--脸部 -->
-					 <el-header style="height: 180px;width: 100%;position: relative;min-width: 1100px;" >
-					 		<img  src="../../assets/bg/header.png" height="100%" width="100%" style="position: absolute;top: 0;left: 0; z-index: -10;"/>
-					 			<el-row  style="height: 100%;">
-								  <el-col :span="12" style="position: absolute;bottom: 0px;">
-							 				<span style="float:left;margin:20px 10px 20px 20px;">
-								 				<img src="../../assets/portrait.jpg" height="110" style="border-radius: 50%;border: solid skyblue 2px;"/>
-							 				</span>
-=======
+
 	<div id="personalSpace">
 		<!--头-->
 		<headerDiv sign='1' title='个人空间'></headerDiv>
@@ -25,7 +12,6 @@
 						<span style="float:left;margin:20px 10px 20px 20px;">
 							<img src="../../assets/portrait.jpg" height="110" style="border-radius: 50%;border: solid skyblue 2px;"/>
 						</span>
->>>>>>> dbc63230074d5223b1a10274e217d08a37ed319f
 						<span style="float:left;text-align: left;margin: 30px 5px;">
 							<span class="trio-user-name">{{user.nickname}}<!--无事，无趣，无聊，无谋--></span>
 						<br />
@@ -186,26 +172,12 @@
 				}
 				return isJPG && isLt2M;
 			},
-			getStartImage() {
-				let param = {
-					userId: '2a9650307d2f44398a3474a3245fd861',
-				};
-				Common.getStartImage.get(param, this);
-			},
-			getStartImageCallback(res) {
-				this.imageUrl = res.data;
-				console.log(this.imageUrl);
-				if(this.imageUrl == '' || this.imageUrl == null) {
-					this.imageUrl = '/static/img/headPortrait/default.jpg';
-				}
-			}
 		},
 		created(){
 			//获取登录状态
 			this.userId=Tool.getCookie("userId");
 		},
 		mounted() {
-			this.getStartImage();
 			this.getUserInfo();
 		},
 	}
