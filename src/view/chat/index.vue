@@ -104,6 +104,7 @@
 </template>
 
 <script>
+	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
 	export default {
 		name: 'HelloWorld',
@@ -181,6 +182,7 @@
 				this.websock.onclose = this.websocketclose;
 			},
 			websocketonmessage(e) { //数据接收
+				console.log("接收消息：");
 				console.log(e.data);
 				var date = JSON.parse(e.data);
 				if(date.common=='Login'){
@@ -203,7 +205,7 @@
 			},
 			chatLogin(uuid){//聊天确认登陆
 				let data={
-					uid:'',//用户id
+					uid:this.userId,//用户id
 					uuid:uuid,//服务器返回ID
 				};
 				let info={
@@ -218,11 +220,11 @@
 			sendMsg(){//发送消息
 				let data={
 					ssid:'',//唯一标识
-					type:'',//
+					type:'Single',//
 					message:this.msg,//信息
-					sendTime:'',
-					sendId:'',//发送用户ID
-					toId:'',//接受用户ID
+					sendTime:new Date(),
+					sendId:this.userId,//发送用户ID
+					toId:'1',//接受用户ID
 				};
 				let info={
 					common:'Message',
@@ -244,8 +246,11 @@
 		
 		},
 		created() {
+		},
+		mounted() {
+			this.userId=Tool.getCookie('userId');
 			this.initWebSocket()
-		}
+		},
 	}
 </script>
 

@@ -23,7 +23,7 @@
 	import Tool from '@/util/tool';
 	
 	export default {
-		name: 'HelloWorld',
+		name: '登录',
 		data() {
 			return {
 				userName: '',
