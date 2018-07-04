@@ -1,4 +1,5 @@
 <template>
+
 	<div id="personalSpace">
 		<!--头-->
 		<headerDiv sign='1' title='个人空间'></headerDiv>
@@ -24,7 +25,7 @@
 			</el-header>
 			<!--脸部 -->
 			<el-header style="height: 200px;width: 100%;position: relative;">
-				<el-upload class="avatar-uploader" name="photofile" style="float: left;background: white; margin-top: 1rem; margin-left: -1.3rem;" action="http://127.0.0.1:8080/TrioMvc/user/getImage" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+				<el-upload class="avatar-uploader" name="photofile" style="float: left;background: white; margin-top: 1rem; margin-left: -1.3rem;" action="http://127.0.0.1:8080/user/postImage?userId=2a9650307d2f44398a3474a3245fd861" :on-error="error" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 					<img v-if="imageUrl" :src="imageUrl" class="avatar">
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				</el-upload>
@@ -117,9 +118,10 @@
 					'/static/img/dota/timg7.jpg',
 					'/static/img/dota/timg8.jpg',
 				],
-				
+				action:window.url+"user/postImage?userId=2a9650307d2f44398a3474a3245fd861",
 				 user:'',
 				 userId:'',
+
 			}
 		},
 		components: {
@@ -129,9 +131,6 @@
 		methods: {
 			handleClick(tab, event) {
 				//      console.log(tab, event);
-			},
-			goTo(url) {
-				$router.push(url);
 			},
 	      	getUserInfo(){
 	      		let param={
@@ -159,6 +158,9 @@
 				this.$message.success('更换头像成功');
 				this.imageUrl = URL.createObjectURL(file.raw);
 			},
+			error(res,file){
+				console.log(res);
+			},
 			beforeAvatarUpload(file) {
 				const isJPG = file.type === 'image/jpeg';
 				const isLt2M = file.size / 1024 / 1024 < 2;
@@ -170,22 +172,12 @@
 				}
 				return isJPG && isLt2M;
 			},
-			getStartImage() {
-				Common.getStartImage.get("", this);
-			},
-			getStartImageCallback(res) {
-				this.imageUrl = res.data;
-				if(this.imageUrl == '' || this.imageUrl == null) {
-					this.imageUrl = '/static/img/headPortrait/default.jpg';
-				}
-			}
 		},
 		created(){
 			//获取登录状态
 			this.userId=Tool.getCookie("userId");
 		},
 		mounted() {
-			this.getStartImage();
 			this.getUserInfo();
 		},
 	}

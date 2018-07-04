@@ -106,8 +106,10 @@
 <script>
 	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
+	import { mapState,mapActions} from 'vuex'
+	
 	export default {
-		name: 'HelloWorld',
+		name: 'chat',
 		data() {
 			return {
 				msg: '',
@@ -116,7 +118,10 @@
 			}
 		},
 		  props: ['parent'],
-		//自定义标价
+		computed:{
+			...mapState(['websock']),
+		},
+		//自定义 事件标签
 		directives: {
 			drag: {
 				bind: function(el, binding) {
@@ -150,6 +155,7 @@
 			}
 		},
 		methods: {
+			...mapActions(['initChatSocket']),
 			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
 				this.val = val;
 			},
@@ -177,7 +183,15 @@
 				}
 			},
 			initWebSocket() { //初始化weosocket
-				this.websock = new WebSocket('ws://127.0.0.1:8080/chatwebsocket');
+				if(this.websock==null||this.websock==''){
+					console.log("初始化WebSocket");
+					this.initChatSocket(this.websocketonmessage,this.websocketclose);
+				}else{
+					console.log(this.websock);
+				}
+			},
+			test(){
+				
 				this.websock.onmessage = this.websocketonmessage;
 				this.websock.onclose = this.websocketclose;
 			},
