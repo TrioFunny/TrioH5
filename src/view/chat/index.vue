@@ -104,10 +104,9 @@
 </template>
 
 <script>
-	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
 	import { mapState,mapActions} from 'vuex'
-	
+	import Util from '@/util/my/util';
 	export default {
 		name: 'chat',
 		data() {
@@ -187,17 +186,12 @@
 					console.log("初始化WebSocket");
 					this.initChatSocket(this.websocketonmessage,this.websocketclose);
 				}else{
-					console.log(this.websock);
+//					console.log(this.websock);
 				}
 			},
-			test(){
-				
-				this.websock.onmessage = this.websocketonmessage;
-				this.websock.onclose = this.websocketclose;
-			},
 			websocketonmessage(e) { //数据接收
-				console.log("接收消息：");
-				console.log(e.data);
+//				console.log("接收消息：");
+//				console.log(e.data);
 				var date = JSON.parse(e.data);
 				if(date.common=='Login'){
 					this.chatLogin(date.data.ssid);
@@ -207,7 +201,7 @@
 				this.websock.send(this.msg);
 			},
 			websocketclose(e) { //关闭
-				console.log("connection closed (" + e.code + ")");
+				console.log("Sicket断开连接：(" + e.code + ")");
 			},
 			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
 			showChat(){//关闭显示
@@ -227,7 +221,6 @@
 					data:data,
 				};
 				let infoStr=JSON.stringify(info);
-				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
 			},
@@ -246,7 +239,6 @@
 				};
 				
 				let infoStr=JSON.stringify(info);
-				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
 			},
@@ -259,10 +251,11 @@
 			},
 		
 		},
-		created() {
+		created(){
+			this.userId=Util.getCookie("userId");
 		},
 		mounted() {
-			this.userId=Tool.getCookie('userId');
+			this.userId=Util.getCookie("userId");
 			this.initWebSocket()
 		},
 	}

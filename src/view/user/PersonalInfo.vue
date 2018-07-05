@@ -3,6 +3,13 @@
   	
 		<el-form ref="user" :model="user" label-width="100px" style="width: 60%;">
 			
+		  <el-form-item label="头像：">
+				<el-upload class="avatar-uploader" name="photofile" style="float: left;background: white;" :action="uploadUrl" :on-error="error" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+					<img v-if="imageUrl" :src="imageUrl" class="avatar">
+					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+				</el-upload>
+		  </el-form-item>
+		  
 		  <el-form-item label="昵称：">
 		    <el-input v-model="user.nickname"></el-input>
 		  </el-form-item>
@@ -44,6 +51,9 @@
 
 <script>
 	import User from '@/interface/user';
+	import Config from '@/util/config';
+	import { mapState,mapActions} from 'vuex'
+	
 	export default {
 		data() {
 			return {
@@ -75,9 +85,18 @@
 				},
 				birthday:'',
         
+        //头像图片
+				imageUrl: '',
+				//图片上传路径
         //页面控制
 			pickerOptions:'',
 			}
+		},
+		computed:{
+			...mapState(['userId']),
+			uploadUrl:function(){
+				return Config.uploadServerUrl+"?userId="+this.userId;
+			},
 		},
 		methods: {
       alterUserInfo(){
@@ -102,10 +121,66 @@
       callback(res){
       	
       },
+			handleAvatarSuccess(res, file) {
+				if(res.code == '400') {
+					this.$message.error(res.error_msg);
+					this.$router.push('/login');
+					return;
+				}
+				if(res.code == '500') {
+					this.$message.error('上传失败，请稍后再试....');
+					return;
+				}
+				this.$message.success('更换头像成功');
+				this.imageUrl = URL.createObjectURL(file.raw);
+			},
+			error(res,file){
+				console.log(res);
+			},
+			beforeAvatarUpload(file) {
+				const isJPG = file.type === 'image/jpeg';
+				const isLt2M = file.size / 1024 / 1024 < 2;
+				if(!isJPG) {
+					this.$message.error('上传头像图片只能是 JPG 格式!');
+				}
+				if(!isLt2M) {
+					this.$message.error('上传头像图片大小不能超过 2MB!');
+				}
+				return isJPG && isLt2M;
+			},
+      
+		},
+		created(){
+			this.userId=Util.getCookie("userId");
 		},
 	}
 </script>
 
 <style >
-
+	.avatar-uploader .el-upload {
+		border: 1px dashed #d9d9d9;
+		border-radius: 6px;
+		cursor: pointer;
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.avatar-uploader .el-upload:hover {
+		border-color: #409EFF;
+	}
+	
+	.avatar-uploader-icon {
+		font-size: 28px;
+		color: #8c939d;
+		width: 128px;
+		height: 128px;
+		line-height: 128px;
+		text-align: center;
+	}
+	
+	.avatar {
+		width: 128px;
+		height: 128px;
+		display: block;
+	}
 </style>

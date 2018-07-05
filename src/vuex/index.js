@@ -8,9 +8,9 @@ Vue.use(Vuex)
 
 //静态全局数据储存地方
 const state={
+	userId:'',
 	//用户信息
 	userInfo:{
-		userId:'-1',
 		userName:'没有哦',
 	},
 	
@@ -23,7 +23,8 @@ const state={
 	
 	//地图定位
 	
-	
+	//自动登录控制
+	rememberUser:true,
 }
 
 

@@ -9,7 +9,6 @@ import ChangeHeadPhoto from '@/view/user/ChangeHeadPhoto'
 import Chat from '@/view/chat/index'
 
 //测试中
-import test from '@/view/test'
 
 export default [
 	{
@@ -19,7 +18,7 @@ export default [
 	},
 	{
 		path: '/',
-		name: '登录',
+		name: 'login',
 		component: Login
 	},
 	{

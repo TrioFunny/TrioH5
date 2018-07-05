@@ -4,7 +4,6 @@ import Router from 'vue-router'
 
 import Error from '@/view/other/error'
 import NotFound from '@/view/404'
-import test from '@/view/test'
 
 
 
@@ -22,9 +21,9 @@ export default new Router({
 	...Components,
 	...Demo,
     {
-      path: '/test',
+      path: '/demo',
       name: '测试',
-      component: test
+      component: Demo
     },
     {
       path: '/error',

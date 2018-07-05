@@ -72,7 +72,7 @@
 			return {
 				//页面控制
 				isCollapse: false,
-				
+				userId:'',
 			}
 		},
 	components: {
@@ -89,6 +89,9 @@
         console.log(key, keyPath);
       }
 			
+		},
+		created(){
+			this.userId=Util.getCookie("userId");
 		},
 	}
 </script>

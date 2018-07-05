@@ -22,7 +22,14 @@ export default {
     return {
       msg: ''
     }
-  }
+  },
+  methods: {
+  	
+  },
+		created() {
+		},
+		mounted() {
+		},
 }
 </script>
 

@@ -20,17 +20,21 @@
 
 <script>
 	import Common from '@/interface/common'
-	import Tool from '@/util/tool';
+	import Util from '@/util/my/util';
+	import { mapState,mapActions} from 'vuex'
 	
 	export default {
-		name: '登录',
+		name: 'login',
 		data() {
 			return {
 				userName: '',
 				password: '',
 			}
 		},
-		methods: {
+	  	computed:{
+	 	 	...mapState(['rememberUser']),
+	  	},
+	  	methods: {
 			login() {
 				let param = {
 					userName: this.userName,
@@ -38,10 +42,9 @@
 				}
 				Common.login.post(param, this);
 			},
-			loginCallback(res) {
+			loginCallback(res) {//登录成功
 				if(res.code == "200") {
-					//储存在Cookie
-					Tool.setCookie("userId",res.data.userId);
+					//储存在Vuex全局变量中
 					this.$router.push('/user/personalSpace');
 				} else {
 					this.$message.error(res.error_msg);
@@ -52,6 +55,15 @@
 				this.$router.push('/Register');
 			},
 
+		},
+		created() {
+		},
+		mounted() {
+			console.log(Util.getCookie("userId"));
+			//自动登录
+			if(Util.getCookie("userId").length>0&&this.rememberUser){
+				this.$router.push('/user/personalSpace');
+			}
 		},
 	}
 </script>
