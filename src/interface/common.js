@@ -20,8 +20,6 @@ login.post = function(data, view,) {
 	return tool.post(_this.url, data, view, _this.callback);
 }
 login.callback = function(res, view) {
-	//把数据存到cookie中
-	Util.setCookie("userId",res.data.userId,7);
 	view.loginCallback(res);
 }
 Common.login = login;

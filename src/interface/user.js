@@ -10,18 +10,20 @@ const User = {}
 User.url =config.serverUrl;
 
 //请求失败
-let error=base.error;
+let error=function(view,title){
+	base.error(view,title);
+}
 
 /**
  * 获取用户信息
  */
 const getUserInfo = {};
 getUserInfo.title = '获取用户信息';
-getUserInfo.url = User.url + '/user/getUserInfo1'
+getUserInfo.url = User.url + '/user/getUserInfo'
 getUserInfo.post = function (data, view) {
   let _this = this;
   base.ready(this.url,data,view,this.title)
-  return tool.post(_this.url, data, view, _this.success,error(view,_this.title));
+  return tool.post(_this.url, data, view, _this.success,error,_this.title);
 }
 getUserInfo.success = function (res, view) {
 	base.success(res, view,getUserInfo.title)

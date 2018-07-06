@@ -11,8 +11,9 @@ Tool.ajax = function (mySetting) {
             data: {}, //发给服务器的数据
             dataType: 'json',
             view:'',
+            title:'',
             success: function (text,view) { }, //请求成功执行方法
-            error: function (view) { } //请求失败执行方法
+            error: function (view,title) { } //请求失败执行方法
         };
 
 
@@ -67,11 +68,9 @@ Tool.ajax = function (mySetting) {
             }
 
             if (xhr.status == 200) {
-            	console.log("操作成功");
                 setting.success(response,setting.view, setting, xhr);
             } else {
-            	console.log("操作失败");
-                setting.error(setting.view,setting, xhr);
+                setting.error(setting.view,setting.title,setting, xhr);
             }
         }
     }
@@ -100,12 +99,13 @@ Tool.ajax = function (mySetting) {
  * @param {function} success  请求成功执行方法
  * @param {function} error    请求失败执行方法
  */
-Tool.post = function (pathname, data,view,success,error) {
+Tool.post = function (pathname, data,view,success,error,title) {
     var setting = {
         url: pathname, //默认ajax请求地址
         type: 'POST', //请求的方式
         data: data, //发给服务器的数据
         view:view,
+        title:title,
         success: success || function () { }, //请求成功执行方法
         error: error || function () { } //请求失败执行方法
     };

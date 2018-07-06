@@ -44,12 +44,12 @@
 			},
 			loginCallback(res) {//登录成功
 				if(res.code == "200") {
-					//储存在Vuex全局变量中
+					//把数据存到cookie中
+					Util.setCookie("userId",res.data.userId,7);
 					this.$router.push('/user/personalSpace');
 				} else {
 					this.$message.error(res.error_msg);
 				}
-
 			},
 			regist() {
 				this.$router.push('/Register');

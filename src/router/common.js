@@ -6,7 +6,12 @@ import Login from '@/view/common/Login'
 import Register from '@/view/common/Register'
 import ChangePassword from '@/view/common/changePassword'
 import ChangeHeadPhoto from '@/view/user/ChangeHeadPhoto'
-import Chat from '@/view/chat/index'
+
+
+
+import ChatIndex from '@/view/chat/index'
+import Friends from '@/view/chat/friends'
+import Chat from '@/view/chat/chat'
 
 //测试中
 
@@ -41,9 +46,20 @@ export default [
 		name: '修改头像',
 		component: ChangeHeadPhoto
 	},
+	
     {
       path: '/chat',
       name: '聊天',
-      component: Chat
+      component: ChatIndex
     },
+    {
+      path: '/chat/friends',
+      name: '好友列表',
+      component: Friends
+    },
+     {
+      path: '/chat/chat',
+      name: '聊天主页',
+      component: Chat
+    },  
 ]

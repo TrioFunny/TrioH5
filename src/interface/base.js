@@ -16,13 +16,14 @@ Base.error=function(view,title){
 	console.log('--------------------'+title+'--------------------');
 	view.$loading().close();
 	view.$message.error('加载失败！服务器无响应。');
+//	view.$alert("服务器无响应", '提示')
 }
 
 //成功时执行
 Base.success=function(res, view,title){
 	console.log('--------------------'+title+'--------------------');
 	console.log("成功：")
-	console.log(data);
+	console.log(res);
 	console.log('--------------------'+title+'--------------------');
 	view.$loading().close();
         view.$message({
