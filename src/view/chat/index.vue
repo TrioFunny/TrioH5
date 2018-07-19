@@ -1,127 +1,37 @@
 <template>
 	<div v-if="isShowChat" class="trio-chat-div" id='main' v-drag="greet">
-		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
-		<content>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user left'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span left'>
-					<span class='user-name left'>无事，无趣，无聊</span>
-					<span class="msg left">
-						<span class='msg-content left'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
+		<header id='title'>
+			<span title="好友列表" style="float: left;" class="el-icon-tickets" @click="changeFlag()"></span>聊天
+			<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span>
+		</header>
+		<div style="height: 470px;">
+			<friendsDiv v-if="flag=='friends'"></friendsDiv>
+			<chatDiv v-if="flag=='chat'"></chatDiv>
+		</div>
 
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<p></p>
-			<hr />
-		</content>
-		<footer >
-			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
-			<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
-		</footer>
 	</div>
 </template>
 
 <script>
 	import Tool from '@/util/tool';
-	import io from 'socket.io-client';
-	import { mapState,mapActions} from 'vuex'
+	import friendsDiv from '@/view/chat/friends'
+	import chatDiv from '@/view/chat/chat'
 	
 	export default {
 		name: 'chat',
 		data() {
 			return {
-				msg: '',
-				socket: '',
-				isShowChat: false,
+				isShowChat: true,
+				flag:'chat',//  chat   friends
+				
 			}
 		},
 		  props: ['parent'],
 		computed:{
-			...mapState(['websock']),
 		},
-		//自定义 事件标签
+		components: {
+			friendsDiv,chatDiv,
+		},
 		directives: {
 			drag: {
 				bind: function(el, binding) {
@@ -155,100 +65,23 @@
 			}
 		},
 		methods: {
-			...mapActions(['initChatSocket']),
+			changeFlag(){
+				if(this.flag=='chat'){
+					this.flag='friends';
+				}else{
+					this.flag='chat';
+				}
+				
+			},
 			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
 				this.val = val;
 			},
-			threadPoxi() { // 实际调用的方法
-				//参数
-				const agentData = "mymessage";
-				//若是ws开启状态
-				if(this.websock.readyState === this.websock.OPEN) {
-					this.websocketsend("abcd")
-				}
-				// 若是 正在开启状态，则等待300毫秒
-				else if(this.websock.readyState === this.websock.CONNECTING) {
-					let that = this; //保存当前对象this
-					setTimeout(function() {
-						that.websocketsend(agentData)
-					}, 300);
-				}
-				// 若未开启 ，则等待500毫秒
-				else {
-					this.initWebSocket();
-					let that = this; //保存当前对象this
-					setTimeout(function() {
-						that.websocketsend(agentData)
-					}, 500);
-				}
-			},
-			initWebSocket() { //初始化weosocket
-				if(this.websock==null||this.websock==''){
-					console.log("初始化WebSocket");
-					this.initChatSocket(this.websocketonmessage,this.websocketclose);
-				}else{
-					console.log(this.websock);
-				}
-			},
-			test(){
-				
-				this.websock.onmessage = this.websocketonmessage;
-				this.websock.onclose = this.websocketclose;
-			},
-			websocketonmessage(e) { //数据接收
-				console.log("接收消息：");
-				console.log(e.data);
-				var date = JSON.parse(e.data);
-				if(date.common=='Login'){
-					this.chatLogin(date.data.ssid);
-				}
-			},
-			websocketsend(agentData) { //数据发送
-				this.websock.send(this.msg);
-			},
-			websocketclose(e) { //关闭
-				console.log("connection closed (" + e.code + ")");
-			},
-			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
 			showChat(){//关闭显示
 				if(this.isShowChat){
 					this.isShowChat=false;
 				}else{
 					this.isShowChat=true;
 				}
-			},
-			chatLogin(uuid){//聊天确认登陆
-				let data={
-					uid:this.userId,//用户id
-					uuid:uuid,//服务器返回ID
-				};
-				let info={
-					common:'Login',
-					data:data,
-				};
-				let infoStr=JSON.stringify(info);
-				console.log(infoStr);
-				//最后发送
-				this.websock.send(infoStr);
-			},
-			sendMsg(){//发送消息
-				let data={
-					ssid:'',//唯一标识
-					type:'Single',//
-					message:this.msg,//信息
-					sendTime:new Date(),
-					sendId:this.userId,//发送用户ID
-					toId:'1',//接受用户ID
-				};
-				let info={
-					common:'Message',
-					data:data,
-				};
-				
-				let infoStr=JSON.stringify(info);
-				console.log(infoStr);
-				//最后发送
-				this.websock.send(infoStr);
 			},
 			close(){//关闭聊天显示
 				if(this.isShowChat){
@@ -257,13 +90,11 @@
 					this.isShowChat=true;
 				}
 			},
-		
 		},
 		created() {
 		},
 		mounted() {
 			this.userId=Tool.getCookie('userId');
-			this.initWebSocket()
 		},
 	}
 </script>

@@ -11,7 +11,7 @@ const state={
 	//用户信息
 	userInfo:{
 		userId:'-1',
-		userName:'没有哦',
+		userName:'没有1',
 	},
 	
 	tonken:{

@@ -6,7 +6,11 @@ import Login from '@/view/common/Login'
 import Register from '@/view/common/Register'
 import ChangePassword from '@/view/common/changePassword'
 import ChangeHeadPhoto from '@/view/user/ChangeHeadPhoto'
+
 import Chat from '@/view/chat/index'
+
+import Chat1 from '@/view/chat/chat'
+import Friends from '@/view/chat/friends'
 
 //测试中
 import test from '@/view/test'
@@ -45,6 +49,15 @@ export default [
     {
       path: '/chat',
       name: '聊天',
-      component: Chat
+      component: Chat,
+      children: [
+	    {
+	      path: '/friends',
+	      name: 'Friends',
+	      component: Friends
+	    },
+      ],
+      
     },
+
 ]

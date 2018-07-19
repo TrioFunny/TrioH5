@@ -14,7 +14,7 @@ export default [
    },
    {
       path: '/demo/VuexUse',
-      name: '可以拖动的div',
+      name: 'vuex',
       component: VuexUse
     },
     
