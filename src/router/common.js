@@ -7,13 +7,20 @@ import Register from '@/view/common/Register'
 import ChangePassword from '@/view/common/changePassword'
 import ChangeHeadPhoto from '@/view/user/ChangeHeadPhoto'
 
+<<<<<<< HEAD
 import Chat from '@/view/chat/index'
+=======
+
+
+import ChatIndex from '@/view/chat/index'
+import Friends from '@/view/chat/friends'
+import Chat from '@/view/chat/chat'
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 
 import Chat1 from '@/view/chat/chat'
 import Friends from '@/view/chat/friends'
 
 //测试中
-import test from '@/view/test'
 
 export default [
 	{
@@ -23,7 +30,7 @@ export default [
 	},
 	{
 		path: '/',
-		name: '登录',
+		name: 'login',
 		component: Login
 	},
 	{
@@ -46,9 +53,11 @@ export default [
 		name: '修改头像',
 		component: ChangeHeadPhoto
 	},
+	
     {
       path: '/chat',
       name: '聊天',
+<<<<<<< HEAD
       component: Chat,
       children: [
 	    {
@@ -60,4 +69,18 @@ export default [
       
     },
 
+=======
+      component: ChatIndex
+    },
+    {
+      path: '/chat/friends',
+      name: '好友列表',
+      component: Friends
+    },
+     {
+      path: '/chat/chat',
+      name: '聊天主页',
+      component: Chat
+    },  
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 ]

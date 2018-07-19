@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
 	<!--<div style="margin-top: 30px;overflow-y: scroll;height: 460px;">-->
 		<content>
 		<el-collapse >
@@ -55,3 +56,30 @@
 	    background-color: #eee;
 	}
 </style>
+=======
+  <div class="chat">
+  
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'chat',
+  data () {
+    return {
+      msg: ''
+    }
+  },
+  methods: {
+  	
+  },
+		created() {
+		},
+		mounted() {
+		},
+}
+</script>
+
+<style>
+</style>
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7

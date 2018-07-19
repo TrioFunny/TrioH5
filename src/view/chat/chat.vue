@@ -1,5 +1,10 @@
 <template>
+<<<<<<< HEAD
 	<div v-drag="greet">
+=======
+	<div>
+		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 		<content>
 			<div class="msg-item">
 				<!--头像-->
@@ -103,22 +108,33 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
 	import { mapState,mapActions} from 'vuex'
 	
+=======
+	import io from 'socket.io-client';
+	import { mapState,mapActions} from 'vuex'
+	import Util from '@/util/my/util';
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 	export default {
 		name: 'chat',
 		data() {
 			return {
 				msg: '',
 				socket: '',
+<<<<<<< HEAD
+=======
+				isShowChat: false,
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 			}
 		},
 		  props: ['parent'],
 		computed:{
 			...mapState(['websock']),
 		},
+<<<<<<< HEAD
 		//自定义 事件标签
 		directives: {
 			drag: {
@@ -152,6 +168,8 @@
 				}
 			}
 		},
+=======
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 		methods: {
 			...mapActions(['initChatSocket']),
 			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
@@ -185,6 +203,7 @@
 					console.log("初始化WebSocket");
 					this.initChatSocket(this.websocketonmessage,this.websocketclose);
 				}else{
+<<<<<<< HEAD
 					console.log(this.websock);
 				}
 			},
@@ -196,6 +215,14 @@
 			websocketonmessage(e) { //数据接收
 				console.log("接收消息：");
 				console.log(e.data);
+=======
+//					console.log(this.websock);
+				}
+			},
+			websocketonmessage(e) { //数据接收
+//				console.log("接收消息：");
+//				console.log(e.data);
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 				var date = JSON.parse(e.data);
 				if(date.common=='Login'){
 					this.chatLogin(date.data.ssid);
@@ -205,10 +232,16 @@
 				this.websock.send(this.msg);
 			},
 			websocketclose(e) { //关闭
+<<<<<<< HEAD
 				console.log("connection closed (" + e.code + ")");
 			},
 			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
 
+=======
+				console.log("Sicket断开连接：(" + e.code + ")");
+			},
+			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 			chatLogin(uuid){//聊天确认登陆
 				let data={
 					uid:this.userId,//用户id
@@ -219,7 +252,10 @@
 					data:data,
 				};
 				let infoStr=JSON.stringify(info);
+<<<<<<< HEAD
 				console.log(infoStr);
+=======
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 				//最后发送
 				this.websock.send(infoStr);
 			},
@@ -238,6 +274,7 @@
 				};
 				
 				let infoStr=JSON.stringify(info);
+<<<<<<< HEAD
 				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
@@ -248,12 +285,32 @@
 		},
 		mounted() {
 			this.userId=Tool.getCookie('userId');
+=======
+				//最后发送
+				this.websock.send(infoStr);
+			},
+			close(){//关闭聊天显示
+				if(this.isShowChat){
+					this.isShowChat=false;
+				}else{
+					this.isShowChat=true;
+				}
+			},
+		
+		},
+		created(){
+			this.userId=Util.getCookie("userId");
+		},
+		mounted() {
+			this.userId=Util.getCookie("userId");
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 			this.initWebSocket()
 		},
 	}
 </script>
 
 <style>
+<<<<<<< HEAD
 	.trio-i {
 		font-size: 20px;
 		border: solid 1px white;
@@ -261,6 +318,8 @@
 		border-radius: 5px;
 	}
 	
+=======
+>>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 	/*聊天框*/
 	.trio-chat-div {
 		position: absolute;

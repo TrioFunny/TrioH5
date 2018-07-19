@@ -1,50 +1,39 @@
 const Base= {};
 
-Base.log=function(data,title){
+//请求前
+Base.ready=function(url,data,view,title){
+	view.$loading({text: '加载中..'});
 	console.log('--------------------'+title+'--------------------');
-	let msg=JSON.stringify(data);
-	console.log('data:'+msg);
-	console.log('--------------------'+title+'--------------------');
-}
-
-Base.request_log=function(data,url,title){
-	console.log('--------------------'+title+'--------------------');
-	let msg=JSON.stringify(data);
-	console.log('data:'+msg);
 	console.log('url:'+url);
+	console.log(data);
 	console.log('--------------------'+title+'--------------------');
 }
 
-Base.response_log=function(data,title){
+//失败时执行
+Base.error=function(view,title){
 	console.log('--------------------'+title+'--------------------');
-	let msg=JSON.stringify(data);
-	console.log('data:'+msg);
+	console.log("失败：")
 	console.log('--------------------'+title+'--------------------');
+	view.$loading().close();
+	view.$message.error('加载失败！服务器无响应。');
+//	view.$alert("服务器无响应", '提示')
+}
+
+//成功时执行
+Base.success=function(res, view,title){
+	console.log('--------------------'+title+'--------------------');
+	console.log("成功：")
+	console.log(res);
+	console.log('--------------------'+title+'--------------------');
+	view.$loading().close();
+        view.$message({
+          message: '操作成功',
+          type: 'success'
+        });
 }
 
 
-
-
-
-Base.Init=function(data,url,title,view){
-	//加密
-	
-	//调试日志
-	Base.request_log(data,url,title,);
-}
-
-
-Base.Success==function(data,url,title,view){
-	//调试日志
-	Base.request_log(data,url,title,);
-}
-Base.Error==function(data,url,title,view){
-	//调试日志
-	Base.request_log(data,url,title,);
-}
-
-
-
+//加密
 Base.encrypt=function(){
 	function Zero(){
 		

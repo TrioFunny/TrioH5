@@ -24,7 +24,7 @@
 				</el-row>
 			</el-header>
 			<!--脸部 -->
-			<el-header style="height: 200px;width: 100%;position: relative;">
+			<el-header v-if="false" style="height: 200px;width: 100%;position: relative;">
 				<el-upload class="avatar-uploader" name="photofile" style="float: left;background: white; margin-top: 1rem; margin-left: -1.3rem;" action="http://127.0.0.1:8080/user/postImage?userId=2a9650307d2f44398a3474a3245fd861" :on-error="error" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
 					<img v-if="imageUrl" :src="imageUrl" class="avatar">
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -99,8 +99,9 @@
 	import headerDiv from '@/components/header';
 	import CalendarMonth from '@/components/calendar/month';
 	import Common from '@/interface/common'
+	import { mapState,mapActions} from 'vuex'
 	import User from '@/interface/user';
-	import Tool from '@/util/tool';
+	import Util from '@/util/my/util';
 	
 	export default {
 		data() {
@@ -114,19 +115,18 @@
 					'/static/img/dota/timg3.jpg',
 					'/static/img/dota/timg4.jpg',
 					'/static/img/dota/timg5.jpg',
-					'/static/img/dota/timg6.jpg',
-					'/static/img/dota/timg7.jpg',
-					'/static/img/dota/timg8.jpg',
 				],
 				action:window.url+"user/postImage?userId=2a9650307d2f44398a3474a3245fd861",
-				 user:'',
-				 userId:'',
-
+				user:'',
+				userId:'',
 			}
 		},
 		components: {
 			headerDiv,
 			CalendarMonth,
+		},
+		computed:{
+			
 		},
 		methods: {
 			handleClick(tab, event) {
@@ -136,7 +136,7 @@
 	      		let param={
 	      			userId:this.userId,
 	      		};
-	      		User.getUserInfo.Post(param,this);
+	      		User.getUserInfo.post(param,this);
 	     	 },
 		     userInfoCallback(res){
 		     	if(res.code='200'){
@@ -174,43 +174,16 @@
 			},
 		},
 		created(){
-			//获取登录状态
-			this.userId=Tool.getCookie("userId");
+			this.userId=Util.getCookie("userId");
 		},
 		mounted() {
+			console.log(this.userId)
 			this.getUserInfo();
 		},
 	}
 </script>
 
 <style>
-	.avatar-uploader .el-upload {
-		border: 1px dashed #d9d9d9;
-		border-radius: 6px;
-		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-	}
-	
-	.avatar-uploader .el-upload:hover {
-		border-color: #409EFF;
-	}
-	
-	.avatar-uploader-icon {
-		font-size: 28px;
-		color: #8c939d;
-		width: 178px;
-		height: 178px;
-		line-height: 178px;
-		text-align: center;
-	}
-	
-	.avatar {
-		width: 178px;
-		height: 178px;
-		display: block;
-	}
-	
 	.trio-user-name {
 		font-family: Microsoft YaHei;
 		color: white;

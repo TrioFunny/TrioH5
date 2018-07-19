@@ -1,46 +1,33 @@
 const Utils = {};
 
-
-
 /**
- * 储存Cookie的方法			
+ * 储存Cookie的方法			名称(可读)<默认值>
  * @param {Object} name		cookie名称(可读取)
  * @param {Object} value	cookie值(可读取)
- * @param {Object} hours	有效期(不可读)<session>小时
+ * @param {Object} hours	有效期(不可读)<session>
+ * @param {Object} path		存储路径(不可读)<当前路径>
+ * @param {Object} domain	储存域(不可读)<当前域>
+ * @param {Object} secure	安全性(不可读)<false>
  */
-Utils.SetCookie= function(key, value, days) {
+Utils.setCookie= function(name,value,hours,path,domain,secure){
 	var cdata = name + "=" + value;
-	var date = new Date();
-	if(days) {
-		date.setDay(date.getDay()+days);
-		cdata += "; expires=" + d.toGMTString();
-	}
-	document.cookie = cdata;
+	if(hours){
+		var d = new Date();
+		d.setHours(d.getHours() + hours);
+        cdata += "; expires=" + d.toGMTString();
+    }
+    cdata +=path ? ("; path=" + path) : "" ;
+    cdata +=domain ? ("; domain=" + domain) : "" ;
+    cdata +=secure ? ("; secure=" + secure) : "" ;
+    document.cookie = cdata;
 };
-/**
- * 获取Cookie对应key的 值
- * @param {Object} name 对应的Key值
- */
-Utils.GetCookie = function(key) {
-  var name = key + "=";
-  var ca = document.cookie.split(';');
-  for(var i=0; i<ca.length; i++) 
-  {
-    var c = ca[i].trim();
-    if (c.indexOf(name)==0) 
-    return c.substring(name.length,c.length);
-  }
-  return "";
+Utils.getCookie=function(name){
+    var reg = eval("/(?:^|;\\s*)" + name + "=([^=]+)(?:;|$)/"); 
+    return reg.test(document.cookie) ? RegExp.$1 : "";
 };
-/**
- * 情况Cookie数据
- * @param {Object} name
- */
-Utils.RemoveCookie = function(key) {
-	this.setCookie(name,"",-1);
+ Utils.removeCookie=function(name){
+    this.setCookie(name,"",0);
 };
-
-
 
 
 

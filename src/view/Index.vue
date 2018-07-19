@@ -29,7 +29,6 @@
 		        <!--<el-button	size="mini"	type="danger"	@click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
 		      </template>
 		    </el-table-column>
-		    
 		  </el-table>
 	</div>
 </template>
@@ -51,7 +50,6 @@
 				{name:'修改头像',src:'/user/ChangeHeadPhoto',title:"ChangeHeadPhoto",msg:'修改头像'},
 				{name:'聊天',src:'/chat',title:"Chat",msg:'聊天'},
 				],
-				
 			}
 		},
 		methods: {
@@ -66,7 +64,7 @@
       handleDelete(index, row) {
         console.log(row);
         console.log(index);
-      }
+      },
 
 		},
 
