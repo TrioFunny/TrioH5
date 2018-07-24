@@ -1,6 +1,5 @@
 <template>
 	<div v-if="isShowChat" class="trio-chat-div" id='main' v-drag="greet">
-<<<<<<< HEAD
 		<header id='title'>
 			<span title="好友列表" style="float: left;" class="el-icon-tickets" @click="changeFlag()"></span>聊天
 			<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span>
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-	import Tool from '@/util/tool';
+	import Utils from '@/util/my/util';
 	import friendsDiv from '@/view/chat/friends'
 	import chatDiv from '@/view/chat/chat'
 	
@@ -29,30 +28,11 @@
 		},
 		  props: ['parent'],
 		computed:{
+			
 		},
 		components: {
 			friendsDiv,chatDiv,
 		},
-=======
-		<Chat></Chat>
-  </div>
-</template>
-
-<script>
-	import Chat from '@/view/chat/chat';
-export default {
-  name: 'friend',
-  data () {
-    return {
-    	isShowChat: false,
-    }
-  },
- 	props: ['parent'],
-	components: {
-		Chat,
-	},
-		//自定义 事件标签
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 		directives: {
 			drag: {
 				bind: function(el, binding) {
@@ -85,7 +65,6 @@ export default {
 				}
 			}
 		},
-<<<<<<< HEAD
 		methods: {
 			changeFlag(){
 				if(this.flag=='chat'){
@@ -98,9 +77,6 @@ export default {
 			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
 				this.val = val;
 			},
-=======
-  methods: {
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 			showChat(){//关闭显示
 				if(this.isShowChat){
 					this.isShowChat=false;
@@ -108,7 +84,6 @@ export default {
 					this.isShowChat=true;
 				}
 			},
-<<<<<<< HEAD
 			close(){//关闭聊天显示
 				if(this.isShowChat){
 					this.isShowChat=false;
@@ -118,15 +93,10 @@ export default {
 			},
 		},
 		created() {
+			
 		},
 		mounted() {
-			this.userId=Tool.getCookie('userId');
-=======
-  },
-		created() {
-		},
-		mounted() {
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
+			this.userId=Utils.getCookie('userId');
 		},
 }
 </script>
