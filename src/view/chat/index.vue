@@ -21,7 +21,7 @@
 		name: 'chat',
 		data() {
 			return {
-				isShowChat: true,
+				isShowChat: false,
 				flag:'chat',//  chat   friends
 				
 			}

@@ -1,5 +1,4 @@
 <template>
-	<!--<div style="margin-top: 30px;overflow-y: scroll;height: 460px;">-->
 		<content>
 		<el-collapse >
 		  <el-collapse-item v-for="(item,index) in grouping" :title="item" :name="index">
@@ -9,7 +8,6 @@
 		</el-collapse>
 		<button @click="add()">添加朋友</button>
 		</content>
-	<!--</div>-->
 </template>
 
 <script>

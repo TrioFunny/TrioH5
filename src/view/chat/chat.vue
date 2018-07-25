@@ -1,97 +1,24 @@
 <template>
 	<div v-drag="greet">
 		<content>
-			<div class="msg-item">
+			
+			<div class="msg-item" v-for="item in info">
 				<!--头像-->
-				<span class='user left'>
+				<span :class="item.sender=='1'?'user left':'user right'">
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
 				<!--名字/信息-->
-				<span class='msg-span left'>
-					<span class='user-name left'>无事，无趣，无聊</span>
-					<span class="msg left">
-						<span class='msg-content left'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+				<span :class="item.sender=='1'?'msg-span left':'msg-span right'">
+					<span :class="item.sender=='1'?'user-name left':'user-name right'">无事，无趣，无聊</span>
+					<span :class="item.sender=='1'?'msg left':'msg right'">
+						<span :class="item.sender=='1'?'msg-content left':'msg-content right'">
+							{{item.msg}}
 						</span>
 					</span>
 				</span>
 			</div>
-
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-				</span>
-			</div>
+			
+			
 			<p></p>
 			<hr />
 		</content>
@@ -114,6 +41,24 @@
 				msg: '',
 				socket: '',
 				isShowChat: false,
+				
+				myInfo:{
+					name:'无事，无趣，无聊',
+					img:'../../assets/portrait.jpg',
+				},
+				otherInfo:{
+					name:'冬月茉莉',
+					img:'../../assets/portrait.jpg',
+				},
+				info:[
+				{sender:'1',msg:'你好！'},
+				{sender:'2',msg:'好啊！'},
+				{sender:'1',msg:'你叫什么名字！'},
+				{sender:'1',msg:'今年多大！'},
+				{sender:'2',msg:'24岁'},
+				{sender:'1',msg:'老人家'},
+				],
+				
 			}
 		},
 		  props: ['parent'],
@@ -400,15 +345,15 @@
 		padding-left: 10px;
 	}
 	.msg-item .msg-span .msg.left{
-		width: 100%;height: 100%;
+		width: 100%;height: 100%;float: left;
 	}
 	.msg-item .msg-span .msg.right{
-		width: 100%;height: 100%;
+		width: 100%;height: 100%;float: right;
 	}
 	
 	.msg-item .msg-span .msg-content {
 		display: inline-block;
-		width: 220px;
+		max-width: 220px;
 		margin:3px 0px;
 		padding: 8px;
 		font-size: 15px;
@@ -420,7 +365,7 @@
 
 	.msg-item .msg-span .msg-content.left {
 		display: inline-block;
-		width: 220px;
+		max-width: 220px;
 		margin:3px 0px;
 		padding: 8px;
 		font-size: 15px;
@@ -431,8 +376,11 @@
 	}
 	.msg-item .msg-span .msg-content.right {
 		display: inline-block;
-		width: 220px;
-		margin:3px 0px;
+		float: right;
+		margin-right:12px;
+		margin-top:3px;
+		margin-bottom:3px ;
+		max-width: 220px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -454,7 +402,7 @@
 		position: absolute;
 		content: "";
 		right: 0px;
-		top: 29px;
+		top: 8px;
 		border-top: 8px solid transparent;
 		border-bottom: 15px solid transparent;
 		border-left: 15px solid lightskyblue;
