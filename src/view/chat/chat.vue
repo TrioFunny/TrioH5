@@ -1,140 +1,129 @@
 <template>
-<<<<<<< HEAD
 	<div v-drag="greet">
-=======
-	<div>
-		<header id='title'><span title="好友列表" style="float: left;" class="el-icon-tickets"></span>聊天<span @click="close()" title="关闭" style="float: right;" class="el-icon-circle-close-outline"></span></header>
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
-		<content>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user left'>
+
+		<div>
+			
+			<content>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user left'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span left'>
+					<!--名字/信息-->
+					<span class='msg-span left'>
 					<span class='user-name left'>无事，无趣，无聊</span>
 					<span class="msg left">
 						<span class='msg-content left'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
+					</span>
+				</div>
 
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user right'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
+					<!--名字/信息-->
+					<span class='msg-span right'>
 					<span class='user-name right'>无事，无趣，无聊</span>
 					<span class="msg right">
 						<span class='msg-content right'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
+					</span>
+				</div>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user right'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
+					<!--名字/信息-->
+					<span class='msg-span right'>
 					<span class='user-name right'>无事，无趣，无聊</span>
 					<span class="msg right">
 						<span class='msg-content right'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
+					</span>
+				</div>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user right'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
+					<!--名字/信息-->
+					<span class='msg-span right'>
 					<span class='user-name right'>无事，无趣，无聊</span>
 					<span class="msg right">
 						<span class='msg-content right'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
+					</span>
+				</div>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user right'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
+					<!--名字/信息-->
+					<span class='msg-span right'>
 					<span class='user-name right'>无事，无趣，无聊</span>
 					<span class="msg right">
 						<span class='msg-content right'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
-			<div class="msg-item">
-				<!--头像-->
-				<span class='user right'>
+					</span>
+				</div>
+				<div class="msg-item">
+					<!--头像-->
+					<span class='user right'>
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-				<!--名字/信息-->
-				<span class='msg-span right'>
+					<!--名字/信息-->
+					<span class='msg-span right'>
 					<span class='user-name right'>无事，无趣，无聊</span>
 					<span class="msg right">
 						<span class='msg-content right'>
 							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
 						</span>
 					</span>
-				</span>
-			</div>
-			<p></p>
-			<hr />
-		</content>
-		<footer >
-			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
-			<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
-		</footer>
+					</span>
+				</div>
+				<p></p>
+				<hr />
+			</content>
+			<footer>
+				<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
+				<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
+			</footer>
+		</div>
 	</div>
 </template>
 
 <script>
-<<<<<<< HEAD
 	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
-	import { mapState,mapActions} from 'vuex'
-	
-=======
-	import io from 'socket.io-client';
-	import { mapState,mapActions} from 'vuex'
+	import { mapState, mapActions } from 'vuex'
 	import Util from '@/util/my/util';
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 	export default {
 		name: 'chat',
 		data() {
 			return {
 				msg: '',
 				socket: '',
-<<<<<<< HEAD
-=======
 				isShowChat: false,
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 			}
 		},
-		  props: ['parent'],
-		computed:{
+		//props: ['parent'],
+		computed: {
 			...mapState(['websock']),
 		},
-<<<<<<< HEAD
 		//自定义 事件标签
 		directives: {
 			drag: {
@@ -168,11 +157,9 @@
 				}
 			}
 		},
-=======
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 		methods: {
 			...mapActions(['initChatSocket']),
-			greet(val) {//接受传来的位置数据，并将数据绑定给data下的val
+			greet(val) { //接受传来的位置数据，并将数据绑定给data下的val
 				this.val = val;
 			},
 			threadPoxi() { // 实际调用的方法
@@ -199,32 +186,27 @@
 				}
 			},
 			initWebSocket() { //初始化weosocket
-				if(this.websock==null||this.websock==''){
+				if(this.websock == null || this.websock == '') {
 					console.log("初始化WebSocket");
-					this.initChatSocket(this.websocketonmessage,this.websocketclose);
-				}else{
-<<<<<<< HEAD
+					this.initChatSocket(this.websocketonmessage, this.websocketclose);
+				} else {
 					console.log(this.websock);
 				}
 			},
-			test(){
-				
+			test() {
+
 				this.websock.onmessage = this.websocketonmessage;
 				this.websock.onclose = this.websocketclose;
 			},
 			websocketonmessage(e) { //数据接收
 				console.log("接收消息：");
-				console.log(e.data);
-=======
-//					console.log(this.websock);
-				}
+				//					console.log(this.websock);
 			},
 			websocketonmessage(e) { //数据接收
-//				console.log("接收消息：");
-//				console.log(e.data);
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
+				//				console.log("接收消息：");
+				//				console.log(e.data);
 				var date = JSON.parse(e.data);
-				if(date.common=='Login'){
+				if(date.common == 'Login') {
 					this.chatLogin(date.data.ssid);
 				}
 			},
@@ -232,95 +214,71 @@
 				this.websock.send(this.msg);
 			},
 			websocketclose(e) { //关闭
-<<<<<<< HEAD
 				console.log("connection closed (" + e.code + ")");
 			},
-			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
+			chatLogin(uuid) { //聊天确认登陆
+				let data = {
+					uid: this.userId, //用户id
+					uuid: uuid, //服务器返回ID
+				};
+				let info = {
+					common: 'Login',
+					data: data,
+				};
+				let infoStr = JSON.stringify(info);
+				console.log(infoStr);
+				//最后发送
+				this.websock.send(infoStr);
+			},
+			sendMsg() { //发送消息
+				let data = {
+					ssid: '', //唯一标识
+					type: 'Single', //
+					message: this.msg, //信息
+					sendTime: new Date(),
+					sendId: this.userId, //发送用户ID
+					toId: '1', //接受用户ID
+				};
+				let info = {
+					common: 'Message',
+					data: data,
+				};
 
-=======
-				console.log("Sicket断开连接：(" + e.code + ")");
-			},
-			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
-			chatLogin(uuid){//聊天确认登陆
-				let data={
-					uid:this.userId,//用户id
-					uuid:uuid,//服务器返回ID
-				};
-				let info={
-					common:'Login',
-					data:data,
-				};
-				let infoStr=JSON.stringify(info);
-<<<<<<< HEAD
-				console.log(infoStr);
-=======
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
-				//最后发送
-				this.websock.send(infoStr);
-			},
-			sendMsg(){//发送消息
-				let data={
-					ssid:'',//唯一标识
-					type:'Single',//
-					message:this.msg,//信息
-					sendTime:new Date(),
-					sendId:this.userId,//发送用户ID
-					toId:'1',//接受用户ID
-				};
-				let info={
-					common:'Message',
-					data:data,
-				};
-				
-				let infoStr=JSON.stringify(info);
-<<<<<<< HEAD
+				let infoStr = JSON.stringify(info);
 				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
 			},
-		
+			close() { //关闭聊天显示
+				if(this.isShowChat) {
+					this.isShowChat = false;
+				} else {
+					this.isShowChat = true;
+					}
+			}
 		},
-		created() {
-		},
+		created() {},
 		mounted() {
-			this.userId=Tool.getCookie('userId');
-=======
-				//最后发送
-				this.websock.send(infoStr);
-			},
-			close(){//关闭聊天显示
-				if(this.isShowChat){
-					this.isShowChat=false;
-				}else{
-					this.isShowChat=true;
-				}
-			},
-		
-		},
-		created(){
-			this.userId=Util.getCookie("userId");
-		},
-		mounted() {
-			this.userId=Util.getCookie("userId");
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
-			this.initWebSocket()
-		},
+			this.userId = Tool.getCookie('userId');
+			//最后发送
+			this.websock.send(infoStr);
+		}
+		//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
+		//		console.log("Sicket断开连接：(" + e.code + ")");
+		//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
+
 	}
 </script>
 
 <style>
-<<<<<<< HEAD
 	.trio-i {
 		font-size: 20px;
 		border: solid 1px white;
 		padding: 5px;
 		border-radius: 5px;
 	}
-	
-=======
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
 	/*聊天框*/
+	
 	.trio-chat-div {
 		position: absolute;
 		background-color: white;
@@ -333,24 +291,26 @@
 		border-radius: 8px;
 		box-shadow: 0px 0px 20px gold;
 	}
-	
 	/*聊天框-头部信息*/
+	
 	.trio-chat-div header {
 		float: right;
 		width: 100%;
 		height: 30px;
-		text-align:center;
+		text-align: center;
 		background-color: #409EFF;
 		line-height: 30px;
 		border-radius: 5px;
 		color: whitesmoke;
 	}
-	.trio-chat-div header span{
-		line-height: 30px;font-size: 20px;
-		padding:0px 5px;
+	
+	.trio-chat-div header span {
+		line-height: 30px;
+		font-size: 20px;
+		padding: 0px 5px;
 	}
-
 	/*聊天框-主体显示*/
+	
 	.trio-chat-div content {
 		float: right;
 		width: 100%;
@@ -360,18 +320,22 @@
 		/*margin-right: -15px;*/
 	}
 	/*滚动条*/
+	
 	content::-webkit-scrollbar {
-	    width: 0px;
+		width: 0px;
 	}
-	content::-webkit-scrollbar-thumb{
-	    border-radius: 5px;
-	    background: cornflowerblue;
+	
+	content::-webkit-scrollbar-thumb {
+		border-radius: 5px;
+		background: cornflowerblue;
 	}
+	
 	content::-webkit-scrollbar-track {
-	    border-radius: 5px;
-	    background-color: #eee;
+		border-radius: 5px;
+		background-color: #eee;
 	}
 	/*聊天框-脚部发送*/
+	
 	.trio-chat-div footer {
 		float: right;
 		height: 50px;
@@ -379,30 +343,31 @@
 		border-top: solid darkgray 1px;
 		padding-top: 1px;
 	}
-	
-	
 	/*聊天框-信息条目*/
+	
 	.trio-chat-div .msg-item {
 		width: 100%;
 		float: left;
 		padding-top: 10px;
 		/*background: #088cb7;*/
 	}
-	
 	/*聊天框-信息条目  头像框*/
+	
 	.msg-item .user {
 		float: inherit;
 		width: 50px;
 		padding: 3px;
 	}
-	.msg-item .user.left{
+	
+	.msg-item .user.left {
 		float: left;
 	}
-	.msg-item .user.right{
+	
+	.msg-item .user.right {
 		float: right;
 	}
-	
 	/*聊天框-信息条目  头像 图片*/
+	
 	.msg-item .user img {
 		/**/
 		border-radius: 50%;
@@ -410,14 +375,16 @@
 		width: 45px;
 		height: 45px;
 	}
+	
 	.msg-item .user.left img {
 		float: left;
 	}
+	
 	.msg-item .user.right img {
 		float: right;
 	}
-	
 	/*聊天框-信息条目  信息框*/
+	
 	.msg-item .msg-span {
 		width: 240px;
 		display: inline-block;
@@ -427,43 +394,50 @@
 		font-size: 13px;
 		color: gray;
 	}
-	.msg-item .msg-span.left{
+	
+	.msg-item .msg-span.left {
 		float: left;
 	}
-	.msg-item .msg-span.right{
-		float: right;
-	}	
 	
+	.msg-item .msg-span.right {
+		float: right;
+	}
 	/*聊天框-信息条目  用户名*/
+	
 	.msg-item .msg-span .user-name {
-		padding:0px 12px;
+		padding: 0px 12px;
 	}
-	.msg-item .msg-span .user-name.left{
+	
+	.msg-item .msg-span .user-name.left {
 		float: left;
 	}
-	.msg-item .msg-span .user-name.right{
-		float: right;
-	}	
-
 	
+	.msg-item .msg-span .user-name.right {
+		float: right;
+	}
 	/*聊天框-信息条目  内容气泡*/
+	
 	.msg-item .msg-span .msg {
 		position: relative;
 		display: block;
 		color: white;
 		padding-left: 10px;
 	}
-	.msg-item .msg-span .msg.left{
-		width: 100%;height: 100%;
+	
+	.msg-item .msg-span .msg.left {
+		width: 100%;
+		height: 100%;
 	}
-	.msg-item .msg-span .msg.right{
-		width: 100%;height: 100%;
+	
+	.msg-item .msg-span .msg.right {
+		width: 100%;
+		height: 100%;
 	}
 	
 	.msg-item .msg-span .msg-content {
 		display: inline-block;
 		width: 220px;
-		margin:3px 0px;
+		margin: 3px 0px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -471,22 +445,11 @@
 		-webkit-border-radius: 12px;
 		border-radius: 12px;
 	}
-
+	
 	.msg-item .msg-span .msg-content.left {
 		display: inline-block;
 		width: 220px;
-		margin:3px 0px;
-		padding: 8px;
-		font-size: 15px;
-		background-color: lightskyblue;
-		-moz-border-radius: 12px;
-		-webkit-border-radius: 12px;
-		border-radius: 12px;		
-	}
-	.msg-item .msg-span .msg-content.right {
-		display: inline-block;
-		width: 220px;
-		margin:3px 0px;
+		margin: 3px 0px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -494,6 +457,19 @@
 		-webkit-border-radius: 12px;
 		border-radius: 12px;
 	}
+	
+	.msg-item .msg-span .msg-content.right {
+		display: inline-block;
+		width: 220px;
+		margin: 3px 0px;
+		padding: 8px;
+		font-size: 15px;
+		background-color: lightskyblue;
+		-moz-border-radius: 12px;
+		-webkit-border-radius: 12px;
+		border-radius: 12px;
+	}
+	
 	.msg-item .msg-span .msg-content.left:before {
 		position: absolute;
 		left: 0px;
@@ -513,6 +489,4 @@
 		border-bottom: 15px solid transparent;
 		border-left: 15px solid lightskyblue;
 	}
-
-
 </style>

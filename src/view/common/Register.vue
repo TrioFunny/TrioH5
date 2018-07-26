@@ -153,7 +153,7 @@
 			clearInterval(this.Random);
 		},
 		created() {
-			this.changeBackground()
+			this.changeBackground();
 		},
 	}
 </script>

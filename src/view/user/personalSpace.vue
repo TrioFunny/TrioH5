@@ -99,10 +99,10 @@
 	import headerDiv from '@/components/header';
 	import CalendarMonth from '@/components/calendar/month';
 	import Common from '@/interface/common'
-	import { mapState,mapActions} from 'vuex'
+	import { mapState, mapActions } from 'vuex'
 	import User from '@/interface/user';
 	import Util from '@/util/my/util';
-	
+
 	export default {
 		data() {
 			return {
@@ -116,35 +116,35 @@
 					'/static/img/dota/timg4.jpg',
 					'/static/img/dota/timg5.jpg',
 				],
-				action:window.url+"user/postImage?userId=2a9650307d2f44398a3474a3245fd861",
-				user:'',
-				userId:'',
+				action: window.url + "user/postImage?userId=2a9650307d2f44398a3474a3245fd861",
+				user: '',
+				userId: '',
 			}
 		},
 		components: {
 			headerDiv,
 			CalendarMonth,
 		},
-		computed:{
-			
+		computed: {
+
 		},
 		methods: {
 			handleClick(tab, event) {
 				//      console.log(tab, event);
 			},
-	      	getUserInfo(){
-	      		let param={
-	      			userId:this.userId,
-	      		};
-	      		User.getUserInfo.post(param,this);
-	     	 },
-		     userInfoCallback(res){
-		     	if(res.code='200'){
-		      		this.user=res.data;
-		      	}else{
-		      		
-		      	}
-		      },
+			getUserInfo() {
+				let param = {
+					userId: this.userId,
+				};
+				User.getUserInfo.post(param, this);
+			},
+			userInfoCallback(res) {
+				if(res.code = '200') {
+					this.user = res.data;
+				} else {
+
+				}
+			},
 			handleAvatarSuccess(res, file) {
 				if(res.code == '400') {
 					this.$message.error(res.error_msg);
@@ -158,7 +158,7 @@
 				this.$message.success('更换头像成功');
 				this.imageUrl = URL.createObjectURL(file.raw);
 			},
-			error(res,file){
+			error(res, file) {
 				console.log(res);
 			},
 			beforeAvatarUpload(file) {
@@ -172,14 +172,28 @@
 				}
 				return isJPG && isLt2M;
 			},
+			getUserId() {
+				var paramId = this.$route.query.userId;
+				console.log('personal '+paramId);
+				if(paramId === null || paramId === "") {
+					this.userId = Util.getCookie("userId");
+				} else {
+					this.userId = paramId;
+				}
+			}
 		},
-		created(){
-			this.userId=Util.getCookie("userId");
+		created() {
+			this.getUserId();
+
 		},
 		mounted() {
-			console.log(this.userId)
+			this.getUserId();			
 			this.getUserInfo();
 		},
+		watch: {
+			// 监测路由变化,只要变化了就调用获取路由参数方法将数据存储本组件即可
+			'$route': 'getUserId'
+		}
 	}
 </script>
 

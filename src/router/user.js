@@ -15,12 +15,12 @@ import ArticleIndex from '@/view/article/index'
 export default [
    {
       path: '/user/personalSpace',
-      name: '个人空间',
+      name: 'personalSpace',
       component: PersonalSpace
     },
     {
       path: '/user/personalCenter',
-      name: '个人中心',
+      name: 'personalCenter',
       component: PersonalCenter,
 		children: [
             { path: '/Info', component: PersonalInfo, name: '个人信息' }

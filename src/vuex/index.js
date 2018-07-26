@@ -11,12 +11,10 @@ const state={
 	userId:'',
 	//用户信息
 	userInfo:{
-<<<<<<< HEAD
+
 		userId:'-1',
-		userName:'没有1',
-=======
 		userName:'没有哦',
->>>>>>> 11a9f9c68049f22c2e0e310e0eb2139bec7094d7
+
 	},
 	
 	tonken:{

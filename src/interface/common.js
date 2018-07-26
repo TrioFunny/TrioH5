@@ -7,13 +7,12 @@ import config from '@/util/config';
 const Common = {}
 
 //服务器路径
-Common.url =config.serverUrl;
-
+Common.url = config.serverUrl;
 
 //登录
 const login = {}
 login.url = Common.url + "/login/login";
-login.post = function(data, view,) {
+login.post = function(data, view, ) {
 	let _this = this;
 	console.log(data);
 	console.log(_this.url);
@@ -23,7 +22,6 @@ login.callback = function(res, view) {
 	view.loginCallback(res);
 }
 Common.login = login;
-
 
 /**
  * 注册(校验用户名是否重被使用)
@@ -61,5 +59,16 @@ changePassword.callback = function(res, view) {
 }
 Common.changePassword = changePassword;
 
+//增加好友分组
+const friendGroup = {};
+friendGroup.url = Common.url + "/chat/createGroup";
+friendGroup.Post = function(data, view) {
+	let _this = this;
+	return tool.post(_this.url, data, view, _this.callback)
+}
+friendGroup.callback = function(res, view) {
+	view.createGroupCallback(res);
+}
+Common.friendGroup = friendGroup;
 
 export default Common;
