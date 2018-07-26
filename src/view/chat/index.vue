@@ -13,7 +13,7 @@
 </template>
 
 <script>
-	import Tool from '@/util/tool';
+	import Utils from '@/util/my/util';
 	import friendsDiv from '@/view/chat/friends'
 	import chatDiv from '@/view/chat/chat'
 
@@ -64,7 +64,6 @@
 				}
 			}
 		},
-
 		methods: {
 			changeFlag() {
 				if(this.flag == 'chat') {
@@ -92,9 +91,11 @@
 				this.val = val;
 			}
 		},
-		created() {},
+		created() {
+			
+		},
 		mounted() {
-			this.userId = Tool.getCookie('userId');
+			this.userId=Utils.getCookie('userId');
 		},
 	}
 </script>

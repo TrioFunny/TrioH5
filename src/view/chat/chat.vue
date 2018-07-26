@@ -1,115 +1,38 @@
 <template>
 	<div v-drag="greet">
-
-		<div>
+		<content>
 			
-			<content>
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user left'>
+			<div class="msg-item" v-for="(item,index) in info" :key="index">
+				<!--头像-->
+				<span :class="item.sender=='1'?'user left':'user right'">
 					<img  src="../../assets/portrait.jpg"  />
 				</span>
-					<!--名字/信息-->
-					<span class='msg-span left'>
-					<span class='user-name left'>无事，无趣，无聊</span>
-					<span class="msg left">
-						<span class='msg-content left'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
+				<!--名字/信息-->
+				<span :class="item.sender=='1'?'msg-span left':'msg-span right'">
+					<span :class="item.sender=='1'?'user-name left':'user-name right'">无事，无趣，无聊</span>
+					<span :class="item.sender=='1'?'msg left':'msg right'">
+						<span :class="item.sender=='1'?'msg-content left':'msg-content right'">
+							{{item.msg}}
 						</span>
 					</span>
-					</span>
-				</div>
-
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
 				</span>
-					<!--名字/信息-->
-					<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-					</span>
-				</div>
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-					<!--名字/信息-->
-					<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-					</span>
-				</div>
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-					<!--名字/信息-->
-					<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-					</span>
-				</div>
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-					<!--名字/信息-->
-					<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-					</span>
-				</div>
-				<div class="msg-item">
-					<!--头像-->
-					<span class='user right'>
-					<img  src="../../assets/portrait.jpg"  />
-				</span>
-					<!--名字/信息-->
-					<span class='msg-span right'>
-					<span class='user-name right'>无事，无趣，无聊</span>
-					<span class="msg right">
-						<span class='msg-content right'>
-							hello word <br />hello c 娃哈哈  hello c 多C 多漂亮
-						</span>
-					</span>
-					</span>
-				</div>
-				<p></p>
-				<hr />
-			</content>
-			<footer>
-				<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
-				<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
-			</footer>
-		</div>
+			</div>
+			
+			
+			<p></p>
+			<hr />
+		</content>
+		<footer >
+			<el-input v-model="msg" placeholder="" style="width: 78%;float: left;"></el-input>
+			<el-button style="width: 22%;float: left;padding:12px 0px;" type="primary" plain @click="sendMsg()">发送</el-button>
+		</footer>
 	</div>
 </template>
 
 <script>
 	import Tool from '@/util/tool';
 	import io from 'socket.io-client';
-	import { mapState, mapActions } from 'vuex'
+	import { mapState,mapActions} from 'vuex'
 	import Util from '@/util/my/util';
 	export default {
 		name: 'chat',
@@ -118,6 +41,24 @@
 				msg: '',
 				socket: '',
 				isShowChat: false,
+				
+				myInfo:{
+					name:'无事，无趣，无聊',
+					img:'../../assets/portrait.jpg',
+				},
+				otherInfo:{
+					name:'冬月茉莉',
+					img:'../../assets/portrait.jpg',
+				},
+				info:[
+				{sender:'1',msg:'你好！'},
+				{sender:'2',msg:'好啊！'},
+				{sender:'1',msg:'你叫什么名字！'},
+				{sender:'1',msg:'今年多大！'},
+				{sender:'2',msg:'24岁'},
+				{sender:'1',msg:'老人家'},
+				],
+				
 			}
 		},
 		//props: ['parent'],
@@ -188,23 +129,18 @@
 			initWebSocket() { //初始化weosocket
 				if(this.websock == null || this.websock == '') {
 					console.log("初始化WebSocket");
-					this.initChatSocket(this.websocketonmessage, this.websocketclose);
-				} else {
+					this.initChatSocket(this.websocketonmessage,this.websocketclose);
+				}else{
 					console.log(this.websock);
 				}
 			},
-			test() {
-
+			test(){
 				this.websock.onmessage = this.websocketonmessage;
 				this.websock.onclose = this.websocketclose;
 			},
 			websocketonmessage(e) { //数据接收
-				console.log("接收消息：");
-				//					console.log(this.websock);
-			},
-			websocketonmessage(e) { //数据接收
-				//				console.log("接收消息：");
-				//				console.log(e.data);
+//				console.log("接收消息：");
+//				console.log(e.data);
 				var date = JSON.parse(e.data);
 				if(date.common == 'Login') {
 					this.chatLogin(date.data.ssid);
@@ -216,16 +152,17 @@
 			websocketclose(e) { //关闭
 				console.log("connection closed (" + e.code + ")");
 			},
-			chatLogin(uuid) { //聊天确认登陆
-				let data = {
-					uid: this.userId, //用户id
-					uuid: uuid, //服务器返回ID
+			//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
+			chatLogin(uuid){//聊天确认登陆
+				let data={
+					uid:this.userId,//用户id
+					uuid:uuid,//服务器返回ID
 				};
 				let info = {
 					common: 'Login',
 					data: data,
 				};
-				let infoStr = JSON.stringify(info);
+				let infoStr=JSON.stringify(info);
 				console.log(infoStr);
 				//最后发送
 				this.websock.send(infoStr);
@@ -243,30 +180,28 @@
 					common: 'Message',
 					data: data,
 				};
-
-				let infoStr = JSON.stringify(info);
-				console.log(infoStr);
+				
+				let infoStr=JSON.stringify(info);
 				//最后发送
 				this.websock.send(infoStr);
 			},
-			close() { //关闭聊天显示
-				if(this.isShowChat) {
-					this.isShowChat = false;
-				} else {
-					this.isShowChat = true;
-					}
-			}
+			close(){//关闭聊天显示
+				if(this.isShowChat){
+					this.isShowChat=false;
+				}else{
+					this.isShowChat=true;
+				}
+			},
+		
+		},
+		created(){
+			this.userId=Util.getCookie("userId");
 		},
 		created() {},
 		mounted() {
-			this.userId = Tool.getCookie('userId');
-			//最后发送
-			this.websock.send(infoStr);
-		}
-		//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
-		//		console.log("Sicket断开连接：(" + e.code + ")");
-		//////////////////////////////////////////////上面是socket方法//////////////////////////////////////////////////
-
+			this.userId=Util.getCookie("userId");
+			this.initWebSocket()
+		},
 	}
 </script>
 
@@ -423,21 +358,17 @@
 		color: white;
 		padding-left: 10px;
 	}
-	
-	.msg-item .msg-span .msg.left {
-		width: 100%;
-		height: 100%;
+	.msg-item .msg-span .msg.left{
+		width: 100%;height: 100%;float: left;
 	}
-	
-	.msg-item .msg-span .msg.right {
-		width: 100%;
-		height: 100%;
+	.msg-item .msg-span .msg.right{
+		width: 100%;height: 100%;float: right;
 	}
 	
 	.msg-item .msg-span .msg-content {
 		display: inline-block;
-		width: 220px;
-		margin: 3px 0px;
+		max-width: 220px;
+		margin:3px 0px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -448,8 +379,8 @@
 	
 	.msg-item .msg-span .msg-content.left {
 		display: inline-block;
-		width: 220px;
-		margin: 3px 0px;
+		max-width: 220px;
+		margin:3px 0px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -460,8 +391,11 @@
 	
 	.msg-item .msg-span .msg-content.right {
 		display: inline-block;
-		width: 220px;
-		margin: 3px 0px;
+		float: right;
+		margin-right:12px;
+		margin-top:3px;
+		margin-bottom:3px ;
+		max-width: 220px;
 		padding: 8px;
 		font-size: 15px;
 		background-color: lightskyblue;
@@ -484,7 +418,7 @@
 		position: absolute;
 		content: "";
 		right: 0px;
-		top: 29px;
+		top: 8px;
 		border-top: 8px solid transparent;
 		border-bottom: 15px solid transparent;
 		border-left: 15px solid lightskyblue;

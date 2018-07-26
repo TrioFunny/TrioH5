@@ -5,6 +5,8 @@ import Index from '@/view/Index'
 import Login from '@/view/common/Login'
 import Register from '@/view/common/Register'
 import ChangePassword from '@/view/common/changePassword'
+import ChangeHeadPhoto from '@/view/user/ChangeHeadPhoto'
+
 
 import ChatIndex from '@/view/chat/index'
 import Friends from '@/view/chat/friends'
