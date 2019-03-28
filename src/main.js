@@ -14,11 +14,15 @@ import store from './vuex/index'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+import Tool from '@/util/tool';
+Vue.prototype.$T=Tool;
+import General from '@/util/general';
+Vue.prototype.$G=General;
 
 const common=['/Login','/Register' ];
 router.beforeEach((to, from, next) =>{
 	next();
-	console.log(to.path);
+	//console.log(to.path);
 })
 
 /* eslint-disable no-new */

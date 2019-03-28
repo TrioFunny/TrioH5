@@ -10,7 +10,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "element-ui": "^2.3.7",
+    "axios": "^0.18.0",
+    "element-ui": "^2.6.3",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
