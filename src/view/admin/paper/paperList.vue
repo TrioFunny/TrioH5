@@ -2,7 +2,7 @@
 	<div>
 		<div class="v-title1">试卷管理</div>	
 		<!--搜索功能-->
-		<div>
+		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
 			  <el-form-item label="">
 			  	 <el-button @click="$G.goToByName(This,'paper')">+</el-button>
@@ -42,7 +42,7 @@
 		    
 		    <el-table-column label="操作" >
 		      <template slot-scope="scope">  
-		    	<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
+		    	<el-button  @click="handleClick(scope.row)" type="text" size="small" v-if="false">编辑</el-button>   
 		    	<el-button type="text" size="small" @click="deletePaper(scope.row.id)">删除</el-button>
 		      </template>
 		    </el-table-column>
@@ -124,7 +124,6 @@ export default {
 		 this.$refs.multipleTable.clearSelection();
 	  },
 	  goShow(row){
-	  	console.log(row);
 	  	this.$G.goTo(this,'/admin/showPaper',{id:row.id})
 	  },
 	  deletePaper(id){
@@ -133,7 +132,6 @@ export default {
 	  	this.$T.post(url,data,"",this.deleteSuccess);
 	  },
 	  deleteSuccess(res){
-	 	console.log(res);
 	  	if(res.code=="200"){
 	  		this.$message('删除成功');
 	  		this.getPage();

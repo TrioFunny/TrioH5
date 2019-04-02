@@ -16,11 +16,11 @@ import QuestionInfo from '@/view/admin/question/questionInfo'//试题
 import PersonList from '@/view/admin/person/personList'//候选人 列表
 import PersonInfo from '@/view/admin/person/personInfo'//候选人信息	
 
-
+import showList from '@/view/admin/show/showList'//展示信息	
 
 export default [
 
-	{path: '/test/main',component: Main},
+	{path: '/test/main',name: 'SMain',component: Main},
 	{path: '/admin',name: 'Index',component: Index,
 	 children:[
 	 	{path: '/admin/questionList',name: 'questionList',component: QuestionList},
@@ -32,6 +32,8 @@ export default [
 	 	{path: '/admin/personList',name: 'personList',component: PersonList},
 	 	{path: '/admin/personInfo',name: 'personInfo',component: PersonInfo},
 	 	{path: '/admin/showPaper',name:'showPaper',component: ShowPaper},
+	 	{path: '/admin/showList',name:'showList',component: showList},
+	 	
 	 ]
 	},
 	{path: '/admin/paperList',component: PaperList},
