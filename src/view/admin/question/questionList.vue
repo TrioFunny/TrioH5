@@ -83,7 +83,7 @@
 		    <el-table-column label="操作" >
 		      <template slot-scope="scope">  
 		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
-		    	<el-button type="text" size="small" @click="deleteQuestion(scope.row.id)">删除</el-button>
+		    	<el-button type="text" size="small" @click="isDelete(scope.row.id)">删除</el-button>
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -97,6 +97,8 @@
 		    </el-pagination>
 		</div>
 		
+
+
   </div>
 </template>
 
@@ -118,6 +120,8 @@ export default {
         	isAsc:1,
         },
 		selectionList:[],
+		
+		tipsShow:false,
     }
   },
 	methods: {
@@ -164,6 +168,17 @@ export default {
 	  clear(){//清空
 		 this.$refs.multipleTable.clearSelection();
 	  },
+	  isDelete(id){
+	 	this.$confirm('此操作将删除该此项, 是否继续?', '提示', {
+	          confirmButtonText: '确定',
+	          cancelButtonText: '取消',
+	          type: 'warning'
+	        }).then(() => {
+	          this.deleteQuestion(id);
+	        }).catch(() => {
+	          this.$message({ type: 'info', message: '已取消删除' });          
+	        });
+	  },
 	  deleteQuestion(id){
 	  	let url=this.$G.server+"/admin/deleteChoice";
 	  	let data={id:id}
@@ -172,7 +187,7 @@ export default {
 	  deleteSuccess(res){
 	 	console.log(res);
 	  	if(res.code=="200"){
-	  		this.$message('删除成功');
+	  		this.$message({type: 'success',message: '删除成功!'});
 	  		this.getPage();
 	  	}
 	  },

@@ -5,7 +5,7 @@
 		  <el-header style="padding: 0px;">
 				<el-menu class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
 				  active-text-color="#ffd04b" style="padding: 0px 50px ;color: lightgoldenrodyellow;">
-				  <el-menu-item index="1">处理中心</el-menu-item>
+				  <el-menu-item index="1">题目问答</el-menu-item>
 				</el-menu>
 		  </el-header>
 		  
@@ -40,6 +40,9 @@
 				        </template>
 				        <el-menu-item-group>
 				          <el-menu-item index="2-1" @click="$G.goToByName(This,'personList')">候选人列表</el-menu-item>
+				        </el-menu-item-group>
+				        <el-menu-item-group>
+				          <el-menu-item index="2-2" @click="$G.goToByName(This,'briefList')">简介列表</el-menu-item>
 				        </el-menu-item-group>
 				      </el-submenu>
 				      

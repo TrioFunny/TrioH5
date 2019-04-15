@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 const General= {};
 
-let server='http://192.168.0.109:8080/solo';
-
+let server='http://123.206.92.79:8080/solo';
+//let server='http://127.0.0.1:8080/solo';
 
 General.goToByName=function(_this,_name){
 	_this.$router.push({name: _name});
@@ -33,6 +33,23 @@ General.clone=function(obj){
 General.back=function(_this){
 	_this.$router.back(-1);
 }
+/**把毫秒 或者字符串 时间转换成  yyyy-MM-DD hh:mm:ss;
+ * 
+ * @param {Object} time
+ */
+General.formatDate=function(time){
+    var date = new Date(time);
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,//月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+    var newTime = year + '-' +month + '-' +day + ' ' +
+                hour + ':' + min + ':' +sec;
+    return newTime;         
+}
+
 
 //时间格式化
  General.format=function(time, format) {

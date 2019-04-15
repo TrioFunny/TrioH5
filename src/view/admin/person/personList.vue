@@ -100,9 +100,10 @@
 		        </el-form>
 		      </template>
 		    </el-table-column>
-		    <el-table-column label="操作"  v-if="false">
+		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
-		    	<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
+		      	<el-button  @click="goShow(scope.row)" type="text" size="small">查看</el-button> 
+		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -118,7 +119,7 @@
 		
 		<el-dialog title="详细信息" :visible.sync="showDetailed" width="80%"  top="10px" >
 		  <div>
-		  	<Main :personIdMain="personId" ></Main>
+		  	<Main ref="MainDiv" :personIdMain="personId" v-if="showDetailed"></Main>
 		  </div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="showDetailed = false">取 消</el-button>

@@ -65,7 +65,7 @@ export default {
     	//验证
     	rules: {
     		anwser:[ { required: true, message: '请输入答案', trigger: 'blur' }],
-    		options:[{ type: 'array', required: true, message: '请至少有一个选项', trigger: 'change' }], 
+    		options:[{ type: 'array', required: true, message: '至少有一个选项', trigger: 'change' }], 
     		title:[ { required: true, message: '请输入答案', trigger: 'blur' }],
     	},
     	radio:'',

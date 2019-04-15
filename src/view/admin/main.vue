@@ -10,7 +10,7 @@
 	    	<Paper  :id="item.showId" :parent="This" :isShow="isShow" :index="index" :personId="personId" v-if=" item.type=='paper'"></Paper>
 			<div  v-if=" item.type=='question'">
 				<div class="v-title1">开放问题</div>
-				<el-form ref="form"  :disabled="isShow">
+				<el-form ref="main"  :disabled="isShow">
 					<el-form-item label="" v-for="(item,index) in list" :key="index">
 						<div style="text-indent:2em;">{{item.title}}</div>
 					 	 <el-input type="textarea"  v-model="item.anwser" rows="4" style="width: 80%;padding-left:10% ;"></el-input>
@@ -34,7 +34,11 @@
 	  </el-tabs>
 		
 		
-		
+<el-dialog title="提示" :visible.sync="lastShow"  width="80%" :close-on-click-modal="false">
+  <div class="v-title1">提交完毕</div>
+  <span slot="footer" class="dialog-footer">
+  </span>
+</el-dialog>
 		
 		
 
@@ -65,6 +69,7 @@ export default {
         tabIndex:0,
         personId:this.personIdMain,
         isSubmit:[],
+        lastShow:false,
     }
   },
   props: ['personIdMain'],
@@ -109,11 +114,14 @@ export default {
 	  success(res){
 	  	if(res.code=="200"){
 	  		this.$message('提交成功');
-	  		
+	  		this.lastShow=true;
 	  	}
 	  },
-	  beforeLeave(){
-	  	if(this.personId==""){
+	  beforeLeave(tag){
+	  	if(tag=='个人信息'){
+	  		return true;
+	  	}
+	  	if(this.personId==""||this.personId==undefined){
 	  		this.$message.error('请先填写个人信息');
 	  		return false;
 	  	}
@@ -138,6 +146,20 @@ export default {
 		},
 	 setPersonId(id){
 			
+	 },
+	 test(e){
+	 	console.log(e);
+	 },
+	 init(){
+	 	this.personId=this.personIdMain;
+	  	if(this.personId!=""&&this.personId!=undefined){
+	  		this.isShow=true;
+	  		this.getOtherAnswer();
+	  	}
+	  	if(this.isMobile()){
+	  		this.tabPosition='top';
+	  	}
+	  	this.getPage();
 	 },
 	},
 	mounted() {

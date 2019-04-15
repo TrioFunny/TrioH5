@@ -12,7 +12,7 @@ import Common from './common'
 import Components from './components'
 import Demo from './demo'
 import Admin from './admin'
-
+import XAdmin from './xproject/admin'
 Vue.use(Router)
 
 export default new Router({
@@ -22,6 +22,7 @@ export default new Router({
 	...Components,
 	...Demo,
 	...Admin,
+	...XAdmin,
     {
       path: '/demo',
       name: '测试',

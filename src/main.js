@@ -14,6 +14,9 @@ import store from './vuex/index'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+
+import Config from '@/util/config';
+Vue.prototype.$C=Config;
 import Tool from '@/util/tool';
 Vue.prototype.$T=Tool;
 import General from '@/util/general';
