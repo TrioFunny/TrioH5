@@ -32,9 +32,11 @@
 					        <i class="el-icon-menu"></i>
 					        <span slot="title">商城管理</span>
 				        </template>
-				          <el-menu-item index="2-1" @click="$G.goTo(This,'/xproject/admin/categoryManage')">分类管理</el-menu-item>
-				          <el-menu-item index="2-2" @click="">商品管理</el-menu-item>
-				          <el-menu-item index="2-3" @click="">商店管理</el-menu-item>
+				          <el-menu-item index="2-1" @click="$G.goTo(This,'/xproject/admin/brandManage')">品牌管理</el-menu-item>
+				          <el-menu-item index="2-2" @click="$G.goTo(This,'/xproject/admin/categoryManage')">分类管理</el-menu-item>
+				          <el-menu-item index="2-3" @click="$G.goTo(This,'/xproject/admin/goodsManage')">商品管理</el-menu-item>
+				          <el-menu-item index="2-3" @click="$G.goTo(This,'/xproject/admin/goodsInfo')">商品详细信息</el-menu-item>
+				          <el-menu-item index="2-4" @click="">商店管理</el-menu-item>
 				      </el-submenu>
 				     <el-submenu index="3">
 				        <template slot="title">

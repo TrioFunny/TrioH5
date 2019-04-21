@@ -24,7 +24,13 @@ General.clone=function(obj){
         temp = new Object();
         for(let item in obj){
             let val = obj[item];
-            temp[item] = typeof val == 'object'?clone(val):val; //这里也没有判断是否为函数，因为对于函数，我们将它和一般值一样处理
+          
+            //temp[item] = typeof val == 'object'?General.clone(val):val; //这里也没有判断是否为函数，因为对于函数，我们将它和一般值一样处理
+        	if(typeof val == 'object'&&val!=null){
+        		temp[item]=General.clone(val);
+        	}else{
+        		temp[item]=val;
+        	}
         }
     }
     return temp;
@@ -50,6 +56,17 @@ General.formatDate=function(time){
     return newTime;         
 }
 
+General.formatYYMMDD=function(time){
+	if(time==""||time==null){
+		return "";
+	}
+    var date = new Date(time);
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,//月份是从0开始的
+        day = date.getDate();
+    var newTime = year + '-' +month + '-' +day + ' ';
+    return newTime;         
+}
 
 //时间格式化
  General.format=function(time, format) {
@@ -92,6 +109,12 @@ General.getAge=function(birthday)
     return Math.ceil((nowTime-birthDayTime)/31536000000);
 }
 
+//自动清空
+General.emptyFrame=function(obj){
+     for(let key in obj){
+         obj[key]  = ''
+		}
+  }
 
 General.server=server;
 export default General;

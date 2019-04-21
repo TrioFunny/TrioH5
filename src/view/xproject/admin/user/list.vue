@@ -5,6 +5,9 @@
 		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
 			  <el-form-item label="">
+			  	 <el-button @click="openAdd()">+</el-button>
+			  </el-form-item>
+			  <el-form-item label="">
 			    <el-input v-model="page.name" placeholder="姓名"></el-input>
 			  </el-form-item>
 			  <el-form-item>
@@ -18,14 +21,14 @@
 	
 		<!--表格-->
 		<div style="padding: 0px 20px;" >
-		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="goShow">
+		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="openShow">
 			<el-table-column type="selection" width="55">
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
 		    <el-table-column label="账号" prop="name" width="100" show-overflow-tooltip>
 		    </el-table-column>
-		    <el-table-column label="电话" prop="phone"  width="50" show-overflow-tooltip >
+		    <el-table-column label="电话" prop="phone"  width="120" show-overflow-tooltip >
 		    </el-table-column>
 		    <el-table-column label="邮件" prop="email"  show-overflow-tooltip >
 		    </el-table-column>
@@ -37,47 +40,11 @@
 		          <el-form-item label="姓名">
 		            <span>{{props.row.name}}</span>
 		          </el-form-item>
-		          <el-form-item label="性别">
-		            <span> <el-tag :type="props.row.sex=='男'? '':'danger'" >{{props.row.sex}}</el-tag> </span>
+		          <el-form-item label="邮箱">
+		            <span>{{props.row.email}}</span>
 		          </el-form-item>
-		          <el-form-item label="身份证号">
-		            <span> {{props.row.identityNum}} </span>
-		          </el-form-item>
-		          <el-form-item label="民族">
-		            <span> {{props.row.identityNum}} </span>
-		          </el-form-item>
-		          <el-form-item label="出生日期">
-		            <span> {{props.row.identityNum}} </span>
-		          </el-form-item>
-		          <el-form-item label="婚育情况">
-		            <span> {{props.row.isMarry}}</span>
-		          </el-form-item>
-		          <el-form-item label="政治面貌">
-		            <span>{{props.row.politicalIdentity}} </span>
-		          </el-form-item>
-		          <el-form-item label="个人特长">
-		            <span> {{props.row.speciality}} </span>
-		          </el-form-item>
-		          <el-form-item label="户籍地址" >
-		            <span>{{props.row.householdAddress}}</span>
-		          </el-form-item>
-		          <el-form-item label="申请岗位" >
-		            <span>{{props.row.applyJob}}</span>
-		          </el-form-item>
-		          <el-form-item label="专业职称" >
-		            <span>{{props.row.major}}</span>
-		          </el-form-item>
-		          <el-form-item label="联系电话" >
-		            <span>{{props.row.phoneNum}}</span>
-		          </el-form-item>
-		          <el-form-item label="email" >
-		            <span>{{props.row.identityNum}}</span>
-		          </el-form-item>
-		          <el-form-item label="现居地址" >
-		            <span>{{props.row.address}}</span>
-		          </el-form-item>
-		          <el-form-item label="到岗时间" >
-		            <span>{{props.row.arrivalTime}}</span>
+		          <el-form-item label="电话">
+		            <span>{{props.row.phone}}</span>
 		          </el-form-item>
 		          <br />
 		        </el-form>
@@ -100,22 +67,39 @@
 		    </el-pagination>
 		</div>
 		
-		<el-dialog title="详细信息" :visible.sync="showDetailed" width="80%"  top="10px" >
-		  <div>
-		  	<Main ref="MainDiv" :personIdMain="personId" v-if="showDetailed"></Main>
-		  </div>
+	<!--添加显示-->
+	<div>
+		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="68%" >
+			<div>
+			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog.readonly">
+				<el-form-item label="用户名"  >
+					<el-input v-model="item.name"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="密码"  >
+					<el-input v-model="item.password"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="邮件"  >
+					<el-input v-model="item.email"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="手机号"  >
+					<el-input v-model="item.phone"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="状态"  >
+					<el-input v-model="item.status"  style="width: 220px" ></el-input>
+				</el-form-item>
+			</el-form>
+			</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="showDetailed = false">取 消</el-button>
-		    <el-button type="primary" @click="showDetailed = false">确 定</el-button>
+		    <el-button @click="dialog.showDialog=false">取 消</el-button>
+		    <el-button type="primary" @click="save()">确 定</el-button>
 		  </span>
 		</el-dialog>
+	</div>
 
   </div>
 </template>
 
 <script>
-import Main from "@/view/admin/main";
-	
 export default {
   name: 'admin',
   data () {
@@ -124,9 +108,23 @@ export default {
 
 	    list: [],
 	    selectionList:[],
-	    showDetailed:false,
+	    item:{
+	    	id:'',
+	    	code:'',
+	    	name:'',
+	    	password:'',
+	    	email:'',
+	    	phone:'',
+	    	status:'',
+	    },
+	    dialog:{
+	    	title:'',
+	    	showDialog:false,//是否展示模态框
+	    	readonly:false,
+	    },
     	url:{
-    		getPage:this.$C.xproject+'/user/getPaperPage',
+    		getPage:this.$C.xproject+'/user/getUserPage',
+    		save:this.$C.xproject+'/user/saveUser',
     	},
         page:{
         	page:1,
@@ -139,7 +137,6 @@ export default {
     }
   },
 	components: {
-		Main
 	},
 	methods: {
       indexMethod(index) {//自动生成index
@@ -182,12 +179,37 @@ export default {
 	  clear(){//清空
 		 this.$refs.multipleTable.clearSelection();
 	  },
-	  goShow(row){
-		this.showDetailed=true;
-		this.personId=row.id;
+	  //打开添加模态框
+	  openAdd(){
+	  	this.dialog.readonly=false;
+	  	this.dialog.showDialog=true;
+	  	this.$G.emptyFrame(this.item);
 	  },
-
-	  
+	  save(){
+	  		this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+	  },
+	  saveSuccess(res){
+	  	if(res.code=='200'){
+	  		this.dialog.showDialog=false;
+	  		this.$message('提交成功');
+	  		this.getPage();
+	  	}
+	  },
+	  //编辑事件
+	  handleClick(row) {
+	    console.log(row);
+	  	this.dialog.showDialog=true;
+	  	this.dialog.readonly=false;
+	  	//填充对象
+	  	this.item=row;
+	  },
+	   //打开展示模态框
+	  openShow(row){
+	  	this.dialog.showDialog=true;
+	  	this.dialog.readonly=true;
+	  	//填充对象
+	  	this.item=row;
+	  },
 	},
 	mounted() {
 		this.getPage();

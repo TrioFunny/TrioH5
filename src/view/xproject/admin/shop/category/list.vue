@@ -11,6 +11,12 @@
 			    <el-input v-model="page.categoryName" placeholder="分类名称"></el-input>
 			  </el-form-item>
 			  <el-form-item>
+			    <el-select v-model="page.isBan" placeholder="状态">
+			      <el-option label="启用" value="0"></el-option>
+			      <el-option label="禁用"  value="1"></el-option>
+			    </el-select>
+			 </el-form-item>
+			  <el-form-item>
 			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
 			  </el-form-item>
 			  <el-form-item>
@@ -27,6 +33,15 @@
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
 		    <el-table-column label="分类名称" prop="categoryName"  show-overflow-tooltip>
+		    </el-table-column>
+  			<el-table-column label="排序" prop="sort"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="是否禁用"   show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	{{ props.row.isBan=='0'? '使用': '禁用'}}
+		      </template>
+		    </el-table-column>
+		    <el-table-column label="图片" prop="img"  show-overflow-tooltip>
 		    </el-table-column>
 		    <el-table-column label="更新时间"  show-overflow-tooltip >
 		      <template slot-scope="props">  
@@ -58,6 +73,19 @@
 				<el-form-item label="分类名称"  >
 					<el-input v-model="item.categoryName"  style="width: 220px" ></el-input>
 				</el-form-item>
+				<el-form-item label="排序号"  >
+  					<el-input-number v-model="item.sort"   label="">
+  					</el-input-number>
+				</el-form-item>
+				<el-form-item label="图片"  >
+					<el-input v-model="item.img"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="状态"  >
+			    <el-select v-model="item.isBan" placeholder="状态">
+			      <el-option label="启用" value="0"></el-option>
+			      <el-option label="禁用"  value="1"></el-option>
+			    </el-select>
+				</el-form-item>
 			</el-form>
 			</div>
 		  <span slot="footer" class="dialog-footer">
@@ -88,7 +116,11 @@ export default {
 	    },
 	    item:{
 	    	id:'',
-	    	categoryName:'123',
+	    	categoryName:'',
+	    	parentId:'',
+			img:'',
+			sort:'',
+			isBan:'',
 	    },
     	url:{//请求地址统一管理
     		getPage:this.$C.xproject+'/mall/getCategoryPage',
@@ -96,9 +128,10 @@ export default {
     	},
         page:{//请求分页的数据
         	categoryName:'',
+        	isBan:'',
         	page:1,
         	pageSize:10,
-        	sortWord:'',
+        	sortWord:'sort',
         	isAsc:1,
         },
         total:0,//总数
@@ -108,11 +141,6 @@ export default {
 	components: {
 	},
 	methods: {
-	  emptyFrame(obj){//自动清空
-	     for(let key in obj){
-	         obj[key]  = ''
-			}
-	  },
       indexMethod(index) {//自动生成index
         return index +1;
       },
@@ -122,6 +150,7 @@ export default {
 	  	this.dialog.readonly=false;
 	  	//填充对象
 	  	this.item=row;
+	  	this.item.isBan=row.isBan+"";
 	  },
 	  handleSizeChange(val){//修改页面数量
 	  	this.page.pageSize=val;
@@ -158,7 +187,8 @@ export default {
 	  openAdd(){
 	  	this.dialog.readonly=false;
 	  	this.dialog.showDialog=true;
-	  	this.emptyFrame(this.item);
+	  	this.$G.emptyFrame(this.item);
+	  	this.item.isBan='1';
 	  },
 	  //保存
 	  save(){
@@ -168,6 +198,7 @@ export default {
 	  	if(res.code=='200'){
 	  		this.dialog.showDialog=false;
 	  		this.$message('提交成功');
+	  		this.getPage();
 	  	}
 	  },
 	  openShow(row){
@@ -175,6 +206,7 @@ export default {
 	  	this.dialog.readonly=true;
 	  	//填充对象
 	  	this.item=row;
+	  	this.item.isBan=row.isBan+"";
 	  },
 
 	},

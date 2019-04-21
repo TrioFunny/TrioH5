@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="v-title1">商品管理</div>	
+		<div class="v-title1">品牌管理</div>	
 		<!--搜索功能-->
 		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
@@ -8,8 +8,14 @@
 			  	 <el-button @click="openAdd()">+</el-button>
 			  </el-form-item>
 			  <el-form-item label="">
-			    <el-input v-model="page.categoryName" placeholder="分类名称"></el-input>
+			    <el-input v-model="page.brandName" placeholder="品牌名称"></el-input>
 			  </el-form-item>
+			  <el-form-item>
+			    <el-select v-model="page.isBan" placeholder="状态">
+			      <el-option label="启用" value="0"></el-option>
+			      <el-option label="禁用"  value="1"></el-option>
+			    </el-select>
+			 </el-form-item>
 			  <el-form-item>
 			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
 			  </el-form-item>
@@ -26,7 +32,16 @@
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
-		    <el-table-column label="分类名称" prop="categoryName"  show-overflow-tooltip>
+		    <el-table-column label="品牌名称" prop="brandName"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="排序" prop="sort"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="是否禁用"   show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	{{ props.row.isBan=='0'? '使用': '禁用'}}
+		      </template>
+		    </el-table-column>
+		    <el-table-column label="图片" prop="img"  show-overflow-tooltip>
 		    </el-table-column>
 		    <el-table-column label="更新时间"  show-overflow-tooltip >
 		      <template slot-scope="props">  
@@ -36,6 +51,7 @@
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
 		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button> 
+		      	<el-button v-if="false"  @click="delect(scope.row)" type="text" size="small">删除</el-button> 
 		    	<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
@@ -55,8 +71,21 @@
 		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="68%" >
 			<div>
 			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog.readonly">
-				<el-form-item label="分类名称"  >
-					<el-input v-model="item.categoryName"  style="width: 220px" ></el-input>
+				<el-form-item label="品牌名称"  >
+					<el-input v-model="item.brandName"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="排序号"  >
+  					<el-input-number v-model="item.sort"   label="">
+  					</el-input-number>
+				</el-form-item>
+				<el-form-item label="图片"  >
+					<el-input v-model="item.img"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="状态"  >
+			    <el-select v-model="item.isBan" placeholder="状态">
+			      <el-option label="启用" value="0"></el-option>
+			      <el-option label="禁用"  value="1"></el-option>
+			    </el-select>
 				</el-form-item>
 			</el-form>
 			</div>
@@ -87,18 +116,22 @@ export default {
 	    	readonly:false,
 	    },
 	    item:{
-	    	id:'',
-	    	categoryName:'123',
+	    	id:'',//主键
+			brandName:'',
+			img:'',
+			sort:'',
+			isBan:'',
 	    },
     	url:{//请求地址统一管理
-    		getPage:this.$C.xproject+'/mall/getCategoryPage',
-    		save:this.$C.xproject+'/mall/saveCategory',
+    		getPage:this.$C.xproject+'/mall/getBrandPage',
+    		save:this.$C.xproject+'/mall/saveBrand',
     	},
         page:{//请求分页的数据
-        	categoryName:'',
+        	brandName:'',
+        	isBan:'',
         	page:1,
         	pageSize:10,
-        	sortWord:'',
+        	sortWord:'sort',
         	isAsc:1,
         },
         total:0,//总数
@@ -117,6 +150,7 @@ export default {
 	  	this.dialog.readonly=false;
 	  	//填充对象
 	  	this.item=row;
+	  	this.item.isBan=row.isBan+"";
 	  },
 	  handleSizeChange(val){//修改页面数量
 	  	this.page.pageSize=val;
@@ -154,6 +188,7 @@ export default {
 	  	this.dialog.readonly=false;
 	  	this.dialog.showDialog=true;
 	  	this.$G.emptyFrame(this.item);
+	  	this.item.isBan='1';
 	  },
 	  //保存
 	  save(){
@@ -163,6 +198,7 @@ export default {
 	  	if(res.code=='200'){
 	  		this.dialog.showDialog=false;
 	  		this.$message('提交成功');
+	  		this.getPage();
 	  	}
 	  },
 	  openShow(row){
@@ -170,6 +206,7 @@ export default {
 	  	this.dialog.readonly=true;
 	  	//填充对象
 	  	this.item=row;
+	  	this.item.isBan=row.isBan+"";
 	  },
 
 	},

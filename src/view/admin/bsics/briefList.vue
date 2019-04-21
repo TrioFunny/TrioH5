@@ -46,7 +46,10 @@
 		    </el-table-column>
 		    <el-table-column label="专业" prop="major"  show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column label="可实习时间" prop="internshipTime" show-overflow-tooltip >
+		    <el-table-column label="可实习时间"  show-overflow-tooltip >
+		      <template slot-scope="props">
+		      	{{ $G.formatYYMMDD(props.row.internshipTime)}}
+		      </template>
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  

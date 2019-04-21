@@ -16,7 +16,10 @@
 		<el-form-item label="联系电话"  prop="phone">
 		 	<el-input v-model="form.phone"  style="width: 220px;" ></el-input>
 		</el-form-item>
-		<el-form-item label="身份证号"  prop="major">
+		<el-form-item label="身份证号"  prop="identityNum">
+		 	<el-input v-model="form.identityNum"  style="width: 220px;"></el-input>
+		</el-form-item>
+		<el-form-item label="专业"  prop="major">
 		 	<el-input v-model="form.major"  style="width: 220px;"></el-input>
 		</el-form-item>
 		<el-form-item label="毕业学院"  prop="school">
@@ -54,7 +57,8 @@ export default {
 			major:'',//专业职称
 			phone:'',//联系电话
 			school:'',//
-			internshipTime:''//
+			internshipTime:'',//
+			identityNum:'',//
         },
     	//验证
     	rules: {

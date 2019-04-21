@@ -1,0 +1,4 @@
+
+
+	let brandList="";
+	let categoryList="";
