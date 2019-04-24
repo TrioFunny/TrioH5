@@ -37,8 +37,6 @@ export default [
 	 	{path: '/admin/showPaper',name:'showPaper',component: ShowPaper},
 	 	{path: '/admin/showList',name:'showList',component: showList},
 	 	{path: '/admin/briefList',name:'briefList',component: BriefList},
-	 	
-	 	
 	 ]
 	},
 	{path: '/admin/paperList',component: PaperList},
