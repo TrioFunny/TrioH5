@@ -79,7 +79,7 @@ export default {
 	
 	methods: {
 	  getPage(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getMain";
+	  	let url=this.this.$C.solo+"/admin/getMain";
 	  	let data={
 	  		personId:this.personId,
 	  	}
@@ -104,7 +104,7 @@ export default {
 	  onSubmit() {
 	  	console.log(this.title);
 	  	console.log(this.anwser);
-	  	let url=this.$G.server+"/admin/answerQuestions";
+	  	let url=this.this.$C.solo+"/admin/answerQuestions";
 	  	let data={
 	  		list:JSON.stringify(this.list),
 	  		personId:this.personId,
@@ -130,7 +130,7 @@ export default {
 		let params={
 			personId:this.personId,
 		}
-	  	let url=this.$G.server+"/admin/getQuestionsAnswer";
+	  	let url=this.this.$C.solo+"/admin/getQuestionsAnswer";
 	  	this.$T.post(url,params,"",this.getOtherAnswerSuccess);
 	  },
 	  getOtherAnswerSuccess(res){

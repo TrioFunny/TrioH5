@@ -195,7 +195,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getPersonPage";
+	  	let url=this.this.$C.solo+"/admin/getPersonPage";
 	  	let data=this.page;
 	  	this.$T.post(url,data,"",this.success);
 	  },

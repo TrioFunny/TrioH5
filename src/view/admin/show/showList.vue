@@ -102,7 +102,7 @@ export default {
   },
 	methods: {
 	  getPaper(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getPaperPage";
+	  	let url=this.this.$C.solo+"/admin/getPaperPage";
 	  	let data=this.page;
 	  	this.$T.post(url,data,"",this.getPaperSuccess);
 	  },
@@ -117,7 +117,7 @@ export default {
         return index +1;
       },
 	  getPage(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getMain";
+	  	let url=this.this.$C.solo+"/admin/getMain";
 	  	let data=this.page;
 	  	this.$T.post(url,data,"",this.success);
 	  },
@@ -127,7 +127,7 @@ export default {
 	  	}
 	  },
 	 addShowItem(){
-	  	let url=this.$G.server+"/admin/saveShow";
+	  	let url=this.this.$C.solo+"/admin/saveShow";
 	  	let data=this.showItem;
 	  	console.log(data);
 	  	this.$T.post(url,data,"",this.addSuccess);
@@ -166,7 +166,7 @@ export default {
 		 this.$refs.multipleTable.clearSelection();
 	  },
 	  deletePaper(id){
-	  	let url=this.$G.server+"/admin/deleteShow";
+	  	let url=this.this.$C.solo+"/admin/deleteShow";
 	  	let data={id:id}
 	  	this.$T.post(url,data,"",this.deleteSuccess);
 	  },

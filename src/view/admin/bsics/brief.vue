@@ -80,7 +80,7 @@ export default {
         });
 	  },
 	 addPost() {
-	  	let url=this.$G.server+"/admin/addBsics";
+	  	let url=this.$C.solo+"/admin/addBsics";
 	  	this.$T.post(url,this.form,"",this.success);
 	  },
 	  success(res){

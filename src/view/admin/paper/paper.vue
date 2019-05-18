@@ -82,7 +82,7 @@
 		      	for(let i=0;i<this.options.length;i++){
 		   			idList.push(this.options[i].id);
 		      	}
-			  	let url=this.$G.server+"/admin/addPaper";
+			  	let url=this.this.$C.solo+"/admin/addPaper";
 			  	let data={
 			  		title:this.form.title,
 			  		text:this.form.text,

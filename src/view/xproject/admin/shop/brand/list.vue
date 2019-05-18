@@ -51,7 +51,7 @@
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
 		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button> 
-		      	<el-button v-if="false"  @click="delect(scope.row)" type="text" size="small">删除</el-button> 
+		      	<el-button v-if="false"  @click="delete(scope.row)" type="text" size="small">删除</el-button> 
 		    	<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
@@ -208,7 +208,6 @@ export default {
 	  	this.item=row;
 	  	this.item.isBan=row.isBan+"";
 	  },
-
 	},
 	mounted() {
 		this.getPage();

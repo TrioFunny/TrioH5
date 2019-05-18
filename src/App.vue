@@ -17,7 +17,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /*text-align: center;*/
   color: #2c3e50;
-  	width: 100%;
+  width: 100%;
 	height: 100%;
 	position: absolute;
 }
@@ -25,6 +25,7 @@ html body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
+	position: absolute;
 }
 
 /*admin/questionList.vue*/

@@ -3,9 +3,11 @@
 		<el-container style="height: 100%;">
 			
 		  <el-header style="padding: 0px;">
-				<el-menu class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
+				<el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
 				  active-text-color="#ffd04b" style="padding: 0px 50px ;color: lightgoldenrodyellow;">
 				  <el-menu-item index="1">商城文章</el-menu-item>
+				  <el-menu-item index="2">个人中心</el-menu-item>
+				  <el-menu-item index="last" style="float:right;" @click="logout()">退出</el-menu-item>
 				</el-menu>
 		  </el-header>
 		  
@@ -22,9 +24,11 @@
 				        </template>
 				        <el-menu-item-group >
 				          <el-menu-item index="1-1"  @click="$G.goTo(This,'/xproject/admin/userManage')">用户管理</el-menu-item>
-				        </el-menu-item-group>
 				          <el-menu-item index="1-2"  @click="">角色管理</el-menu-item>
 				          <el-menu-item index="1-3"  @click="">权限管理</el-menu-item>
+				          <el-menu-item index="1-4"  @click="$G.goTo(This,'/xproject/admin/postManage')">接口管理</el-menu-item>
+				          <el-menu-item index="1-5"  @click="$G.goTo(This,'/xproject/admin/post')">接口测试</el-menu-item>
+				    	</el-menu-item-group>
 				      </el-submenu>
 				     
 				     <el-submenu index="2">
@@ -35,7 +39,6 @@
 				          <el-menu-item index="2-1" @click="$G.goTo(This,'/xproject/admin/brandManage')">品牌管理</el-menu-item>
 				          <el-menu-item index="2-2" @click="$G.goTo(This,'/xproject/admin/categoryManage')">分类管理</el-menu-item>
 				          <el-menu-item index="2-3" @click="$G.goTo(This,'/xproject/admin/goodsManage')">商品管理</el-menu-item>
-				          <el-menu-item index="2-3" @click="$G.goTo(This,'/xproject/admin/goodsInfo')">商品详细信息</el-menu-item>
 				          <el-menu-item index="2-4" @click="">商店管理</el-menu-item>
 				      </el-submenu>
 				     <el-submenu index="3">
@@ -48,8 +51,8 @@
 				        </el-menu-item-group>
 				      </el-submenu>
 
-				      <el-menu-item index="3">
-				      	<div style="height: 500px;">
+				      <el-menu-item index="4">
+				      	<div style="height: 100px;">
 				      	</div>
 				      </el-menu-item>
 				      
@@ -59,7 +62,7 @@
 		    </el-aside>
 		    
 		    <el-container>
-		      <el-main>
+		      <el-main style="height: 1000px;">
 		      	<router-view></router-view>
 		      </el-main>
 		      
@@ -77,17 +80,20 @@
 		data() {
 			return {
 				This:this,
-				isShow:true,
+				activeIndex:"1",
 			}
 		},
 		computed: {},
 		components: {},
 		methods: {
 		      handleOpen(key, keyPath) {
-		        console.log(key, keyPath);
+		        //console.log(key, keyPath);
 		      },
 		      handleClose(key, keyPath) {
 		        console.log(key, keyPath);
+		      },
+		      logout(){
+		      	this.$G.removeCookie("code");
 		      },
 		},
 		created() {

@@ -129,7 +129,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getBriefPage";
+	  	let url=this.this.$C.solo+"/admin/getBriefPage";
 	  	let data=this.page;
 	  	this.$T.post(url,data,"",this.success);
 	  },

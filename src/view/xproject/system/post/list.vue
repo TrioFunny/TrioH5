@@ -1,18 +1,20 @@
 <template>
 	<div>
-		<div class="v-title1">试卷管理</div>	
+		<div class="v-title1">接口管理</div>	
 		<!--搜索功能-->
 		<div style="text-align: center;">
-			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
+			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 20px;">
 			  <el-form-item label="">
-			  	 <el-button @click="$G.goToByName(This,'paper')">+</el-button>
-			  </el-form-item>
-			  </el-form-item>
-			  <el-form-item label="">
-			    <el-input v-model="page.title" placeholder="题目"></el-input>
+			  	 <el-button @click="openAdd()">+</el-button>
 			  </el-form-item>
 			  <el-form-item label="">
-			    <el-input v-model="page.text" placeholder="说明"></el-input>
+			    <el-input v-model="page.title" placeholder="标题"></el-input>
+			  </el-form-item>
+			  <el-form-item label="">
+			    <el-input v-model="page.url" placeholder="地址"></el-input>
+			  </el-form-item>
+			  <el-form-item label="">
+			    <el-input v-model="page.name" placeholder="名字"></el-input>
 			  </el-form-item>
 			  <el-form-item>
 			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
@@ -25,25 +27,19 @@
 	
 		<!--表格-->
 		<div style="padding: 0px 20px;" >
-		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="goShow">
+		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="">
 			<el-table-column type="selection" width="55">
 		    </el-table-column>
-		    <el-table-column type="index" :index="indexMethod">
+		    <el-table-column label="账号" prop="title" width="100" show-overflow-tooltip>
 		    </el-table-column>
-		    <el-table-column label="题目" prop="title" show-overflow-tooltip>
+		    <el-table-column label="电话" prop="name"  width="120" show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column label="说明" prop="text" show-overflow-tooltip >
+		    <el-table-column label="邮件" prop="url"  show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column label="题目数量" width="150px" show-overflow-tooltip >
-		    	 <template slot-scope="props">
-		    	 	{{props.row.questionId.split(',').length}}
-		    	</template>
-		    </el-table-column>
-		    
-		    <el-table-column label="操作" >
+		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
-		    	<el-button  @click="handleClick(scope.row)" type="text" size="small" v-if="false">编辑</el-button>   
-		    	<el-button type="text" size="small" @click="deletePaper(scope.row.id)">删除</el-button>
+		      	<el-button  @click="goShow(scope.row)" type="text" size="small">查看</el-button> 
+		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -56,33 +52,47 @@
 		      	>
 		    </el-pagination>
 		</div>
+
   </div>
 </template>
 
 <script>
-	
 export default {
   name: 'admin',
   data () {
     return {
     	This:this,
+
 	    list: [],
-	    total:0,
+	    item:{
+	    	id:'',
+	    	title:'',//标题
+	    	name:'',//名字
+	    	url:'',//访问地址
+	    	params:'',//参数
+	    	paramsValue:'',//参数值
+	    	type:'',//类型
+	    	sign:'',//标记
+	    },
+
+    	url:{
+    		getPage:this.$C.xproject+'/system/getGoodsPage',
+    	},
         page:{
-        	text:'',
         	title:'',
+        	name:'',
+        	url:'',
         	page:1,
         	pageSize:10,
         	sortWord:'',
         	isAsc:1,
         },
-		selectionList:[],
+         total:0,
     }
   },
+	components: {
+	},
 	methods: {
-      indexMethod(index) {//自动生成index
-        return index +1;
-      },
 	  handleClick(row) {//对应事件
 	    console.log(row);
 	  },
@@ -95,9 +105,8 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	let url=this.this.$C.solo+"/admin/getPaperPage";
-	  	let data=this.page;
-	  	this.$T.post(url,data,"",this.success);
+	  	//post(地址，参数，当前对象，成功方法，失败方法)
+	  	this.$T.post(this.url.getPage,this.page,"",this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -107,8 +116,9 @@ export default {
 	  },
 	  reset(){//重置信息
 	  	let page={
-        	type:'',
         	title:'',
+        	name:'',
+        	url:'',
         	page:1,
         	pageSize:10,
         	sortWord:'',
@@ -123,20 +133,9 @@ export default {
 	  clear(){//清空
 		 this.$refs.multipleTable.clearSelection();
 	  },
-	  goShow(row){
-	  	this.$G.goTo(this,'/admin/showPaper',{id:row.id})
-	  },
-	  deletePaper(id){
-	  	let url=this.this.$C.solo+"/admin/deletePaper";
-	  	let data={id:id}
-	  	this.$T.post(url,data,"",this.deleteSuccess);
-	  },
-	  deleteSuccess(res){
-	  	if(res.code=="200"){
-	  		this.$message('删除成功');
-	  		this.getPage();
-	  	}
-	  },
+
+
+
 	},
 	mounted() {
 		this.getPage();

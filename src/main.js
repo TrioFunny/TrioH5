@@ -9,12 +9,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-//
+
+//vuex
 import store from './vuex/index'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
 
+//公用工具
 import Config from '@/util/config';
 Vue.prototype.$C=Config;
 import Tool from '@/util/tool';
@@ -22,10 +24,22 @@ Vue.prototype.$T=Tool;
 import General from '@/util/general';
 Vue.prototype.$G=General;
 
-const common=['/Login','/Register' ];
+//跳转拦截
+const common=['/Login','/Register',"/xproject/" ];
+
 router.beforeEach((to, from, next) =>{
-	next();
-	//console.log(to.path);
+	
+	if(common.indexOf(to.path)<0){//判断是否在游客界面
+		
+		let falg=General.getCookie("code").length;
+		if(falg<1){//没有登陆就条状到登陆界面
+			return next({path: "/xproject/"});
+		}
+		
+	}
+
+	next();//跳转
+	
 })
 
 /* eslint-disable no-new */

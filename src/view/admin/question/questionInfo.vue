@@ -109,7 +109,7 @@ export default {
       	return op;
       },
 	  addQuestion(){ //提交
-	  	let url=this.$G.server+"/admin/addChoice";
+	  	let url=this.this.$C.solo+"/admin/addChoice";
 	  	let data={
 	  		type:this.form.type,
 	  		title:this.form.title,

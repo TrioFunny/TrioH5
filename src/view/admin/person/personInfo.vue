@@ -489,7 +489,7 @@ export default {
 	   	this.form.train=JSON.stringify(this.train)
 	    this.form.consultant=JSON.stringify(this.consultant)
 	    this.form.workExperience=JSON.stringify(this.workExperience)
-	  	let url=this.$G.server+"/admin/addPersonInfo";
+	  	let url=this.this.$C.solo+"/admin/addPersonInfo";
 	  	this.$T.post(url,this.form,"",this.success);
 	  },
 	  success(res){
@@ -586,7 +586,7 @@ export default {
 		this.emptyFrame(this.consultantForm);
 	  },
 	  getPersonInfo(id){
-	  	let url=this.$G.server+"/admin/getPersonInfoById";
+	  	let url=this.this.$C.solo+"/admin/getPersonInfoById";
 	  	this.$T.post(url,{personId:id},"",this.getInfoSuccess);
 	  },
 	  getInfoSuccess(res){

@@ -2,8 +2,7 @@ import Vue from 'vue'
 
 const General= {};
 
-let server='http://123.206.92.79:8080/solo';
-//let server='http://127.0.0.1:8080/solo';
+
 
 General.goToByName=function(_this,_name){
 	_this.$router.push({name: _name});
@@ -55,7 +54,7 @@ General.formatDate=function(time){
                 hour + ':' + min + ':' +sec;
     return newTime;         
 }
-
+//时间格式化
 General.formatYYMMDD=function(time){
 	if(time==""||time==null){
 		return "";
@@ -98,7 +97,7 @@ General.formatYYMMDD=function(time){
     })
   },
 
-//
+//计算年龄
 General.getAge=function(birthday)
 {
     //出生时间 毫秒
@@ -116,5 +115,38 @@ General.emptyFrame=function(obj){
 		}
   }
 
-General.server=server;
+/**
+ * 储存Cookie的方法			名称(可读)<默认值>
+ * @param {Object} name		cookie名称(可读取)
+ * @param {Object} value	cookie值(可读取)
+ * @param {Object} hours	有效期(不可读)<session>
+ * @param {Object} path		存储路径(不可读)<当前路径>
+ * @param {Object} domain	储存域(不可读)<当前域>
+ * @param {Object} secure	安全性(不可读)<false>
+ */
+General.setCookie= function(name,value,hours,path,domain,secure){
+	var cdata = name + "=" + value;
+	if(hours){
+		var d = new Date();
+		d.setHours(d.getHours() + hours);
+        cdata += "; expires=" + d.toGMTString();
+    }
+    cdata +=path ? ("; path=" + path) : "" ;
+    cdata +=domain ? ("; domain=" + domain) : "" ;
+    cdata +=secure ? ("; secure=" + secure) : "" ;
+    document.cookie = cdata;
+};
+General.getCookie=function(name){
+    var reg = eval("/(?:^|;\\s*)" + name + "=([^=]+)(?:;|$)/"); 
+    return reg.test(document.cookie) ? RegExp.$1 : "";
+};
+General.removeCookie=function(name){
+    this.setCookie(name,"",0);
+};
+
+
+
+
+
+
 export default General;

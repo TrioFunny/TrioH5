@@ -140,7 +140,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	let url=this.$G.server+"/admin/getChoicePage";
+	  	let url=this.this.$C.solo+"/admin/getChoicePage";
 	  	let data=this.page;
 	  	this.$T.post(url,data,"",this.success);
 	  },
@@ -180,7 +180,7 @@ export default {
 	        });
 	  },
 	  deleteQuestion(id){
-	  	let url=this.$G.server+"/admin/deleteChoice";
+	  	let url=this.this.$C.solo+"/admin/deleteChoice";
 	  	let data={id:id}
 	  	this.$T.post(url,data,"",this.deleteSuccess);
 	  },

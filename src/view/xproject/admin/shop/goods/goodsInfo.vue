@@ -1,5 +1,5 @@
 <template>
-	<div style="overflow-y: scroll;height: 800px;padding: 20px 0px;">
+	<div style="overflow-y: scroll;height: 900px;padding: 20px 0px;">
 	  <el-tabs v-model="tabs" >
 	    <el-tab-pane label="基本信息" name="first">
 	    	<div style="text-align: center;">
@@ -38,31 +38,32 @@
 	    
 	    <!--规格信息-->
 	    <el-tab-pane label="规格信息" name="third">
-				<Spec></Spec>
+				<Spec :specList="specList" :spu="spu" @refresh="getGoodsInfo"></Spec>
 	    </el-tab-pane>
 	    
 	    
 	    <el-tab-pane label="价格信息" name="fourth">
+	    	<Sku :skuList="skuList" :specList="specList" :spu="spu" @refresh="getGoodsInfo"></Sku>
+	    </el-tab-pane>
+	    
+	    <el-tab-pane label="图片信息" name="five">
+	    	<GoodsImg :goodsImgs="goodsImgs" :spu="spu" @refresh="getGoodsInfo" ></GoodsImg>
 	    </el-tab-pane>
 	  </el-tabs>
-		
-
-	
-	
-	
-	<div style="width: 100%;position: absolute;padding: 50px;"></div>
 	</div>
 </template>
 
 <script>
  import Spec from "./spec";
-	
+ import Sku from "./sku";
+ import GoodsImg from "./img";
+ 
 export default {
   name: 'admin',
   data () {
     return {
     	
-    	code:'1dc9b98d130e47fe84ef563c6253babd',
+    	code:'',
     	//表单
         spu: {
 	    	id:'',//主键
@@ -86,8 +87,6 @@ export default {
     		getBrand:this.$C.xproject+'/mall/getAllBrand',						//获取可用的品牌
     		getCategory:this.$C.xproject+'/mall/getAllCategory',				//获取可用的类型
     		getGoodsInfo:this.$C.xproject+'/mall/getGoodsInfo',					//获取商品信息
-    		saveGoodsSpec:this.$C.xproject+'/mall/saveGoodsSpec',				//添加商品规格
-    		saveSpecValue:this.$C.xproject+'/mall/getGoodsInfo',				//添加商品规格值
     	},
     	isEdit:false,//是否修改
 		tabs:'first',//目前选项卡
@@ -96,32 +95,23 @@ export default {
 		specList:[],
 		spec:"",
 		
+		//sku
+		skuList:[],
+		sku:"",
+		
 		//下拉框
 		brandList:"",
 		categoryList:"",
+		
+		//
+		goodsImgs:'',
+		
     }
   },
 	components: {
-		Spec,
+		Spec,Sku,GoodsImg,
 	},
 	methods: {
-	  //
-	  getTagType(index){
-	  	switch(index){
-	  		case 0:
-	  			return ""; break;
-	  		case 1:
-	  			return "success"; break;
-	  		case 2:
-	  			return "info"; break;
-	  		case 3:
-	  			return "warning"; break;
-	  		case 4:
-	  			return "danger"; break;
-	  		default:
-				return ""; break;
-	  	}
-	  },
 	  //获取下拉框
 	  getBrand(){
 	  		this.$T.post(this.url.getBrand,"","",this.getBrandSuccess);
@@ -148,6 +138,8 @@ export default {
 		  	if(res.code=='200'){
 		  		this.spu=res.data.spu;
 		  		this.specList=res.data.spec;
+		  		this.skuList=res.data.sku;
+		  		this.goodsImgs=res.data.img
 //		  		this.spu.categoryId=parseInt(res.data.spu.categoryId);
 //		  		this.spu.brandId=parseInt(res.data.spu.brandId);
 		  	}
@@ -155,21 +147,11 @@ export default {
 	  success(res){
 	  	console.log(res)
 	  },
-	  //添加规格信息
-	  saveGoodsSpec(){
-	  	this.$T.post(this.url.saveGoodsSpec,this.code,"",this.success);
-	  },
-	  //tag 删除
-	  tagClose(index){
-	  	console.log(index);
-	  	this.tags.splice(index);
-	  },
 	  //跟新sup
 	  saveGoodSup(){
-	  	console.log(this.spu);
 		this.$refs["spuForm"].validate((e) => {
           if (e) {
-          	//this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+          	this.$T.post(this.url.save,this.item,"",this.saveSuccess);
           } else {
             return false;
           }
@@ -177,12 +159,17 @@ export default {
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
-	  		this.$message('提交成功');
+	  		this.$message.success('提交成功');
 	  	}
 	  },
 	  
 	},
 	mounted() {
+		if(this.$route.query.code==undefined){
+			
+			return ;
+		}
+		this.code=this.$route.query.code;
 		this.getBrand();
 		this.getCategory();
 		this.getGoodsInfo();

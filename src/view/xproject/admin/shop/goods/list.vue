@@ -33,7 +33,7 @@
 	
 		<!--表格-->
 		<div style="padding: 0px 20px;" >
-		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="openShow">
+		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="goShow">
 			<el-table-column type="selection" width="55">
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
@@ -42,15 +42,22 @@
 		    </el-table-column>
 		    <el-table-column label="品牌"  show-overflow-tooltip>
 		      <template slot-scope="props">  
-		      	{{getValueByKey(props.row.brandId,brandList).brandName }}
+		      	{{getValueByKey(props.row.brandId,brandList)==undefined? '':getValueByKey(props.row.brandId,brandList).brandName }}
+		      	<!--{{getValueByKey(props.row.brandId,brandList).brandName }}-->
 		      </template>
 		    </el-table-column>
 		    <el-table-column label="类型" show-overflow-tooltip>
 		      <template slot-scope="props">  
-		      	{{ getValueByKey(props.row.categoryId,categoryList).categoryName }}
+		      	{{ getValueByKey(props.row.categoryId,categoryList)==undefined? '':getValueByKey(props.row.categoryId,categoryList).categoryName  }}
+				<!--{{ getValueByKey(props.row.categoryId,categoryList).categoryName }}-->
 		      </template>
 		    </el-table-column>
 		    <el-table-column label="价格" prop="lowPrice"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="状态"   show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	{{props.row.state==1?'上架':'下架' }}
+		      </template>
 		    </el-table-column>
 		    <el-table-column label="更新时间"  width="200" show-overflow-tooltip >
 		      <template slot-scope="props">  
@@ -65,7 +72,6 @@
 		    </el-table-column>
 		  </el-table>
 		</div>
-	  
 		<div style="padding: 20px;">
 		    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" 
 		    	:current-page="page.page"  :page-size="page.pageSize" 	:total="total"
@@ -76,7 +82,7 @@
 		
 	<!--添加显示-->
 	<div>
-		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="50%" >
+		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="40%" >
 			<div>
 			<el-form ref="form" :model="item"  label-width="100px":inline="true"  :rules="rules" :disabled="dialog.readonly">
 				<el-form-item label="商品名称"  prop="goodsName">
@@ -87,21 +93,30 @@
 				</el-form-item>
 				<el-form-item label="分类"  prop="categoryId">
 					  <el-select v-model="item.categoryId" placeholder="请选择" style="width: 220px">
-					    <el-option v-for="category in categoryList" :key="category.id" :label="category.categoryName"  :value="category.id">
+					    <el-option v-for="category in categoryList" :key="category.id" :label="category.categoryName"  :value="category.id+''">
 					  	</el-option>
 					  </el-select>
 				</el-form-item>
 				<el-form-item label="品牌"  prop="brandId">
 					  <el-select v-model="item.brandId" placeholder="请选择" style="width: 220px">
-					    <el-option v-for="barnd in brandList" :key="barnd.id" :label="barnd.brandName"  :value="barnd.id">
+					    <el-option v-for="barnd in brandList" :key="barnd.id" :label="barnd.brandName"  :value="barnd.id+''">
 					  	</el-option>
 					  </el-select>
+				</el-form-item>
+				<el-form-item label="状态"  >
+					  <el-select v-model="item.state" placeholder="请选择" style="width: 220px">
+					    <el-option  key="-1" label="下架"  value="-1"></el-option>
+					     <el-option  key="1" label="上架"  value="1"></el-option>
+					  </el-select>
+				</el-form-item>
+				<el-form-item>
+					<img :src="item.imagePath"  style="width: 80%;padding: 0 10%;"/>
 				</el-form-item>
 			</el-form>
 			</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="dialog.showDialog=false">取 消</el-button>
-		    <el-button type="primary" @click="save()">确 定</el-button>
+		    <el-button type="primary" @click="save()" :disabled="dialog.readonly">确 定</el-button>
 		  </span>
 		</el-dialog>
 	</div>
@@ -132,9 +147,8 @@ export default {
 	    	lowPrice:'',//最低价格
 	    	categoryId:'',//分类名称
 	    	brandId:'',//品牌ID
-	    	gmtCreate:'',//创建时间
-	    	gmtUpdate:'',//更新时间
-	    	revision:'',
+	    	state:'',
+	    	imagePath:'',//图片
 	    },
     	//验证
     	rules: {
@@ -167,6 +181,7 @@ export default {
 	components: {
 	},
 	methods: {
+		
       indexMethod(index) {//自动生成index
         return index +1;
       },
@@ -216,7 +231,7 @@ export default {
 	  saveSuccess(res){
 	  	if(res.code=='200'){
 	  		this.dialog.showDialog=false;
-	  		this.$message('提交成功');
+	  		this.$message.success('提交成功');
 	  		this.getPage();
 	  	}
 	  },
@@ -263,6 +278,11 @@ export default {
 	  			return list[i];
 	  		}
 	  	}
+	  },
+	  goShow(row){
+	  	console.log(row.spuNo);
+	  	let query={code:row.spuNo}
+	  	this.$router.push({ path: '/xproject/admin/goodsInfo', query})
 	  },
 	},
 	mounted() {

@@ -52,7 +52,6 @@
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
-		      	<el-button  @click="goShow(scope.row)" type="text" size="small">查看</el-button> 
 		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>

@@ -118,7 +118,7 @@
 				if(this.$route.query.id!=undefined){
 					id=this.$route.query.id;
 				}
-			  	let url=this.$G.server+"/admin/getPaperById";
+			  	let url=this.this.$C.solo+"/admin/getPaperById";
 			  	let data={
 			  		id:id,
 			  	}
@@ -142,6 +142,10 @@
 		      	}
 		      },
 		      onSubmit(){
+		      	if(this.answer.length<this.options.length){
+		      		this.$message.error('请填写完整');
+		      		 return;
+		      	}
 		      	this.getAnswerDICS();
 		      	let params={
 		      		personId:this.parent.personId,
@@ -149,7 +153,7 @@
 		      		answer:this.answer,
 		      		dics:this.dics,
 		      	}
-			  	let url=this.$G.server+"/admin/addPaperAnswer";
+			  	let url=this.this.$C.solo+"/admin/addPaperAnswer";
 			  	this.$T.post(url,params,"",this.onSubmitSucess);
 		      },
 		      onSubmitSucess(res){
@@ -172,7 +176,7 @@
 					paperId:this.id,
 					personId:this.personId,
 				}
-			  	let url=this.$G.server+"/admin/getPersonAnwser";
+			  	let url=this.this.$C.solo+"/admin/getPersonAnwser";
 			  	this.$T.post(url,params,"",this.getAnwserSuccess);
 			},
 			getAnwserSuccess(res){
