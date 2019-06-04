@@ -1,42 +1,60 @@
 <template>
 	<div>
-		<div class="v-title1">商品管理</div>	
+		<div class="v-title1" style="padding:0px 0 10px ;">商品管理</div>	
 		<!--搜索功能-->
-		<div style="text-align: center;">
-			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
-			  <el-form-item label="">
-			  	 <el-button @click="openAdd()">+</el-button>
-			  </el-form-item>
-			  <el-form-item  >
-				  <el-select v-model="page.categoryId" placeholder="分类" style="width: 150px">
-				    <el-option v-for="category in categoryList" :key="category.id" :label="category.categoryName"  :value="category.id">
-				  	</el-option>
-				  </el-select>
-			  </el-form-item>
-			  <el-form-item   >
-				  <el-select v-model="page.brandId" placeholder="品牌" style="width: 150px">
-				    <el-option v-for="barnd in brandList" :key="barnd.id" :label="barnd.brandName"  :value="barnd.id">
-				  	</el-option>
-				  </el-select>
-			  </el-form-item>
-			  <el-form-item label="">
-			    <el-input v-model="page.goodsName" placeholder="商品名称"></el-input>
-			  </el-form-item>
-			  <el-form-item>
-			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
-			  </el-form-item>
-			  <el-form-item>
-			    <el-button type="info" size="small" @click="reset">重置</el-button>
-			  </el-form-item>
-			</el-form>
-		</div>
-	
+		<el-card shadow="always" >
+			  <el-row >
+			    <span>功能</span>
+			    <div style="float: right;padding-right:10px;">
+				    <i class="el-icon-arrow-up" v-if="cardShow" @click="cardShow=false"></i>
+				    <i class="el-icon-arrow-down" v-if="!cardShow"   @click="cardShow=true"></i>
+			    </div>
+			  </el-row>
+			  <div v-if="cardShow">
+				<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
+				  <el-form-item  >
+					  <el-select v-model="page.categoryId" placeholder="分类" style="width: 150px">
+					    <el-option v-for="category in categoryList" :key="category.id" :label="category.categoryName"  :value="category.id">
+					  	</el-option>
+					  </el-select>
+				  </el-form-item>
+				  <el-form-item   >
+					  <el-select v-model="page.brandId" placeholder="品牌" style="width: 150px">
+					    <el-option v-for="barnd in brandList" :key="barnd.id" :label="barnd.brandName"  :value="barnd.id">
+					  	</el-option>
+					  </el-select>
+				  </el-form-item>
+				  <el-form-item label="">
+				    <el-input v-model="page.goodsName" placeholder="商品名称"></el-input>
+				  </el-form-item>
+				  <el-form-item label="">
+				     <el-button type="primary" size="small" @click="getPage">查询</el-button>
+				     <el-button type="info" size="small" @click="reset">重置</el-button>
+				  </el-form-item>
+				</el-form>
+				<!--操作-->
+				<el-row :gutter="24">
+				  <el-col :span="3" style="line-height: 30px;">操作</el-col>
+				  <el-col :span="12"> 
+					<el-button-group>
+					  <el-button type="primary" icon="el-icon-plus" @click="openAdd()">添加</el-button>
+					</el-button-group>
+					</el-col>
+				</el-row>
+			</div>
+		</el-card>
+		<br />
 		<!--表格-->
-		<div style="padding: 0px 20px;" >
+		<el-card style="padding: 0px 20px;" >
 		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="goShow">
 			<el-table-column type="selection" width="55">
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
+		    </el-table-column>
+		    <el-table-column label="图片"  width="150"  show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	<img :src="props.row.imagePath"  width="100%"/>
+		      </template>
 		    </el-table-column>
 		    <el-table-column label="商品名称" prop="goodsName"  show-overflow-tooltip>
 		    </el-table-column>
@@ -71,7 +89,7 @@
 		      </template>
 		    </el-table-column>
 		  </el-table>
-		</div>
+		</el-card>
 		<div style="padding: 20px;">
 		    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" 
 		    	:current-page="page.page"  :page-size="page.pageSize" 	:total="total"
@@ -132,6 +150,7 @@ export default {
   data () {
     return {
     	This:this,
+    	cardShow:true,
 	    list: [],//
 	    selectionList:[],//选中的项
 	    

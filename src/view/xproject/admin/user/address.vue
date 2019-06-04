@@ -1,14 +1,10 @@
 <template>
 	<div>
-		<div class="v-title1">用户管理</div>	
 		<!--搜索功能-->
 		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
 			  <el-form-item label="">
 			  	 <el-button @click="openAdd()">+</el-button>
-			  </el-form-item>
-			  <el-form-item label="">
-			    <el-input v-model="page.name" placeholder="姓名"></el-input>
 			  </el-form-item>
 			  <el-form-item>
 			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
@@ -26,33 +22,21 @@
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
-		    <el-table-column label="账号" prop="name" width="100" show-overflow-tooltip>
+		    <el-table-column label="收货人" prop="name" width="100" show-overflow-tooltip>
 		    </el-table-column>
 		    <el-table-column label="电话" prop="phone"  width="120" show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column label="邮件" prop="email"  show-overflow-tooltip >
+		    <el-table-column label="地址" prop="address"  show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column label="状态"  prop="status"   width="50"  show-overflow-tooltip >
+		    <el-table-column label="详细地址"  prop="detailedAddress"    show-overflow-tooltip >
 		    </el-table-column>
-		    <el-table-column type="expand" label="详细" width="100px">
-		      <template slot-scope="props">
-		        <el-form label-position="left" inline class="demo-table-expand" >
-		          <el-form-item label="姓名">
-		            <span>{{props.row.name}}</span>
-		          </el-form-item>
-		          <el-form-item label="邮箱">
-		            <span>{{props.row.email}}</span>
-		          </el-form-item>
-		          <el-form-item label="电话">
-		            <span>{{props.row.phone}}</span>
-		          </el-form-item>
-		          <br />
-		        </el-form>
-		      </template>
+		    <el-table-column label="标签"  prop="tag"   width="50"  show-overflow-tooltip >
+		    </el-table-column>
+		    <el-table-column label="是否默认"  prop="isDefault"   width="50"  show-overflow-tooltip >
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">
-		      	<el-button  @click="openShow(scope.row	)" type="text" size="small">查看</el-button>  
+		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button>  
 		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
@@ -66,32 +50,35 @@
 		      	>
 		    </el-pagination>
 		</div>
-		
+
 	<!--添加显示-->
 	<div>
-		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="68%" >
+		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="40%" >
 			<div>
-			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog.readonly">
-				<el-form-item label="用户名"  >
+			<el-form ref="form" :model="item"  label-width="100px":inline="true"  :disabled="dialog.readonly">
+				<el-form-item label="收货人名称"  prop="goodsName">
 					<el-input v-model="item.name"  style="width: 220px" ></el-input>
 				</el-form-item>
-				<el-form-item label="密码"  >
-					<el-input v-model="item.password"  style="width: 220px" ></el-input>
+				<el-form-item label="电话"  >
+					<el-input v-model="item.phone" type="number" style="width: 220px" ></el-input>
 				</el-form-item>
-				<el-form-item label="邮件"  >
-					<el-input v-model="item.email"  style="width: 220px" ></el-input>
+				<el-form-item label="地址"  >
+					<el-input v-model="item.address" style="width: 220px" ></el-input>
 				</el-form-item>
-				<el-form-item label="手机号"  >
-					<el-input v-model="item.phone"  style="width: 220px" ></el-input>
+				<el-form-item label="详细地址"  >
+					<el-input v-model="item.detailedAddress"  style="width: 220px" ></el-input>
 				</el-form-item>
-				<el-form-item label="状态"  >
-					<el-input v-model="item.status"  style="width: 220px" ></el-input>
+				<el-form-item label="标签"  >
+					<el-input v-model="item.tag"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="是否默认"  >
+					<el-input v-model="item.isDefault" style="width: 220px" ></el-input>
 				</el-form-item>
 			</el-form>
 			</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="dialog.showDialog=false">取 消</el-button>
-		    <el-button type="primary" @click="save()">确 定</el-button>
+		    <el-button type="primary" @click="save()" :disabled="dialog.readonly">确 定</el-button>
 		  </span>
 		</el-dialog>
 	</div>
@@ -110,12 +97,13 @@ export default {
 	    selectionList:[],
 	    item:{
 	    	id:'',
-	    	code:'',
-	    	name:'',
-	    	password:'',
-	    	email:'',
-	    	phone:'',
-	    	status:'',
+	    	userCode:'',//用户编号
+	    	name:'',//收货人姓名
+	    	phone:'',//电话
+	    	address:'',//地址
+	    	detailedAddress:'',//详细地址
+	    	tag:'',//标签
+	    	isDefault:'',//是否默认
 	    },
 	    dialog:{
 	    	title:'',
@@ -123,8 +111,8 @@ export default {
 	    	readonly:false,
 	    },
     	url:{
-    		getPage:this.$C.xproject+'/user/getUserPage',
-    		save:this.$C.xproject+'/user/saveUser',
+    		getPage:this.$C.xproject+'/user/getUserAddress',
+    		save:this.$C.xproject+'/user/saveUserAddress',
     	},
         page:{
         	page:1,
@@ -139,6 +127,9 @@ export default {
 	components: {
 	},
 	methods: {
+	  getToken(){
+		return this.$G.getCookie("token");
+	  },
       indexMethod(index) {//自动生成index
         return index +1;
       },
@@ -155,12 +146,15 @@ export default {
 	  },
 	  getPage(){//获取信息（刷新）
 	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	this.$T.post(this.url.getPage,this.page,"",this.success);
+	  	let token =this.$G.getCookie("token");
+	  	//this.$T.post(this.url.getUserAddress,this.page,"",this.success);
+	  	this.$T.request(this.url.getPage,this.page,token,this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
 	  		this.list=res.data.data;
 	  		this.total=res.data.total;
+	  		this.$G.Resource.addressList=this.list;
 	  	}
 	  },
 	  reset(){//重置信息
@@ -176,9 +170,6 @@ export default {
 	  selection(val){//选择
 		 this.selectionList = val;
 	  },
-	  clear(){//清空
-		 this.$refs.multipleTable.clearSelection();
-	  },
 	  //打开添加模态框
 	  openAdd(){
 	  	this.dialog.readonly=false;
@@ -186,7 +177,8 @@ export default {
 	  	this.$G.emptyFrame(this.item);
 	  },
 	  save(){
-	  		this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+	  		let token =this.$G.getCookie("token");
+	  		this.$T.request(this.url.save,this.item,token,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -212,9 +204,7 @@ export default {
 	  },
 	  //跳转到详细页面
 	  goShow(row){
-//	  	console.log(row.code);
-//	  	let query={code:row.code}
-//	  	this.$router.push({ path: '/xproject/admin/userInfo', query})
+	  	console.log(row.code);
 	  },
 	},
 	mounted() {

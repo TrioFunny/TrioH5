@@ -32,8 +32,7 @@
 	    	</div>
 	    </el-tab-pane>
 	    <el-tab-pane label="参数信息" name="second">
-	    	<div></div>
-	    	参数信息
+	    	<Param :params="params" :spu="spu" @refresh="getGoodsInfo"></Param>
 	    </el-tab-pane>
 	    
 	    <!--规格信息-->
@@ -57,6 +56,7 @@
  import Spec from "./spec";
  import Sku from "./sku";
  import GoodsImg from "./img";
+ import Param from "./param";
  
 export default {
   name: 'admin',
@@ -105,11 +105,11 @@ export default {
 		
 		//
 		goodsImgs:'',
-		
+		params:'',
     }
   },
 	components: {
-		Spec,Sku,GoodsImg,
+		Spec,Sku,GoodsImg,Param,
 	},
 	methods: {
 	  //获取下拉框
@@ -140,6 +140,7 @@ export default {
 		  		this.specList=res.data.spec;
 		  		this.skuList=res.data.sku;
 		  		this.goodsImgs=res.data.img
+		  		this.params=res.data.params
 //		  		this.spu.categoryId=parseInt(res.data.spu.categoryId);
 //		  		this.spu.brandId=parseInt(res.data.spu.brandId);
 		  	}

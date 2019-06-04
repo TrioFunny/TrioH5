@@ -66,35 +66,7 @@
 		      	>
 		    </el-pagination>
 		</div>
-		
-	<!--添加显示-->
-	<div>
-		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="68%" >
-			<div>
-			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog.readonly">
-				<el-form-item label="用户名"  >
-					<el-input v-model="item.name"  style="width: 220px" ></el-input>
-				</el-form-item>
-				<el-form-item label="密码"  >
-					<el-input v-model="item.password"  style="width: 220px" ></el-input>
-				</el-form-item>
-				<el-form-item label="邮件"  >
-					<el-input v-model="item.email"  style="width: 220px" ></el-input>
-				</el-form-item>
-				<el-form-item label="手机号"  >
-					<el-input v-model="item.phone"  style="width: 220px" ></el-input>
-				</el-form-item>
-				<el-form-item label="状态"  >
-					<el-input v-model="item.status"  style="width: 220px" ></el-input>
-				</el-form-item>
-			</el-form>
-			</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button @click="dialog.showDialog=false">取 消</el-button>
-		    <el-button type="primary" @click="save()">确 定</el-button>
-		  </span>
-		</el-dialog>
-	</div>
+
 
   </div>
 </template>
@@ -212,9 +184,9 @@ export default {
 	  },
 	  //跳转到详细页面
 	  goShow(row){
-//	  	console.log(row.code);
-//	  	let query={code:row.code}
-//	  	this.$router.push({ path: '/xproject/admin/userInfo', query})
+	  	console.log(row.code);
+	  	let query={code:row.code}
+	  	this.$router.push({ path: '/xproject/admin/userInfo', query})
 	  },
 	},
 	mounted() {

@@ -30,7 +30,7 @@ html body {
 
 /*admin/questionList.vue*/
 .v-title1{
-	text-align: center;padding: 30px 30px;color: lightskyblue;font-size: 22px;
+	text-align: center;padding: 10px ;color: lightskyblue;font-size: 22px;
 }
   .demo-table-expand {
     font-size: 0;

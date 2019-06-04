@@ -6,6 +6,8 @@
 					<el-form-item  >
 						<el-button type="success" icon="el-icon-plus"  @click="addSize()">添加</el-button>
 						<el-button type="primary" icon="el-icon-refresh" @click="post">请求</el-button>
+						<el-button type="primary" icon="el-icon-refresh" @click="test()">加头请求</el-button>
+						<el-button type="primary" icon="el-icon-refresh" @click="test1()">测试2</el-button>
 						<el-button type="warning" icon="el-icon-sold-out" @click="save">保存</el-button>
 						<el-button type="info" icon="el-icon-delete" @click="clear">清空</el-button>
 					</el-form-item>
@@ -105,7 +107,17 @@
 				save(){
 				
 				},
-				
+				test(){
+					let url="http://127.0.01:8082/xproject/user/login?userName=test123&password=123456"
+					this.$T.request(url,'','test-sucess',this.success);
+				},
+				test1(){
+					let url="http://127.0.01:8082/xproject/user/getUserAddress"
+					let token =this.$G.getCookie("token");
+					console.log(token)
+					this.$T.request(url,'',token,this.success);
+				},
+					  	
 		},
 		created() {},
 		mounted() {

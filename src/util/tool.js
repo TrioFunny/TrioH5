@@ -10,10 +10,12 @@ Tool.ajax = function (mySetting) {
             type: 'GET', //请求的方式
             data: {}, //发给服务器的数据
             dataType: 'json',
-            view:'',
-            title:'',
             success: function (text,view) { }, //请求成功执行方法
-            error: function (view,title) { } //请求失败执行方法
+            error: function (view,title) { },//请求失败执行方法
+            token:'',//token参数
+            //没什么用的参数
+            view:'',//用于回调的参数
+            title:'',//用于说明
         };
 
 
@@ -24,6 +26,7 @@ Tool.ajax = function (mySetting) {
         setting[attr] = mySetting[attr];
     }
 
+	//设置请求类型（设置为大写）
     setting.type = setting.type.toUpperCase();
 	
     var xhr = new XMLHttpRequest();
@@ -38,12 +41,14 @@ Tool.ajax = function (mySetting) {
             xhr.open(setting.type, sData + '&' + new Date().getTime(), setting.async);
             xhr.send();
         } else if(setting.type=='POST'){ //post方式请求
+        	
 			    for (var attr in setting.data) {
 			        aData.push(attr + '=' + filter(setting.data[attr]));
 			    }
 			    sData = aData.join('&');
 	            xhr.open(setting.type, setting.url, setting.async);
 	            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	            xhr.setRequestHeader("Token", setting.token);
 	            xhr.send(sData);
             
         }
@@ -111,6 +116,7 @@ Tool.post = function (pathname, data,view,success,error,title) {
     };
     return Tool.ajax(setting);
 };
+
 /**
  * 封装ajax get请求
  * @param {string} pathname 服务器请求地址
@@ -134,12 +140,16 @@ Tool.get = function (pathname, data,view,success, error) {
 
 ///////////////////////////////////////////////////////////////////////
 
-Tool.validIsUser=function(){
-	//获取cookies
-	if(Tool.getCookie("userId")==null||Tool.getCookie("userId")==''){
-		return false;
-	}
-	return true ;
+Tool.request = function (pathname, data,token,success,error,) {
+    var setting = {
+        url: pathname, //默认ajax请求地址
+        type: 'POST', //请求的方式
+        data: data, //发给服务器的数据
+        token:token,//写入头的token
+        success: success || function () { }, //请求成功执行方法
+        error: error || function () { } //请求失败执行方法
+    };
+    return Tool.ajax(setting);
 };
 
 export default Tool;

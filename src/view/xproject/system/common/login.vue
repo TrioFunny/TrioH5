@@ -64,7 +64,7 @@
 			success(res) {//登录成功
 				if(res.code == "200") {
 					//把数据存到cookie中
-					this.$G.setCookie("code",res.data,24);
+					this.$G.setCookie("token",res.data,24);
 					this.$router.push('/xproject/admin');
 				} else {
 					this.$message.error(res.error_msg);

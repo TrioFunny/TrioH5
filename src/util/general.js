@@ -2,7 +2,9 @@ import Vue from 'vue'
 
 const General= {};
 
-
+General.Resource={
+	addressList:[],
+}
 
 General.goToByName=function(_this,_name){
 	_this.$router.push({name: _name});

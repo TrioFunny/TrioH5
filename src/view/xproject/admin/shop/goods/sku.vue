@@ -26,7 +26,8 @@
 				    </el-table-column>
 				    <el-table-column label="操作"  >
 				      <template slot-scope="scope">  
-				      	<el-button  @click="" type="text" size="small">查看</el-button> 
+				      	<el-button  @click="" type="text" size="small">查看</el-button>
+				      	<el-button  @click="" type="text" size="small">购买</el-button> 
 				    	<el-button  @click="" type="text" size="small">编辑</el-button>   
 				      </template>
 				    </el-table-column>
@@ -138,7 +139,7 @@ export default {
 	  openUpdateSku(item){
 	  	this.skuDialog.showDialog=true;
 	  },
-	  
+
 
 	},
 	mounted() {

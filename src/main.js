@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) =>{
 	
 	if(common.indexOf(to.path)<0){//判断是否在游客界面
 		
-		let falg=General.getCookie("code").length;
+		let falg=General.getCookie("token").length;
 		if(falg<1){//没有登陆就条状到登陆界面
 			return next({path: "/xproject/"});
 		}
