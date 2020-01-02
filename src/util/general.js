@@ -1,10 +1,10 @@
-import Vue from 'vue'
 
 const General= {};
 
 General.Resource={
 	addressList:[],
 }
+
 
 General.goToByName=function(_this,_name){
 	_this.$router.push({name: _name});
@@ -65,7 +65,12 @@ General.formatYYMMDD=function(time){
     var year = date.getFullYear(),
         month = date.getMonth() + 1,//月份是从0开始的
         day = date.getDate();
-    var newTime = year + '-' +month + '-' +day + ' ';
+ 	if(month<10){
+		var newTime = year + '-0' +month + '-' +day + ' ';
+	}else{
+		var newTime = year + '-' +month + '-' +day + ' ';
+	}
+    
     return newTime;         
 }
 

@@ -89,8 +89,7 @@ export default {
         return index +1;
       },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	this.$T.post(this.url.getAll,this.page,"",this.success);
+	  	this.$T.fool(this.url.getAll,this.page,this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -114,7 +113,7 @@ export default {
 	  save(){
 		this.$refs["form"].validate((e) => {
           if (e) {
-          	this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+          	this.$T.fool(this.url.save,this.item,this.saveSuccess);
           } else {
             return false;
           }

@@ -5,7 +5,10 @@
 				<el-row>
 				  <el-col :span="5">
 					<el-card class="box-card" style="margin: 10px;">
-					  <div slot="header" > <span>缩略图</span> </div>
+					  <div slot="header" > 
+					  	<span>缩略图</span> 
+						<el-button class="x-button" type="text"  @click="openAddImg(1)" :disabled="spu.state=='1'">添加图片</el-button>
+					  </div>
 					  <div v-for="item in goodsImgs.thum" :key="item.id"  >
 					   <img :src="item.path" width="100%" @click="openChangeImg(item)"></img>
 					  </div>
@@ -15,7 +18,7 @@
 					<el-card class="box-card" style="margin: 10px;">
 					  <div slot="header" > 
 					  	<span>展示图</span> 
-					  <el-button class="x-button" type="text"  @click="openAddImg">添加图片</el-button>
+					  <el-button class="x-button" type="text"  @click="openAddImg(2)" :disabled="spu.state=='1'">添加图片</el-button>
 					  </div>
 						  <el-carousel indicator-position="outside" height="600px">
 						    <el-carousel-item v-for="item in goodsImgs.show" :key="item.id">
@@ -26,7 +29,10 @@
 				  </el-col>
 				  <el-col :span="8" style="margin: 10px;">
 					<el-card class="box-card" >
-					  <div slot="header" > <span>详情图</span> </div>
+					  <div slot="header" > 
+					  	<span>详情图</span> 
+						<el-button class="x-button" type="text"  @click="openAddImg(3)" :disabled="spu.state=='1'">添加图片</el-button>
+					  </div>
 					  <div class="x-item"  >
 					    <img :src="item.path" width="100%" @click="openChangeImg(item)"  v-for="item in goodsImgs.detailed"  :key="item.id"/>
 					  </div>
@@ -76,8 +82,9 @@
 				</el-form>
 				</div>
 			  <span slot="footer" class="dialog-footer">
-			    <el-button @click="dialog.showDialog=false">取 消</el-button>
-			    <el-button type="primary" @click="saveGoodsImg()">确 定</el-button>
+			  	<el-button v-if="spu.state=='-1'" type="danger" @click="deleteGoodsImg()" >删除</el-button>
+			    <el-button v-if="spu.state=='-1'" type="primary" @click="saveGoodsImg()">确 定</el-button>
+			    <el-button @click="dialog.showDialog=false">返回</el-button>
 			  </span>
 			</el-dialog>
 		</div>
@@ -118,6 +125,7 @@ export default {
     	imageUrl: '',
     	url:{//请求地址统一管理
     		saveGoodsImg:this.$C.xproject+'/mall/saveGoodsImg',
+    		deleteGoodsImg:this.$C.xproject+'/mall/deleteGoodsImg',
     	},
     }
   },
@@ -125,31 +133,46 @@ export default {
 	methods: {
 		//上传路径
 		uploadUrl(){
-			return this.$C.xproject+'/upload/goodsImg?type=goods&goodsCode='+this.spu.spuNo;
+			return this.$C.xproject+'/upload/img?type=goods&code='+this.spu.spuNo;
 		},
 		//打开添加栏
-		openAddImg(){
+		openAddImg(type){
 		  	this.dialog.readonly=false;
 		  	this.dialog.showDialog=true;
 		  	this.imageUrl="";
 		  	this.$G.emptyFrame(this.item);
 		  	this.item.spuId=this.spu.id;
+			if(type==1){
+				this.item.type='1';
+			}
+			if(type==2){
+				this.item.type='2';
+			}
+			if(type==3){
+				this.item.type='3';
+			}
 		},
 		
 		//保存图片
 		saveGoodsImg(){
-			this.$T.post(this.url.saveGoodsImg,this.item,"",this.saveGoodsSuccess);
+			this.$T.request(this.url.saveGoodsImg,this.item,this.token,this.saveGoodsSuccess);
 		},
 		saveGoodsSuccess(res){
 		  	if(res.code=='200'){
 		  		this.dialog.showDialog=false;
 		  		this.$message.success('提交成功');
 		  		this.$emit('refresh');
-		  	}
+		  	}else{
+	  		this.$message.error(res.error_msg);
+	  		}
 		},
 		//
 		openChangeImg(item){
-		  	this.dialog.readonly=false;
+			if(this.spu.state=='-1'){
+				this.dialog.readonly=false;
+			}else{
+				this.dialog.readonly=true;
+			}
 		  	this.dialog.showDialog=true;
 			this.item=item
 			this.imageUrl=item.path;
@@ -167,18 +190,27 @@ export default {
       		console.log(file.type);
         	const isJPG = file.type === 'image/jpeg';
         	const isLt2M = file.size / 1024 / 1024 < 2;
-
-        	if (!isJPG) {
-         	 this.$message.error('上传头像图片只能是 JPG 格式!');
+        	const isPNG = file.type === 'image/png';
+			
+        	if (!isJPG&&!isPNG) {
+         	 this.$message.error('上传头像图片只能是 JPG或者PNG 格式!');
         	}
         	if (!isLt2M) {
         	  this.$message.error('上传头像图片大小不能超过 2MB!');
         	}
-        	return isJPG && isLt2M;
-      	}
+        	return (isJPG||isPNG) && isLt2M;
+      	},
+      	deleteGoodsImg(){
+      		let param={
+      			id:this.item.id,
+      			spuId:this.spu.id,
+      		}
+      		this.$T.request(this.url.deleteGoodsImg,param,this.token,this.saveGoodsSuccess);
+      	},
+      	
 	},
 	mounted() {
-		
+		this.token=this.$G.getCookie("token");
 	},
 }
 </script>

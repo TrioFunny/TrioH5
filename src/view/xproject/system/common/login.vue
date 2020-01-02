@@ -88,6 +88,6 @@
 
 <style scoped>
 .x-login-div{
-	display:block;max-width: 600px;margin: auto; border: solid cornflowerblue 2px;border-radius: 15px;margin-top:10% ;
+	display:block;max-width: 600px;margin: auto; border: solid cornflowerblue 2px;border-radius: 15px;margin-top:1% ;
 }
 </style>

@@ -15,6 +15,10 @@ import store from './vuex/index'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+//画图工具
+import echarts from 'echarts'
+Vue.prototype.echarts = echarts; 
+
 
 //公用工具
 import Config from '@/util/config';
@@ -25,16 +29,16 @@ import General from '@/util/general';
 Vue.prototype.$G=General;
 
 //跳转拦截
-const common=['/Login','/Register',"/xproject/" ];
+const common=['/Login','/Register',"/xproject/","/xproject/login","/xproject/register" ];
 
 router.beforeEach((to, from, next) =>{
 	
 	if(common.indexOf(to.path)<0){//判断是否在游客界面
 		
-		let falg=General.getCookie("token").length;
-		if(falg<1){//没有登陆就条状到登陆界面
-			return next({path: "/xproject/"});
-		}
+//		let falg=General.getCookie("token").length;
+//		if(falg<1){//没有登陆就条状到登陆界面
+//			return next({path: "/xproject/"});
+//		}
 		
 	}
 

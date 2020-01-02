@@ -4,7 +4,7 @@
 	    <el-tab-pane label="基本信息" name="first">
 	    	<div style="text-align: center;">
 				<div class="v-title1" >商品信息</div>
-				<el-form ref="spuForm" :rules="rules"  :model="spu" label-width="85px"  :inline="true" :disabled="isEdit">
+				<el-form ref="spuForm" :rules="rules"  :model="spu" label-width="85px"  :inline="true" :disabled="spu.state!='-1'">
 					<el-form-item label="商品名称"  prop="goodsName">
 						<el-input v-model="spu.goodsName"  style="width: 220px" ></el-input>
 					</el-form-item>
@@ -72,6 +72,7 @@ export default {
 	    	lowPrice:'',//最低价格
 	    	categoryId:'',//分类名称
 	    	brandId:'',//品牌ID
+	    	state:'',
 	    	gmtCreate:'',//创建时间
 	    	gmtUpdate:'',//更新时间
 	    	revision:'',
@@ -152,7 +153,7 @@ export default {
 	  saveGoodSup(){
 		this.$refs["spuForm"].validate((e) => {
           if (e) {
-          	this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+          	this.$T.request(this.url.save,this.item,this.token,this.saveSuccess);
           } else {
             return false;
           }
@@ -166,6 +167,7 @@ export default {
 	  
 	},
 	mounted() {
+		this.token=this.$G.getCookie("token");
 		if(this.$route.query.code==undefined){
 			
 			return ;

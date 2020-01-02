@@ -1,32 +1,19 @@
 <template>
 	<div>
+		<div class="v-title1" style="padding:0px 0 10px ;">带处理订单</div>
 		<!--搜索功能-->
 		<div style="text-align: center;">
-			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
-			  <el-form-item label="">
-			  	 <el-button @click="openAdd()">+</el-button>
-			  </el-form-item>
-			  <el-form-item label="商店id">
-			    <el-input v-model="page.goodsName" placeholder="商品名称"></el-input>
+			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;" >
+			  <el-form-item >
+			    <el-input v-model="page.code" placeholder="商品名称"></el-input>
 			  </el-form-item>
 			  <el-form-item   >
-				  <el-select v-model="page.sign" placeholder="Sign" style="width: 150px">
+				  <el-select v-model="page.sign" placeholder="Sign" style="width: 150px" disabled>
 				    <el-option label="未付款"  value="unpaid"></el-option>
 				    <el-option label="未发货"  value="unsent"></el-option>
 				    <el-option label="配送中"  value="delivering"></el-option>
 				    <el-option label="待评价"  value="comment"></el-option>
 				    <el-option label="已完成"  value="complete"></el-option>
-				  </el-select>
-			  </el-form-item>
-			  <el-form-item   >
-				  <el-select v-model="page.state" placeholder="state" style="width: 150px">
-				    <el-option label="未付款"  value="0"></el-option>
-				    <el-option label="待接收"  value="1"></el-option>
-				    <el-option label="待分配"  value="2"></el-option>
-				    <el-option label="待确认"  value="3"></el-option>
-				    <el-option label="待送达"  value="4"></el-option>
-				   	<el-option label="待评价"  value="5"></el-option>
-				   	<el-option label="已完成"  value="6"></el-option>
 				  </el-select>
 			  </el-form-item>
 			  <el-form-item>
@@ -45,21 +32,25 @@
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
-		    <el-table-column label="商店" prop="shopId"  show-overflow-tooltip>
+		    <el-table-column label="单号" prop="id"  show-overflow-tooltip>
 		    </el-table-column>
-		    <el-table-column label="状态" prop="state" show-overflow-tooltip >
+		    <el-table-column label="用户编码" prop="userCode"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="商店" prop="shopId" width="80"  show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="状态" prop="state"  width="100"show-overflow-tooltip >
 		    	<template slot-scope="props">
 		    		<div> {{ state(props.row.state)}}</div>
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="价格" prop="price"  show-overflow-tooltip >
+		    <el-table-column label="价格" prop="price" width="100" show-overflow-tooltip >
 		    </el-table-column>
 		    <el-table-column label="收件人"     width="100"  show-overflow-tooltip >
 		    	<template slot-scope="props">
 		    		<div> {{obj(props.row.addressInfo).name}}</div>
 		    	</template>
 		    </el-table-column>
-		    <el-table-column label="电话"     show-overflow-tooltip >
+		    <el-table-column label="电话"    width="120" show-overflow-tooltip >
 		    	<template slot-scope="props">
 		    		<div> {{obj(props.row.addressInfo).phone}}</div>
 		    	</template>
@@ -67,8 +58,7 @@
 
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">
-		      	<el-button v-if="scope.row.state=='0'"  @click="payment(scope.row)" type="text" size="small">假支付</el-button> 
-		      	<el-button v-if="scope.row.state=='0'"  @click="wxPay(scope.row)" type="text" size="small">微信</el-button> 
+		      	<el-button v-if="scope.row.state=='0'"  @click="payment(scope.row)" type="text" size="small">支付</el-button> 
 		      	<el-button v-if="scope.row.state=='1'"  @click="accept(scope.row)" type="text" size="small">接收</el-button> 
 		      	<el-button v-if="scope.row.state=='2'" @click="allocation(scope.row)" type="text" size="small">分配</el-button> 
 		      	<el-button v-if="scope.row.state=='3'" @click="shopAccept(scope.row)" type="text" size="small">店面确认</el-button> 
@@ -163,7 +153,6 @@ export default {
 
 	    list: [],
 	    selectionList:[],
-	    userCode:'',
 	    item:{
 	    	id:'',
 	    	userCode:'',//用户编号
@@ -182,15 +171,13 @@ export default {
 	    	readonly:false,
 	    },
     	url:{
-    		getPage:this.$C.xproject+'/order/getOrderPage',
+    		getPage:this.$C.xproject+'/order/getAllOrderPage',
     		orderGoNext:this.$C.xproject+'/order/orderGoNext',
-    		getOrderNodeInfo:this.$C.xproject+'/order/getOrderNodeInfo',
-    		getPageByAdmin:this.$C.xproject+'/order/getAllOrderPage',
-    		wxPay:this.$C.xproject+'/WxPay/placeOrder',
-    		wxCode:"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf3be53e1e6c7b88e&redirect_uri=http://wkf12058.vicp.io:40969/wx/getCode&response_type=code&scope=SCOPE&state=STATE#wechat_redirect",
+    		getOrderNodeInfo:this.$C.xproject+'/order/getOrderNodeInfoA',
     	},
         page:{
-        	sign:'',
+        	code:'',
+        	sign:'unsent',
         	state:'',
         	shopId:'',
         	page:1,
@@ -245,13 +232,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	if(this.userCode!=''){
-	  		this.page.userCode=this.userCode
-	  		this.$T.fool(this.url.getPageByAdmin,this.page,this.success);
-	  	}else{
-	  		this.$T.fool(this.url.getPage,this.page,this.success);
-	  	}
-	  	
+	  	this.$T.request(this.url.getPage,this.page,"",this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -273,7 +254,8 @@ export default {
 		 this.selectionList = val;
 	  },
 	  save(){
-	  		this.$T.fool(this.url.save,this.item,this.saveSuccess);
+	  		let token =this.$G.getCookie("token");
+	  		this.$T.request(this.url.save,this.item,token,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -284,13 +266,14 @@ export default {
 	  },
 	  //跳转到详细页面
 	  goShow(row){
+	  	console.log(row);
 	  	this.dialog.showDialog=true;
 	  	this.orderInfo.addressInfo=JSON.parse(row.addressInfo)
 	  	this.orderInfo.goodsInfo=JSON.parse(row.goodsInfo)
 	  	let param={
 	  		orderId:row.id,
 	  	}
-	  	this.$T.fool(this.url.getOrderNodeInfo,param,this.getOrderInfoSuccess);
+	  	this.$T.request(this.url.getOrderNodeInfo,param,"",this.getOrderInfoSuccess);
 	  },
 	  getOrderInfoSuccess(res){
 	  	if(res.code=='200'){
@@ -299,12 +282,13 @@ export default {
 	  	}
 	  },
 	  orderGoNext(orderId,info,shopId){
+	  		let token =this.$G.getCookie("token");
 	  		let param={
 	  			orderId:orderId,
 	  			shopId:shopId,
 	  			info:info,
 	  		}
-	  		this.$T.fool(this.url.orderGoNext,param,this.gSuccess);
+	  		this.$T.request(this.url.orderGoNext,param,token,this.gSuccess);
 	  },
 	  gSuccess(res){
 	  	if(res.code=='200'){
@@ -314,46 +298,36 @@ export default {
 	  },
 	  //支付
 	  payment(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"用户支付订单","");
-	  },
-	  wxPay(row){
-	  		let param={
-	  			orderId:row.id,
-	  		}
-	  		this.$T.fool(this.url.wxPay,param,this.wxPaySucess);
-	  },
-	  wxPaySucess(res){
-	  	if(res.code=='200'){
-	  		this.$message('操作成功');
-	  		console.log(res);
-	  	}
 	  },
 	  //接受
 	  accept(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"管理员接收订单","");
 	  },
 	  //分配
 	  allocation(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"管理员分配订单：给商店：123","123");
 	  },
 	  //商店确认
 	  shopAccept(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"商店确认订单","");
 	  },
 	  //确认送达
 	  receipt(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"用户确认送达","");
 	  },
 	  //评价
 	  evaluation(row){
+	  	console.log(row);
 	  	this.orderGoNext(row.id,"用户评论订单","");
 	  },
 	},
 	mounted() {
-		if(this.$route.query.userCode!=undefined){
-			this.userCode=this.$route.query.userCode;
-			this.isAdmin=true;
-		}
 		this.getPage();
 	},
 }

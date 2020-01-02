@@ -94,9 +94,9 @@ export default {
   data () {
     return {
     	This:this,
-
 	    list: [],
 	    selectionList:[],
+	    userCode:'',
 	    item:{
 	    	code:'',
 			count:'',
@@ -116,6 +116,7 @@ export default {
     		newOrder:this.$C.xproject+'/order/newOrderByCart',
     		deleteCartGoods:this.$C.xproject+'/user/deleteGoodsInCart',
     		newOrderByGoods:this.$C.xproject+'/order/newOrderByGoods',
+    		getPageByAdmin:this.$C.xproject+'/user/getUserCartByAdmin',
     	},
         page:{
         	page:1,
@@ -135,9 +136,6 @@ export default {
 	components: {
 	},
 	methods: {
-	  getToken(){
-		return this.$G.getCookie("token");
-	  },
       indexMethod(index) {//自动生成index
         return index +1;
       },
@@ -150,10 +148,12 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	let token =this.$G.getCookie("token");
-	  	//this.$T.post(this.url.getUserAddress,this.page,"",this.success);
-	  	this.$T.request(this.url.getAll,"",token,this.success);
+	  	if(this.userCode!=''){
+	  		this.page.userCode=this.userCode
+	  		this.$T.fool(this.url.getPageByAdmin,this.page,this.success);
+	  	}else{
+	  		this.$T.fool(this.url.getAll,this.page,this.success);
+	  	}
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -180,8 +180,7 @@ export default {
 	  	this.$G.emptyFrame(this.item);
 	  },
 	  save(){
-	  		let token =this.$G.getCookie("token");
-	  		this.$T.request(this.url.save,this.item,token,this.saveSuccess);
+	  		this.$T.fool(this.url.save,this.item,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -229,7 +228,7 @@ export default {
 			this.order.cartGoodsId.push(this.selectionList[i].ID);
 		}
 	  	
-	  	this.$T.request(this.url.newOrder,this.order,token,this.newOrderSuccess);
+	  	this.$T.fool(this.url.newOrder,this.order,this.newOrderSuccess);
 	  	
 	  },
 	  newOrderSuccess(res){
@@ -239,8 +238,7 @@ export default {
 	  	}
 	  },
 	  deleteGoodsInCart(item){
-	  	let token =this.$G.getCookie("token");
-	  	this.$T.request(this.url.deleteCartGoods,{ids:[item.ID]},token,this.newOrderSuccess);
+	  	this.$T.fool(this.url.deleteCartGoods,{ids:[item.ID]},this.newOrderSuccess);
 	  	
 	  },
 	  buyGoods(){
@@ -248,18 +246,20 @@ export default {
 		  		this.$message('地址未选择');
 		  		return;
 		  	}
-			let token =this.$G.getCookie("token");
 			let param={
 				skuId:this.selectionList[0].SKU_ID,
 				addressId:this.order.addressId,
 				count:"1",
 			}
-			console.log(param);
-	  		this.$T.request(this.url.newOrderByGoods,param,token,this.saveSuccess);
+	  		this.$T.fool(this.url.newOrderByGoods,param,this.saveSuccess);
 	  },
 	  
 	},
 	mounted() {
+		if(this.$route.query.userCode!=undefined){
+			this.userCode=this.$route.query.userCode;
+			this.isAdmin=true;
+		}
 		this.getPage();
 	},
 }

@@ -1,3 +1,6 @@
+
+import G from './general'
+
 const Tool = {};
 /**
  * 发送ajax请求和服务器交互
@@ -47,9 +50,12 @@ Tool.ajax = function (mySetting) {
 			    }
 			    sData = aData.join('&');
 	            xhr.open(setting.type, setting.url, setting.async);
-	            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//	            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	            xhr.setRequestHeader("Content-type", "application/json");
 	            xhr.setRequestHeader("Token", setting.token);
-	            xhr.send(sData);
+//	            xhr.send(sData);
+	            let wdata =JSON.stringify(setting.data);
+	            xhr.send(wdata);
             
         }
     } catch (e) {
@@ -124,7 +130,7 @@ Tool.post = function (pathname, data,view,success,error,title) {
  * @param {function} success  请求成功执行方法
  * @param {function} error    请求失败执行方法
  */
-Tool.get = function (pathname, data,view,success, error) {
+Tool.get1 = function (pathname, data,view,success, error) {
     var setting = {
         url:  pathname, //默认ajax请求地址
         type: 'GET', //请求的方式
@@ -151,5 +157,19 @@ Tool.request = function (pathname, data,token,success,error,) {
     };
     return Tool.ajax(setting);
 };
+
+Tool.fool = function (pathname, data,success,error,) {
+	let token=G.getCookie("token");
+    var setting = {
+        url: pathname, //默认ajax请求地址
+        type: 'POST', //请求的方式
+        data: data, //发给服务器的数据
+        token:token,//写入头的token
+        success: success || function () { }, //请求成功执行方法
+        error: error || function () { } //请求失败执行方法
+    };
+    return Tool.ajax(setting);
+};
+
 
 export default Tool;

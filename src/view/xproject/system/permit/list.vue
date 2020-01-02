@@ -22,6 +22,9 @@
 			  <el-form-item>
 			    <el-button type="info" size="small" @click="reset">重置</el-button>
 			  </el-form-item>
+			  <el-form-item>
+			    <el-button type="info" size="small" @click="cleanRedis">清理权限</el-button>
+			  </el-form-item>
 			</el-form>
 		</div>
 	
@@ -100,6 +103,7 @@ export default {
     		getPage:this.$C.xproject+'/system/getPageOnPermit',
     		save:this.$C.xproject+'/system/savePermit',
     		delete:this.$C.xproject+'/system/deletePermit',
+    		cleanRedisUserPermit:this.$C.xproject+'/system/cleanRedisUserPermit',
     	},
         page:{
         	code:'',
@@ -197,7 +201,11 @@ export default {
 	  	this.dialog.showDialog=true;
 	  	this.$G.emptyFrame(this.item);
 	  },
-
+	
+	  cleanRedis(){
+	  	let token =this.$G.getCookie("token");
+	  	this.$T.request(this.url.cleanRedisUserPermit,this.page,token,this.success);
+	  },
 
 
 

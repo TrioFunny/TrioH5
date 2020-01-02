@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="v-title1">用户管理</div>	
+		<div class="v-title1">收藏管理</div>	
 		<!--搜索功能-->
 		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
@@ -26,34 +26,19 @@
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
 		    </el-table-column>
-		    <el-table-column label="账号" prop="name" width="100" show-overflow-tooltip>
-		    </el-table-column>
-		    <el-table-column label="电话" prop="phone"  width="120" show-overflow-tooltip >
-		    </el-table-column>
-		    <el-table-column label="邮件" prop="email"  show-overflow-tooltip >
-		    </el-table-column>
-		    <el-table-column label="状态"  prop="status"   width="50"  show-overflow-tooltip >
-		    </el-table-column>
-		    <el-table-column type="expand" label="详细" width="100px">
-		      <template slot-scope="props">
-		        <el-form label-position="left" inline class="demo-table-expand" >
-		          <el-form-item label="姓名">
-		            <span>{{props.row.name}}</span>
-		          </el-form-item>
-		          <el-form-item label="邮箱">
-		            <span>{{props.row.email}}</span>
-		          </el-form-item>
-		          <el-form-item label="电话">
-		            <span>{{props.row.phone}}</span>
-		          </el-form-item>
-		          <br />
-		        </el-form>
+		    <el-table-column label="图片"   show-overflow-tooltip  width="150">
+		      <template slot-scope="props">  
+		      	<img :src="props.row.image_Path"  width="100%"/>
 		      </template>
+		    </el-table-column>
+		    <el-table-column label="商品名称" prop="goods_name" width="100" show-overflow-tooltip>
+		    </el-table-column>
+		    <el-table-column label="价格" prop="low_price"  width="120" show-overflow-tooltip >
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">
-		      	<el-button  @click="openShow(scope.row	)" type="text" size="small">查看</el-button>  
-		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
+		      	<el-button  @click="" type="text" size="small">前往</el-button>  
+		    	<el-button  @click="" type="text" size="small">删除</el-button>   
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -80,6 +65,7 @@ export default {
 
 	    list: [],
 	    selectionList:[],
+	    userCode:'',
 	    item:{
 	    	id:'',
 	    	code:'',
@@ -95,10 +81,12 @@ export default {
 	    	readonly:false,
 	    },
     	url:{
-    		getPage:this.$C.xproject+'/user/getUserPage',
-    		save:this.$C.xproject+'/user/saveUser',
+    		getPage:this.$C.xproject+'/user/getUserCollect',
+    		delete:this.$C.xproject+'/user/deleteUserCollect',
+    		getPageByAdmin:this.$C.xproject+'/user/getUserCollectByAdmin',
     	},
         page:{
+        	userCode:'',
         	page:1,
         	pageSize:10,
         	sortWord:'',
@@ -126,8 +114,12 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	this.$T.post(this.url.getPage,this.page,"",this.success);
+	  	if(this.userCode!=''){
+	  		this.page.userCode=this.userCode
+	  		this.$T.fool(this.url.getPageByAdmin,this.page,this.success);
+	  	}else{
+	  		this.$T.fool(this.url.getPage,this.page,this.success);
+	  	}
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -148,9 +140,6 @@ export default {
 	  selection(val){//选择
 		 this.selectionList = val;
 	  },
-	  clear(){//清空
-		 this.$refs.multipleTable.clearSelection();
-	  },
 	  //打开添加模态框
 	  openAdd(){
 	  	this.dialog.readonly=false;
@@ -158,7 +147,7 @@ export default {
 	  	this.$G.emptyFrame(this.item);
 	  },
 	  save(){
-	  		this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+	  		this.$T.fool(this.url.save,this.item,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -190,6 +179,10 @@ export default {
 	  },
 	},
 	mounted() {
+		if(this.$route.query.userCode!=undefined){
+			this.userCode=this.$route.query.userCode;
+			this.isAdmin=true;
+		}
 		this.getPage();
 	},
 }

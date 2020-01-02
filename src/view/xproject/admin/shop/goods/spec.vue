@@ -1,19 +1,24 @@
 <template>
 		<div style="padding: 20px 20%;">
 			<!--功能-->
-			<div style="text-align: center;padding: 10px;">
-			  <el-button type="primary" @click="openAddSpec" >添加规格</el-button>
-			  <el-button type="primary" @click="openAddSpecValue">添加规格值</el-button>
+			<div style="text-align: center;padding: 10px;" >
+			  <el-button type="primary" @click="openAddSpec" :disabled="spu.state=='1'">添加规格</el-button>
+			  <el-button type="primary" @click="openAddSpecValue" :disabled="spu.state=='1'">添加规格值</el-button>
 			</div>
 			<!--展示-->
 			<el-collapse   v-model="activeNames">
 			  <el-collapse-item  :name="index" v-for="(spec,index) in specList" :key="index">
 			    <template slot="title" > 
-			    	<div class="x-title"  ><span @click="openUpdateSpec()">{{spec.info.SPEC_NAME}}</span></div>
+			    	<div class="x-title"  >
+			    		<span >{{spec.info.SPEC_NAME}}</span>
+<!--			    	<i class="el-icon-edit-outline xedit" title="编辑" @click="openUpdateSpec(spec)" v-if="spu.state=='-1'"></i>-->
+			    	</div>
 			    </template>
+			    <i class="el-icon-close xcolse" title="删除"  @click="deleteSpec(spec)" v-if="spu.state=='-1'"></i>
 			    <div style="text-align: center;">
 					<el-tag class="x-spec"  v-for="(tag,index) in spec.value" :key="tag.name"  :type="getTagType(index)" 
-						@close="tagClose(index)" @click="openUpdateSpecValue()"  closable> {{tag.specValue}}
+						@close="deleteSpecValue(tag)" @click="openUpdateSpecValue(tag)":closable="spu.state=='-1'? true:false "> 
+						{{tag.specValue}}
 					</el-tag>
 			    </div>
 			  </el-collapse-item>
@@ -70,11 +75,13 @@ export default {
     	url:{//请求地址统一管理
     		saveGoodsSpec:this.$C.xproject+'/mall/saveGoodsSpec',
     		saveGoodsSpecValue:this.$C.xproject+'/mall/saveGoodsSpecValue',
+    		deleteSpecValue:this.$C.xproject+'/mall/deleteGoodsSpecValue',
+    		deleteSpec:this.$C.xproject+'/mall/deleteGoodsSpec',
     	},
 		//规格信息栏
 		//specList:[],
 		//当前展开项
-		activeNames:[],
+		activeNames:"1",
 		
 		//spec 模态框对象
 		specDialog:{
@@ -125,7 +132,7 @@ export default {
 
 	  //添加规格信息
 	  saveGoodsSpec(){
-	  	this.$T.post(this.url.saveGoodsSpec,this.spec,"",this.success);
+	  	this.$T.request(this.url.saveGoodsSpec,this.spec,this.token,this.success);
 	  },
 	  success(res){
 	  	if(res.code=="200"){
@@ -133,11 +140,9 @@ export default {
 	  		this.specDialog.showDialog=false;
 	  		this.valueDialog.showDialog=false;
 	  		this.$emit('refresh');
+	  	}else{
+	  		this.$message.error(res.error_msg);
 	  	}
-	  },
-	  //tag 删除
-	  tagClose(index){
-	  	this.tags.splice(index);
 	  },
 	  //添加规格
 	  openAddSpec(){
@@ -147,11 +152,12 @@ export default {
 	  },
 	  //修改规格
 	  openUpdateSpec(item){
-	  	this.specDialog.showDialog=true;
+			this.$message.success('修改规格');
+			console.log(item);
 	  },
 	  //添加规格信息
 	  saveGoodsSpecValue(){
-	  	this.$T.post(this.url.saveGoodsSpecValue,this.specValue,"",this.success);
+	  	this.$T.request(this.url.saveGoodsSpecValue,this.specValue,this.token,this.success);
 	  },
 	  //添加规格值
 	  openAddSpecValue(){
@@ -160,14 +166,32 @@ export default {
 	  	this.specValue.spuCode=this.spu.spuNo;
 	  },
 	  //修改添加规格值
-	  openUpdateSpecValue(){
-	  	this.valueDialog.showDialog=true;
+	  openUpdateSpecValue(item){
+//			this.$message.success('修改值');
+			console.log(item);
 	  },
 	  
-	  
+	  //删除值
+	  deleteSpecValue(item){
+	  	let param={
+	  		id:item.id,
+	  		spuId:this.spu.id,
+	  	}
+	  	this.$T.request(this.url.deleteSpecValue,param,this.token,this.success);
+	  },
+	  //删除规格
+	  deleteSpec(item){
+	  	console.log(item)
+	  	let param={
+	  		specId:item.info.SPEC_ID,
+	  		id:item.info.ID,
+	  		spuId:this.spu.id,
+	  	}
+	  	this.$T.request(this.url.deleteSpec,param,this.token,this.success);
+	  }
 	},
 	mounted() {
-		
+		this.token=this.$G.getCookie("token");
 	},
 }
 </script>
@@ -177,7 +201,7 @@ export default {
 	margin: 5px; font-size: 10px;
 }
 .x-title{
-	text-align: center;width: 100%;font-size: 20px;color: lightseagreen;font-weight: 550;
+	text-align: center;width: 100%;font-size: 18px;color: deepskyblue;font-weight: 550;
 }
 .v-title1{
 	text-align: center;padding: 20px 30px;color: lightskyblue;font-size: 22px;
@@ -185,4 +209,7 @@ export default {
 .v-title2{
 	text-align: left;padding: 10px 20px;color: lightskyblue;font-size: 18px;
 }
+.xcolse{color: red;font-size: 18px;position: absolute;}
+.xcolse:hover{background-color:red;border-radius: 10px;color:white;}
+.xedit{padding-left: 15px; color: orange;}
 </style>

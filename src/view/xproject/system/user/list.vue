@@ -21,7 +21,7 @@
 	
 		<!--表格-->
 		<div style="padding: 0px 20px;" >
-		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="goShow">
+		  <el-table :data="list"  ref="multipleTable"   @selection-change="selection" @row-dblclick="showRole">
 			<el-table-column type="selection" width="55">
 		    </el-table-column>
 		    <el-table-column type="index" :index="indexMethod">
@@ -52,7 +52,7 @@
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">
-		      	<el-button  @click="goShow(scope.row)" type="text" size="small">查看</el-button>  
+		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button>  
 		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
@@ -94,7 +94,36 @@
 		    <el-button type="primary" @click="save()">确 定</el-button>
 		  </span>
 		</el-dialog>
+		
+		<el-dialog :title="dialog1.title" :visible.sync="dialog1.showDialog" width="68%" >
+			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog1.readonly">
+				<el-form-item label="现有角色"  >
+					<el-tag v-for="role in userRoleList"  @close="deleteParam(role)"  class="xspace" closable  :key="role.id">
+						<span>{{role.name}}</span>
+						<span style="margin-left: 20px;">{{role.value}}</span>
+					</el-tag>
+				</el-form-item>
+				<br />
+				<el-form-item label="角色"  >
+				  <el-select v-model="addUserRole.roleId" placeholder="分类" style="width: 150px">
+				    <el-option v-for="role in allRoleList" :key="role.id" :label="role.name"  :value="role.id">
+				  	</el-option>
+				  </el-select>
+				</el-form-item>
+				<el-form-item >
+ 					<el-button type="primary" @click="saveUserRole()">添加</el-button>
+				</el-form-item>
+			</el-form>
+		  <span slot="footer" class="dialog1-footer">
+		    <el-button @click="dialog1.showDialog=false">取 消</el-button>
+		    <el-button type="primary" @click="dialog1.showDialog=false">确 定</el-button>
+		  </span>
+		</el-dialog>
 	</div>
+
+
+
+
 
   </div>
 </template>
@@ -125,7 +154,11 @@ export default {
     	url:{
     		getPage:this.$C.xproject+'/user/getUserPage',
     		save:this.$C.xproject+'/user/saveUser',
+    		getPageOnRoleAll:this.$C.xproject+"/system/getPageOnRoleAll",
+    		getUserRole:this.$C.xproject+'/system/getUserRole',
+    		saveUserRole:this.$C.xproject+'/system/saveOneUserRole',
     	},
+    	
         page:{
         	page:1,
         	pageSize:10,
@@ -134,6 +167,21 @@ export default {
         },
          total:0,
 		
+		
+	    dialog1:{
+	    	title:'',
+	    	showDialog:false,//是否展示模态框
+	    	readonly:false,
+	    },
+	    
+	    allRoleList:[],
+	    userRoleList:[],
+	    
+	    addUserRole:{
+	    	roleId:'',
+	    	userId:'',
+	    }
+	    
     }
   },
 	components: {
@@ -211,13 +259,43 @@ export default {
 	  	this.item=row;
 	  },
 	  //跳转到详细页面
-	  goShow(row){
-	  	let query={userCode :row.code}
-	  	this.$router.push({ path: '/xproject/admin/myInfo', query})
+	  showRole(row){
+	  	console.log(row.id);
+	  	this.dialog1.showDialog=true;
+	  	this.dialog1.readonly=false;
+	  	this.getUserRole(row.id)
+	  },
+	  
+	  getPageOnRoleAll(){
+	  	let token =this.$G.getCookie("token");
+		this.$T.request(this.url.getPageOnRoleAll,'',token,this.getPageOnRoleAllSuccess);
+	  },
+	  getUserRole(id){
+	  	this.addUserRole.userId=id;
+	  	let token =this.$G.getCookie("token");
+	  	let param={
+	  		userId:id,
+	  	}
+		this.$T.request(this.url.getUserRole,param,token,this.getUserRoleSuccess);
+	  },
+	  getPageOnRoleAllSuccess(res){ 
+	  	if(res.code=="200"){
+	  		this.allRoleList=res.data;
+	  	}
+	  },
+	  getUserRoleSuccess(res){ 
+	  	if(res.code=="200"){
+	  		this.userRoleList=res.data;
+	  	}
+	  },
+	  saveUserRole(){
+	  	let token =this.$G.getCookie("token");
+		this.$T.request(this.url.saveUserRole,this.addUserRole,token,this.saveSuccess);
 	  },
 	},
 	mounted() {
 		this.getPage();
+		this.getPageOnRoleAll()
 	},
 }
 </script>

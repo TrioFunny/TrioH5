@@ -2,7 +2,7 @@
 		<div style="padding: 20px 10%;">
 			<!--功能-->
 			<div style="text-align: center;padding: 10px;">
-			  <el-button type="primary" @click="openAddSku" >添加价格</el-button>
+			  <el-button type="primary" @click="openAddSku" :disabled="spu.state=='1'">添加价格</el-button>
 			</div>
 			<!--展示-->
 			<div>
@@ -26,9 +26,9 @@
 				    </el-table-column>
 				    <el-table-column label="操作"  >
 				      <template slot-scope="scope">  
-				      	<el-button  @click="" type="text" size="small">查看</el-button>
-				      	<el-button  @click="" type="text" size="small">购买</el-button> 
-				    	<el-button  @click="" type="text" size="small">编辑</el-button>   
+				      	<el-button v-if="spu.state=='-1'"  @click="deleteGoodsSku(scope.row)" type="text" size="small">删除</el-button>
+				    	<!--<el-button v-if="spu.state=='-1'"   @click="" type="text" size="small">编辑</el-button>-->  
+				    	<el-button  @click="" type="text" size="small">购买</el-button>
 				      </template>
 				    </el-table-column>
 				  </el-table>
@@ -82,6 +82,7 @@ export default {
     return {
     	url:{//请求地址统一管理
     		saveGoodsSku:this.$C.xproject+'/mall/saveGoodsSku',
+    		deleteGoodsSku:this.$C.xproject+'/mall/deleteGoodsSku',
     	},
 		//规格信息栏
 		//specList:[],
@@ -122,13 +123,17 @@ export default {
 	  //添加规格信息
 	  saveGoodsSku(){
 	  	console.log(this.sku);
-	  	this.$T.post(this.url.saveGoodsSku,this.sku,"",this.success);
+	  	this.$T.request(this.url.saveGoodsSku,this.sku,this.token,this.success);
 	  },
 	  success(res){
 	  	if(res.code=="200"){
+	  		this.skuDialog.showDialog=false;
 	  		this.$message.success('提交成功');
 	  		this.$emit('refresh');
+	  	}else{
+	  		this.$message.error(res.error_msg);
 	  	}
+	  	
 	  },
 	  openAddSku(){
 	  	this.skuDialog.showDialog=true;
@@ -139,11 +144,17 @@ export default {
 	  openUpdateSku(item){
 	  	this.skuDialog.showDialog=true;
 	  },
-
-
+	  deleteGoodsSku(item){
+	  	console.log(item)
+	  	let param={
+	  		skuId:item.info.id,
+	  		spuId:this.spu.id,
+	  	}
+	  	this.$T.request(this.url.deleteGoodsSku,param,this.token,this.success);
+	  },
 	},
 	mounted() {
-		
+		this.token=this.$G.getCookie("token");
 	},
 }
 </script>

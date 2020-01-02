@@ -13,19 +13,26 @@
 			  <div v-if="cardShow">
 				<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
 				  <el-form-item  >
-					  <el-select v-model="page.categoryId" placeholder="分类" style="width: 150px">
+					  <el-select v-model="page.categoryId" clearable placeholder="分类" style="width: 150px">
 					    <el-option v-for="category in categoryList" :key="category.id" :label="category.categoryName"  :value="category.id">
 					  	</el-option>
 					  </el-select>
 				  </el-form-item>
 				  <el-form-item   >
-					  <el-select v-model="page.brandId" placeholder="品牌" style="width: 150px">
+					  <el-select v-model="page.brandId" clearable placeholder="品牌" style="width: 150px">
 					    <el-option v-for="barnd in brandList" :key="barnd.id" :label="barnd.brandName"  :value="barnd.id">
 					  	</el-option>
 					  </el-select>
 				  </el-form-item>
 				  <el-form-item label="">
 				    <el-input v-model="page.goodsName" placeholder="商品名称"></el-input>
+				  </el-form-item>
+				  <el-form-item label="">
+					  <el-select v-model="page.state"  placeholder="状态" style="width: 150px">
+					  	<el-option   label="全部"  value="all"></el-option>
+					    <el-option  label="上架"  value="1"></el-option>
+					  	<el-option  label="下架"  value="-1"></el-option>
+					  </el-select>
 				  </el-form-item>
 				  <el-form-item label="">
 				     <el-button type="primary" size="small" @click="getPage">查询</el-button>
@@ -58,23 +65,28 @@
 		    </el-table-column>
 		    <el-table-column label="商品名称" prop="goodsName"  show-overflow-tooltip>
 		    </el-table-column>
-		    <el-table-column label="品牌"  show-overflow-tooltip>
+		    <el-table-column label="分类/品牌"  show-overflow-tooltip>
 		      <template slot-scope="props">  
-		      	{{getValueByKey(props.row.brandId,brandList)==undefined? '':getValueByKey(props.row.brandId,brandList).brandName }}
-		      	<!--{{getValueByKey(props.row.brandId,brandList).brandName }}-->
-		      </template>
-		    </el-table-column>
-		    <el-table-column label="类型" show-overflow-tooltip>
-		      <template slot-scope="props">  
-		      	{{ getValueByKey(props.row.categoryId,categoryList)==undefined? '':getValueByKey(props.row.categoryId,categoryList).categoryName  }}
-				<!--{{ getValueByKey(props.row.categoryId,categoryList).categoryName }}-->
+		      	<div>分类：
+		      		{{ getValueByKey(props.row.categoryId,categoryList)==undefined? '':getValueByKey(props.row.categoryId,categoryList).categoryName  }}
+		      	</div>
+		      	<div>品牌：
+		      		{{getValueByKey(props.row.brandId,brandList)==undefined? '':getValueByKey(props.row.brandId,brandList).brandName }}
+		      	</div>
 		      </template>
 		    </el-table-column>
 		    <el-table-column label="价格" prop="lowPrice"  show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	<div>价格：￥
+		      		{{props.row.lowPrice}}
+		      	</div>
+		      </template>
 		    </el-table-column>
 		    <el-table-column label="状态"   show-overflow-tooltip>
-		      <template slot-scope="props">  
-		      	{{props.row.state==1?'上架':'下架' }}
+		      <template slot-scope="props"> 
+		      	上架：<el-switch v-model="props.row.state" @change="changeState(props.row)"
+		      		active-value="1" inactive-value="-1">
+		      	</el-switch>
 		      </template>
 		    </el-table-column>
 		    <el-table-column label="更新时间"  width="200" show-overflow-tooltip >
@@ -84,8 +96,9 @@
 		    </el-table-column>
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">  
+		    	<el-button  @click="collect(scope.row)" type="text" size="small">收藏</el-button>   
 		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button> 
-		    	<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
+		    	<el-button v-if="scope.row.state==-1" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -123,8 +136,8 @@
 				</el-form-item>
 				<el-form-item label="状态"  >
 					  <el-select v-model="item.state" placeholder="请选择" style="width: 220px">
-					    <el-option  key="-1" label="下架"  value="-1"></el-option>
-					     <el-option  key="1" label="上架"  value="1"></el-option>
+					    <el-option   label="下架"  value="-1"></el-option>
+					    <el-option   label="上架"  value="1"></el-option>
 					  </el-select>
 				</el-form-item>
 				<el-form-item>
@@ -180,11 +193,13 @@ export default {
     		save:this.$C.xproject+'/mall/saveGoods',
     		getBrand:this.$C.xproject+'/mall/getAllBrand',
     		getCategory:this.$C.xproject+'/mall/getAllCategory',
+    		collect:this.$C.xproject+'/user/addUserCollect',
     	},
         page:{//请求分页的数据
-        	goodsName:'',
-        	brandId:'',
-        	categoryId:'',
+        	state:'all',//状态
+        	goodsName:'',//商品名称
+        	brandId:'',//品牌
+        	categoryId:'',//分类
         	page:1,
         	pageSize:10,
         	sortWord:'',
@@ -213,7 +228,6 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
 	  	this.$T.post(this.url.getPage,this.page,"",this.success);
 	  },
 	  success(res){ //成功回调
@@ -224,6 +238,7 @@ export default {
 	  },
 	  reset(){//重置信息
 	  	let page={
+	  		state:'all',//状态
 	  		categoryName:'',
         	page:1,
         	pageSize:10,
@@ -240,7 +255,7 @@ export default {
 	  save(){
 		this.$refs["form"].validate((e) => {
           if (e) {
-          	this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+          	this.$T.request(this.url.save,this.item,this.token,this.saveSuccess);
           } else {
             return false;
           }
@@ -299,12 +314,30 @@ export default {
 	  	}
 	  },
 	  goShow(row){
-	  	console.log(row.spuNo);
+	  	console.log(row);
 	  	let query={code:row.spuNo}
 	  	this.$router.push({ path: '/xproject/admin/goodsInfo', query})
 	  },
+	  //
+	  changeState(item){
+	  	console.log(item);
+		this.$T.request(this.url.save,item,this.token,"");
+	  },
+	  collect(item){
+	  	console.log(item);
+	  	this.$T.fool(this.url.collect,{goodsCode:item.spuNo},this.collectSuccess);
+	  },
+	  collectSuccess(res){
+	  	if(res.code=='200'){
+	  		this.$message.success('提交成功');
+	  	}else{
+	  		this.$message.error(res.err_msg);
+	  	}
+	  },
+	  
 	},
 	mounted() {
+		this.token=this.$G.getCookie("token");
 		this.getPage();
 		this.getBrand();
 		this.getCategory();
@@ -312,5 +345,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped="">
+
 </style>

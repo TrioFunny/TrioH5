@@ -41,7 +41,10 @@
 		      	{{ props.row.isBan=='0'? '使用': '禁用'}}
 		      </template>
 		    </el-table-column>
-		    <el-table-column label="图片" prop="img"  show-overflow-tooltip>
+		    <el-table-column label="图片"   show-overflow-tooltip>
+		      <template slot-scope="props">  
+		      	<img :src="props.row.img"  width="50px"/>
+		      </template>
 		    </el-table-column>
 		    <el-table-column label="更新时间"  show-overflow-tooltip >
 		      <template slot-scope="props">  
@@ -78,15 +81,26 @@
   					<el-input-number v-model="item.sort"   label="">
   					</el-input-number>
 				</el-form-item>
-				<el-form-item label="图片"  >
-					<el-input v-model="item.img"  style="width: 220px" ></el-input>
-				</el-form-item>
 				<el-form-item label="状态"  >
 			    <el-select v-model="item.isBan" placeholder="状态">
 			      <el-option label="启用" value="0"></el-option>
 			      <el-option label="禁用"  value="1"></el-option>
 			    </el-select>
 				</el-form-item>
+				<br />
+				<el-form-item label="图片"  >
+					<el-upload
+					  class="avatar-uploader"
+					  name="photofile"
+					  :action="uploadUrl()"
+					  :show-file-list="false"
+					  :on-success="handleAvatarSuccess"
+					  :before-upload="beforeAvatarUpload">
+					  <img v-if="imageUrl" :src="imageUrl" style="width: 10px">
+					  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					</el-upload>
+				</el-form-item>
+				
 			</el-form>
 			</div>
 		  <span slot="footer" class="dialog-footer">
@@ -136,11 +150,41 @@ export default {
         },
         total:0,//总数
 		
+		//上传图片
+		imageUrl:'',
     }
   },
 	components: {
 	},
 	methods: {
+		//上传路径
+		uploadUrl(){
+			return this.$C.xproject+'/upload/img?type=brand&code='+this.item.id;
+		},
+	    handleAvatarSuccess(res, file) {
+	    	console.log(res)
+	    	if(res.code=="200"){
+	    		this.item.img=res.data;
+	    	}
+	      this.imageUrl = URL.createObjectURL(file.raw);
+	    },
+        //图片上传前验证
+      	beforeAvatarUpload(file) {
+      		console.log(file.type);
+        	const isJPG = file.type === 'image/jpeg';
+        	const isLt2M = file.size / 1024 / 1024 < 2;
+        	const isPNG = file.type === 'image/png';
+			
+        	if (!isJPG&&!isPNG) {
+         	 this.$message.error('上传头像图片只能是 JPG或者PNG 格式!');
+        	}
+        	if (!isLt2M) {
+        	  this.$message.error('上传头像图片大小不能超过 2MB!');
+        	}
+        	return (isJPG||isPNG) && isLt2M;
+      	},
+		
+		
       indexMethod(index) {//自动生成index
         return index +1;
       },
@@ -150,6 +194,7 @@ export default {
 	  	this.dialog.readonly=false;
 	  	//填充对象
 	  	this.item=row;
+	  	this.imageUrl=row.img;
 	  	this.item.isBan=row.isBan+"";
 	  },
 	  handleSizeChange(val){//修改页面数量
@@ -161,8 +206,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	this.$T.post(this.url.getPage,this.page,"",this.success);
+	  	this.$T.fool(this.url.getPage,this.page,this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -188,11 +232,12 @@ export default {
 	  	this.dialog.readonly=false;
 	  	this.dialog.showDialog=true;
 	  	this.$G.emptyFrame(this.item);
+	  	this.imageUrl="";
 	  	this.item.isBan='1';
 	  },
 	  //保存
 	  save(){
-	  		this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+	  		this.$T.fool(this.url.save,this.item,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -206,6 +251,7 @@ export default {
 	  	this.dialog.readonly=true;
 	  	//填充对象
 	  	this.item=row;
+	  	this.imageUrl=row.img;
 	  	this.item.isBan=row.isBan+"";
 	  },
 	},
@@ -215,5 +261,28 @@ export default {
 }
 </script>
 
-<style>
+<style >
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>

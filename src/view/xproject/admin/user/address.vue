@@ -4,7 +4,7 @@
 		<div style="text-align: center;">
 			<el-form :inline="true" :model="page" class="demo-form-inline" style="padding: 0px 40px;">
 			  <el-form-item label="">
-			  	 <el-button @click="openAdd()">+</el-button>
+			  	 <el-button  @click="openAdd()">+</el-button>
 			  </el-form-item>
 			  <el-form-item>
 			    <el-button type="primary" size="small" @click="getPage">查询</el-button>
@@ -37,7 +37,7 @@
 		    <el-table-column label="操作"  >
 		      <template slot-scope="scope">
 		      	<el-button  @click="openShow(scope.row)" type="text" size="small">查看</el-button>  
-		    	<el-button v-if="false" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
+		    	<el-button v-if="!isAdmin" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>   
 		      </template>
 		    </el-table-column>
 		  </el-table>
@@ -92,9 +92,10 @@ export default {
   data () {
     return {
     	This:this,
-
 	    list: [],
 	    selectionList:[],
+	    isAdmin:false,
+	    userCode:'',
 	    item:{
 	    	id:'',
 	    	userCode:'',//用户编号
@@ -113,8 +114,10 @@ export default {
     	url:{
     		getPage:this.$C.xproject+'/user/getUserAddress',
     		save:this.$C.xproject+'/user/saveUserAddress',
+    		getPageByAdmin:this.$C.xproject+'/user/getUserAddressByAdmin',
     	},
         page:{
+        	userCode:'',
         	page:1,
         	pageSize:10,
         	sortWord:'',
@@ -133,9 +136,6 @@ export default {
       indexMethod(index) {//自动生成index
         return index +1;
       },
-	  handleClick(row) {//对应事件
-	    console.log(row);
-	  },
 	  handleSizeChange(val){//修改页面数量
 	  	this.page.pageSize=val;
 	  	this.getPage();
@@ -145,10 +145,12 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	let token =this.$G.getCookie("token");
-	  	//this.$T.post(this.url.getUserAddress,this.page,"",this.success);
-	  	this.$T.request(this.url.getPage,this.page,token,this.success);
+	  	if(this.userCode!=''){
+	  		this.page.userCode=this.userCode
+	  		this.$T.fool(this.url.getPageByAdmin,this.page,this.success);
+	  	}else{
+	  		this.$T.fool(this.url.getPage,this.page,this.success);
+	  	}
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -177,8 +179,7 @@ export default {
 	  	this.$G.emptyFrame(this.item);
 	  },
 	  save(){
-	  		let token =this.$G.getCookie("token");
-	  		this.$T.request(this.url.save,this.item,token,this.saveSuccess);
+	  		this.$T.fool(this.url.save,this.item,this.saveSuccess);
 	  },
 	  saveSuccess(res){
 	  	if(res.code=='200'){
@@ -208,6 +209,10 @@ export default {
 	  },
 	},
 	mounted() {
+		if(this.$route.query.userCode!=undefined){
+			this.userCode=this.$route.query.userCode;
+			this.isAdmin=true;
+		}
 		this.getPage();
 	},
 }

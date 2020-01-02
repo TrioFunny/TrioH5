@@ -62,18 +62,42 @@
 		      	>
 		    </el-pagination>
 		</div>
-
+		
+	<!--添加用户-->
+	<div>
+		<el-dialog :title="dialog.title" :visible.sync="dialog.showDialog" width="60%" >
+			<el-form :model="item"  label-width="100px":inline="true" :disabled="dialog.readonly">
+				<el-form-item label="名称"  >
+					<el-input v-model="item.name"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="类型"  >
+					<el-input v-model="item.type"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="状态"  >
+					<el-input v-model="item.status"  style="width: 220px" ></el-input>
+				</el-form-item>
+				<el-form-item label="描述"  >
+					<el-input v-model="item.summary"  style="width: 220px" ></el-input>
+				</el-form-item>
+			</el-form>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="dialog.showDialog=false">取 消</el-button>
+		    <el-button type="primary" @click="save">确 定</el-button>
+		  </span>
+		</el-dialog>
+	</div>
 
 	<!--权限-->
 	<div>
 		<el-dialog :title="dialog1.title" :visible.sync="dialog1.showDialog" width="60%" >
-			   <el-checkbox-group v-model="userPermit" >
+			   <el-checkbox-group v-model="selectedList" >
 			   		<br />
-				    <el-checkbox class="x-checkbox" v-for="permit in permitList"  :label="permit.name" :key="permit.code" border  ></el-checkbox>
+				    <el-checkbox class="x-checkbox" v-for="permit in permitList" :key="permit.id"
+				    	 :label="permit.code"   border  >{{permit.name}}</el-checkbox>
 			    </el-checkbox-group>
 		  <span slot="footer" class="dialog1-footer">
 		    <el-button @click="dialog1.showDialog=false">取 消</el-button>
-		    <el-button type="primary" @click="">确 定</el-button>
+		    <el-button type="primary" @click="saveRolePermit">确 定</el-button>
 		  </span>
 		</el-dialog>
 	</div>
@@ -105,6 +129,7 @@ export default {
     		delete:this.$C.xproject+'/system/getGoodsPage',
     		getAllPermint:this.$C.xproject+'/system/getPageOnPermitAll',
     		getRolePermint:this.$C.xproject+'/system/getRolePermint',
+    		saveRolePermit:this.$C.xproject+'/system/saveRolePermit',
     	},
         page:{
         	summary:'',
@@ -132,9 +157,21 @@ export default {
 	    	readonly:false,
 	    },
 	    //用户拥有的权限
-	    userPermit:[],
+	    rolePermitList:[],
+	    rolePermitIds:[],
 	    //所有权限
 	    permitList:[],
+	    //选择的权限
+	    selectedList:[],
+	    
+	    //角色订单联系对象
+	    rolePermit:{
+	    	roleId:'',
+	    	add:[],
+	    	remove:[],
+	    }
+	    
+	    
     }
   },
 	components: {
@@ -185,7 +222,8 @@ export default {
 	  },
 	  //设置权限
 	  openPermit(item){
-	  	console.log(item);
+	  	this.getRolePermint(item.id);
+	  	this.rolePermit.roleId=item.id
 	  	this.dialog1.readonly=false;
 	  	this.dialog1.showDialog=true;
 	  },
@@ -194,7 +232,6 @@ export default {
 	  save(){
 	  	let token =this.$G.getCookie("token");
 		this.$T.request(this.url.save,this.item,token,this.saveSuccess);
-	  			  	
 	  },
 	  //删除事件
 	  deleteItem(item){
@@ -231,6 +268,61 @@ export default {
 	  	if(res.code=="200")
 	  	this.permitList=res.data;
 	  },
+	  //获取角色权限
+	  getRolePermint(id){
+	  	let token =this.$G.getCookie("token");
+	  	let param={roleId: id}
+		this.$T.request(this.url.getRolePermint,param,token,this.getRolePermintSuccess);
+	  },
+	  getRolePermintSuccess(res){
+	  	if(res.code=="200"){
+	  		this.rolePermitList=res.data;
+	  		for(let i=0;i<res.data.length;i++){
+	  			this.selectedList.push(res.data[i].permitCode);
+	  			this.rolePermitIds.push(res.data[i].permitCode);
+	  			
+	  		}
+	  	}
+	  },
+	 //保存角色的权限
+	 saveRolePermit(){
+	 	//console.log(this.selectedList);
+	 	//console.log(this.selectedList);
+	 	let a=this.selectedList;
+	 	let b=this.rolePermitIds;
+	 	let intersection = a.filter(v => b.includes(v))//相同的
+		let difference = a.concat(b).filter(v => !a.includes(v) || !b.includes(v))//不同的
+		
+		let remove=difference.filter(v => b.includes(v))
+		let add=a.filter(v => difference.includes(v));
+//		console.log(difference);	//不同的
+//		console.log(remove);		//减少的
+//		console.log(add);			//添加的
+	    this.rolePermit.add=add
+	    //this.rolePermit.remove=remove;
+	    for(let i=0;i<this.rolePermitList.length;i++ ){
+	    	let item=this.rolePermitList[i];
+	    	for(let j=0;j<remove.length;j++){
+	    		if(item.permitCode==remove[j]){
+	    			 this.rolePermit.remove.push(item.id);
+	    			 break;
+	    		}
+	    	}
+	    }
+	  	let token =this.$G.getCookie("token");
+	  	if(this.rolePermit.add.length<=0&&this.rolePermit.remove.length<=0){
+	  		return ;
+	  	}
+		this.$T.request(this.url.saveRolePermit,this.rolePermit,token,this.saveRolePermitSucess);
+	 },
+	 saveRolePermitSucess(res){
+	  	if(res.code=='200'){
+	  		this.dialog1.showDialog=false;
+	  		this.$message('提交成功');
+	  		this.getPage();
+	  	}
+	 },
+
 
 	},
 	mounted() {

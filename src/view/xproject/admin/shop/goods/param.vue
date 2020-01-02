@@ -11,7 +11,7 @@
 			  </el-row>
 				<!--操作-->
 				<el-row v-if="cardShow" >
-					<el-form ref="form" :model="item"  :rules="rules":inline="true" class="demo-form-inline" >
+					<el-form ref="form" :model="item"  :rules="rules":inline="true" class="demo-form-inline"  :disabled="spu.state=='1'">
 					  <el-form-item  prop="typeId">
 						  <el-select v-model="item.typeId" placeholder="分类" style="width: 150px">
 						    <el-option v-for="type in paramType" :key="type.id" :label="type.name"  :value="type.id">
@@ -35,7 +35,8 @@
 		<!--表格-->
 		<el-card style="padding: 0px 20px;" >
 			  <el-alert v-for="type in params" :title="type.type_name"   type="success" :closable="false"  :key="type.id">
-					<el-tag v-for="param in type.list"  @close="deleteParam(param)"  class="xspace" closable  :key="param.id">
+					<el-tag v-for="param in type.list"   :key="param.id" @close="deleteParam(param)" 
+						:closable="spu.state=='-1'? true:false " class="xspace"  >
 						<span>{{param.name}}</span>
 						<span style="margin-left: 20px;">{{param.value}}</span>
 					</el-tag>
@@ -103,8 +104,7 @@ export default {
 	  	this.getPage();
 	  },
 	  getPage(){//获取信息（刷新）
-	  	//post(地址，参数，当前对象，成功方法，失败方法)
-	  	this.$T.post(this.url.getPage,this.page,"",this.success);
+	  	this.$T.fool(this.url.getPage,this.page,this.success);
 	  },
 	  success(res){ //成功回调
 	  	if(res.code=="200"){
@@ -117,7 +117,7 @@ export default {
 		this.$refs["form"].validate((e) => {
           if (e) {
           	this.item.goodsCode=this.spu.spuNo,
-          	this.$T.post(this.url.save,this.item,"",this.saveSuccess);
+          	this.$T.request(this.url.save,this.item,this.token,this.saveSuccess);
           } else {
             return false;
           }
@@ -129,11 +129,13 @@ export default {
 	  	if(res.code=='200'){
 	  		this.$message.success('提交成功');
 	  		this.$emit('refresh');
+	  	}else{
+	  		this.$message.error(res.error_msg);
 	  	}
 	  },
 	  //获取下拉框
 	  getParamType(){
-	  		this.$T.post(this.url.getParamType,this.page,"",this.getParamTypeSuccess);
+	  		this.$T.fool(this.url.getParamType,this.page,this.getParamTypeSuccess);
 	  },
 	  getParamTypeSuccess(res){
 		  	if(res.code=='200'){
@@ -142,10 +144,15 @@ export default {
 	  },
 	  //删除参数
 	  deleteParam(item){
-	  	this.$T.post(this.url.deleteParam,{id:item.id},"",this.saveSuccess);
+	  	let param={
+	  		id:item.id,
+	  		spuId:this.spu.id,
+	  	}
+	  	this.$T.request(this.url.deleteParam,param,this.token,this.saveSuccess);
 	  },
 	},
 	mounted() {
+		this.token=this.$G.getCookie("token");
 		this.getPage();
 		this.getParamType();
 		console.log(this.params)

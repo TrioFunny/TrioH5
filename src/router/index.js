@@ -4,7 +4,7 @@ import Router from 'vue-router'
 
 import Error from '@/view/other/error'
 import NotFound from '@/view/404'
-
+import Test from '@/view/test'
 
 
 import User from './user'
@@ -45,6 +45,8 @@ export default new Router({
 			redirect: {
 				path: '/404'
 			}
-		}
+		},
+		{ path: '/test', hidden: true, component:Test }
+		
   ]
 })
